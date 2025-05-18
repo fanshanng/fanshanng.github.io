@@ -23,8 +23,8 @@
 	loading=&#34;lazy&#34;
 	
 	
-&gt;
-2.&lt;code&gt;frida-ps --help&lt;/code&gt; 查看help指令
+&gt;&lt;/p&gt;
+&lt;p&gt;2.&lt;code&gt;frida-ps --help&lt;/code&gt; 查看help指令
 &lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/4200b8fb51e6201341a6620ffe7fd595.png&#34;
 	
 	
@@ -121,18 +121,18 @@ RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处�
 &lt;code&gt;console.log()&lt;/code&gt;：直接在命令行输出日志。
 &lt;code&gt;send()&lt;/code&gt;：将日志发送到外部Python脚本进行处理。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;日志捕获
-D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签
-&lt;img src=&#34;https://fanshanng.github.io/:/2fefbf848760464d962ec058c333a9e2&#34;
+&lt;li&gt;
+&lt;p&gt;日志捕获
+D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/772e19d59a20e4ba444856b3496b254a.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;772e19d59a20e4ba444856b3496b254a.png&#34;
 	
-	
-&gt;&lt;/li&gt;
+&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;frida常用api&#34;&gt;Frida常用API
 &lt;/h2&gt;&lt;h3 id=&#34;1-hook普通方法&#34;&gt;1. Hook普通方法
