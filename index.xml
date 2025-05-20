@@ -326,7 +326,22 @@ D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>https://fanshanng.github.io/%E5%85%B3%E4%BA%8E/</guid>
-        <description>&lt;p&gt;This is a test page for i18n support.&lt;/p&gt;
+        <description>&lt;blockquote&gt;
+&lt;h3 id=&#34;hi-there--this-is-fanshanng&#34;&gt;Hi there 👋 This is fanshanng
+&lt;/h3&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A student from Xidian University, major in Cyberspace Security.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;CTFer(mainly Reverse Engineering) in &lt;a class=&#34;link&#34; href=&#34;https://xdsec.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;XDSEC&lt;/a&gt;/&lt;a class=&#34;link&#34; href=&#34;https://l.xdsec.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;L-team&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Learning: mobile security &amp;amp; binary security&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         </item>
         <item>
