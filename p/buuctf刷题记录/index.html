@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.github.io/p/buuctf%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Buuctf刷题记录">
+<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Buuctf刷题记录">
 <meta property='og:description' content="并非是wp，而是做题过程中的一些记录\nluck_guy 主函数 ①.Case2 和 case3 只是一个打印函数。 ②.strcat 是连接字符串函数，所以 case4 是对 s 赋值并将 s 与 f2 进行拼接。 ③.case5 是对 f2 进行处理：j 为奇数，f2 减 2；j 为偶数，f2 减 1。 ④.Case1 是要得到 flag，首先memset函数先对 s 进行初始化，s 变成了一个空数组，所以之后的 strcat 函数相当于直接把 f1 复制到了 s 里，再之后的 strcat 函数将 s 与 f2 连接相当于 f1 与 f2 连接，最终打印出来的 flag 就是 f1 加上 f2。 s=0x7F666F6067756369LL，按r键将它转换为字符就是“\\x7Ffo`guci”，这里要注意是小端序存储！所以要把字符顺序反过来，就是“icug`of\\x7F” 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 #include &lt;iostream&gt; using namespace std; int main() { char f2[] = &#34;icug`of\\x7F&#34;; for (int j = 0; j &lt; 8; ++j) { if ( j % 2 == 1 ) f2[j]-=2; else f2[j]--; } printf(&#34;%s&#34;,f2); return 0; } 刮开有奖 ">
 <meta property='og:url' content='https://fanshanng.github.io/p/buuctf%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
@@ -628,6 +628,144 @@ s=0x7F666F6067756369LL，按r键将它转换为字符就是“\x7Ffo`guci”，�
 </div>
 </div><p>但是疑惑的是少了一位，最后看别人题解都是爆破出来的（，a1[6]=&lsquo;1&rsquo;,
 所以正确的应该是flag{e165421110ba03099a1c039337}</p>
+<h1 id="crackrtf">CrackRTF
+</h1><p>这道题的考点是<strong>rtf</strong>文件,主要的逻辑是先输入六个数字拼接<code>@DBApp</code>然后判断hash-sha1编码，这里爆破出的结果是123321，然后是长度为6的字符串，拼接在一起进行MD5编码，<strong>由于MD5编码不可逆</strong>，我尝试过爆破，生成所有 6 位组合，总数为 95^6 ≈ 735 亿次，遂放弃。</p>
+<blockquote>
+<p>RTF是<strong>Rich Text Format</strong>的缩写，意即多文本格式。</p></blockquote>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250523212038394.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="kt">char</span> <span class="kr">__cdecl</span> <span class="nf">sub_4014D0</span><span class="p">(</span><span class="n">LPCSTR</span> <span class="n">Destination</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LPCVOID</span> <span class="n">lpBuffer</span><span class="p">;</span> <span class="c1">// [esp+50h] [ebp-1Ch]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">NumberOfBytesWritten</span><span class="p">;</span> <span class="c1">// [esp+58h] [ebp-14h] BYREF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">DWORD</span> <span class="n">nNumberOfBytesToWrite</span><span class="p">;</span> <span class="c1">// [esp+5Ch] [ebp-10h]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HGLOBAL</span> <span class="n">hResData</span><span class="p">;</span> <span class="c1">// [esp+60h] [ebp-Ch]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HRSRC</span> <span class="n">hResInfo</span><span class="p">;</span> <span class="c1">// [esp+64h] [ebp-8h]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HANDLE</span> <span class="n">hFile</span><span class="p">;</span> <span class="c1">// [esp+68h] [ebp-4h]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">hFile</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hResData</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nNumberOfBytesToWrite</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NumberOfBytesWritten</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hResInfo</span> <span class="o">=</span> <span class="n">FindResourceA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">LPCSTR</span><span class="p">)</span><span class="mh">0x65</span><span class="p">,</span> <span class="s">&#34;AAA&#34;</span><span class="p">);</span><span class="c1">// FindResourceA 函数用于查找程序资源中的一个资源。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 第一个参数为 NULL，表示查找当前进程的资源。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 第二个参数为资源标识符，这里是 0x65。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 第三个参数为资源类型，这里是 &#34;AAA&#34;。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">hResInfo</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nNumberOfBytesToWrite</span> <span class="o">=</span> <span class="n">SizeofResource</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">hResInfo</span><span class="p">);</span><span class="c1">// SizeofResource 函数用于获取资源的大小。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 如果资源大小为 0，表示资源无效。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">hResData</span> <span class="o">=</span> <span class="n">LoadResource</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">hResInfo</span><span class="p">);</span>         <span class="c1">// LoadResource 函数用于加载资源。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">hResData</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lpBuffer</span> <span class="o">=</span> <span class="n">LockResource</span><span class="p">(</span><span class="n">hResData</span><span class="p">);</span>            <span class="c1">// LockResource 函数用于锁定资源，并返回资源的指针。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">sub_401005</span><span class="p">(</span><span class="n">Destination</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">lpBuffer</span><span class="p">,</span> <span class="n">nNumberOfBytesToWrite</span><span class="p">);</span><span class="c1">// 异或
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">hFile</span> <span class="o">=</span> <span class="n">CreateFileA</span><span class="p">(</span><span class="s">&#34;dbapp.rtf&#34;</span><span class="p">,</span> <span class="n">GENERIC_ALL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CREATE_ALWAYS</span><span class="p">,</span> <span class="n">FILE_READ_ATTRIBUTES</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span><span class="c1">// CreateFileA 函数用于创建或打开一个文件。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 文件名为 &#34;dbapp.rtf&#34;。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 打开模式为 CREATE_ALWAYS，表示如果文件不存在则创建，如果存在则覆盖。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 文件访问权限为 GENERIC_ALL，表示完全访问权限。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span> <span class="n">hFile</span> <span class="o">==</span> <span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="p">)</span>                    <span class="c1">// 如果文件创建失败，返回 0。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">WriteFile</span><span class="p">(</span><span class="n">hFile</span><span class="p">,</span> <span class="n">lpBuffer</span><span class="p">,</span> <span class="n">nNumberOfBytesToWrite</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">NumberOfBytesWritten</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hFile</span><span class="p">);</span>                           <span class="c1">// 关闭文件句柄。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250523212652662.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>这里就是我们输入的东西拼接后与“AAA”文件中的读取的前几位异或</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250523212835709.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>从网上找到<a class="link" href="https://sample.cat/zh/rtf"  target="_blank" rel="noopener"
+    >rtf的示例文件</a>下下来对比发现前几位都是一样的</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250523210836973.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20250523210836973"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250523221341419.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>把前几位截下来，然后进行异或处理就能得到前六位<code>~!3a@0123321</code>,很明显**~!3a@0**为所求。于是在ida中动调，生成rtf文件，打开后得到flag
+<img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250523221721960.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 
 </section>
 
