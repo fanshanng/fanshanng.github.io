@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.github.io/en/categories/'>
 
-<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="Categories">
+<link rel="stylesheet" href="/scss/style.min.6ef3ca4a3afe0fe36030aac2220f64052ba3191b3f3951c128b58c9910a210bc.css"><meta property='og:title' content="Categories">
 <meta property='og:description' content="Example description">
 <meta property='og:url' content='https://fanshanng.github.io/en/categories/'>
 <meta property='og:site_name' content='Example Site'>
@@ -290,6 +290,27 @@
         document.head.appendChild(customFont);
     }());
 </script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.github.io/font/%E5%AD%97%E9%AD%8279%E5%8F%B7-%E8%90%8C%E8%B6%A3%E5%A5%B6%E6%B2%B9%E4%BD%93.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
 
     </body>
 </html>

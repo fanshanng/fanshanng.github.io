@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E4%B8%80/'>
 
-<link rel="stylesheet" href="/scss/style.min.946cca6c6259ef94ac55abfae7c7bf3291ea3ed5eea17ef77500b257217c6710.css"><meta property='og:title' content="安卓逆向学习一">
+<link rel="stylesheet" href="/scss/style.min.6ef3ca4a3afe0fe36030aac2220f64052ba3191b3f3951c128b58c9910a210bc.css"><meta property='og:title' content="安卓逆向学习一">
 <meta property='og:description' content="安卓逆向入门一 0x01 前置 下载migisk\nMagisk（俗称面具），是一个ROOT工具。\n它提供了多种功能，包括但不限于： 1 2 3 4 MagiskSU: 提供应用程序的 root 访问权限。 Magisk 模块: 通过安装模块来修改只读分区。 MagiskBoot: 用于解包和重新打包 Android 启动镜像的最完整工具。 Zygisk: 在每个 Android 应用程序的进程中运行代码。 不要去Magisk中文网,这里用的是正己提供的安装包\n">
 <meta property='og:url' content='https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E4%B8%80/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
@@ -851,6 +851,27 @@
         document.head.appendChild(customFont);
     }());
 </script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.github.io/font/%E5%AD%97%E9%AD%8279%E5%8F%B7-%E8%90%8C%E8%B6%A3%E5%A5%B6%E6%B2%B9%E4%BD%93.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
 
     </body>
 </html>
