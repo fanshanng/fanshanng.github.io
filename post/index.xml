@@ -782,8 +782,7 @@
         
         <guid>https://fanshanng.github.io/p/%E4%BA%AC%E9%BA%92ctf-2025%E5%A4%8D%E7%9B%98%E4%B8%AD/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0457db2a018c2ee683618e3e5a3b90e_720.jpg" alt="Featured image of post 京麒ctf 2025（复盘中）" /&gt;&lt;h1 id=&#34;热身题&#34;&gt;热身题
-&lt;/h1&gt;&lt;p&gt;s&lt;/p&gt;
-&lt;h3 id=&#34;re1&#34;&gt;re1
+&lt;/h1&gt;&lt;h3 id=&#34;re1&#34;&gt;re1
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;注意到如下代码是关键：&lt;/p&gt;
