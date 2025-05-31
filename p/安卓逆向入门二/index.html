@@ -338,7 +338,7 @@ unicode: "ece7"
             <nav id="TableOfContents">
   <ol>
     <li><a href="#smali是dalvik的寄存器语言smali代码是dex反编译而来的"><strong>smali</strong>是<strong>Dalvik的寄存器语言</strong>，smali代码是dex反编译而来的。</a></li>
-    <li><a href="#vip终结者">“vip终结者”</a>
+    <li><a href="#vip终结者"><strong>“vip终结者”</strong></a>
       <ol>
         <li><a href="#寄存器机制">寄存器机制</a></li>
       </ol>
@@ -629,11 +629,13 @@ unicode: "ece7"
       </tr>
   </tbody>
 </table></div>
-<h2 id="vip终结者">“vip终结者”
+<h2 id="vip终结者"><strong>“vip终结者”</strong>
 </h2><ul>
-<li>定位方法：</li>
+<li>
+<p>定位方法：</p>
+<p><strong>搜索弹窗关键字</strong>（用jd-gui搜索字符串）、<strong>抓取按钮id</strong>（本质与前一个方法一样）</p>
+</li>
 </ul>
-<p>​	<strong>搜索弹窗关键字</strong>（用jd-gui搜索字符串）、<strong>抓取按钮id</strong>（本质与前一个方法一样）</p>
 <p>（字符串有时候是用unicode显示，搜关键文字搜不到的话可以试试搜对应的unicode）</p>
 <p>（此处演示的是抓取按钮id）</p>
 <p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250531190454469.png"
@@ -649,7 +651,7 @@ unicode: "ece7"
 <ul>
 <li>
 <p>修改方法：</p>
-<p>​	<strong>修改判断、强制跳转、修改寄存器的值</strong> (这里与反调试中修改标志位或者修改跳转指令类似)</p>
+<p><strong>修改判断、强制跳转、修改寄存器的值</strong> (这里与反调试中修改标志位或者修改跳转指令类似)</p>
 </li>
 </ul>
 <p>demo代码例子（注释为正己所写）：</p>
@@ -863,7 +865,7 @@ unicode: "ece7"
 	
 	
 ></p>
-<p>这里可以切换成Smail语言（但是java代码更好看一点）</p>
+<p>这里可以切换成Smali语言（但是java代码更好看一点）</p>
 <h1 id="0x02-activity的切换">0x02 activity的切换
 </h1><div class="table-wrapper"><table>
   <thead>
@@ -1006,10 +1008,8 @@ unicode: "ece7"
 </span></span><span class="line"><span class="cl">    <span class="na">android:name=</span><span class="s">&#34;com.zj.wuaipojie.ui.AdActivity&#34;</span> <span class="nt">/&gt;</span>  
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-<p>​</p>
-<ul>
+</div><p>​</p>
+</li>
 <li>
 <p>3.在classes.dex文件中查找并修改</p>
 <p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250601003405442.png"
@@ -1084,8 +1084,6 @@ unicode: "ece7"
 </div>
 </div></li>
 </ul>
-<p>​</p>
-<p>​</p>
 <h1 id="0x03-activity生命周期">0x03 Activity生命周期
 </h1><div class="table-wrapper"><table>
   <thead>
@@ -1191,9 +1189,18 @@ unicode: "ece7"
 	
 	
 ></p>
-<p>此处既可以修改图片显示的长宽，也可以通过加入下面这段代码隐藏（<strong>布局隐藏</strong>，文字图片都可以隐藏）。</p>
-<p><code>android:visibility=&quot;gone&quot;</code></p>
-
+<p>此处既可以修改图片显示的长宽，也可以通过加入下面这段代码隐藏（布局隐藏，文字图片都可以隐藏）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"> 复制代码 隐藏代码
+</span></span><span class="line"><span class="cl"> android:visibility=&#34;gone&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
