@@ -10,17 +10,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 第二步：定义「获取浏览量」函数（支持单篇/批量获取）
     function getViewCount(paths) {
-        // paths：文章路径数组，如 ["/p/test1/", "/p/test2/"]
-        const url = `${walineUrl}/api/article?` + paths.map(p => `path=${encodeURIComponent(p)}`).join('&');
-        return fetch(url)
-            .then(res => {
-                if (!res.ok) throw new Error(`浏览量API请求失败：${res.status}`);
-                return res.json();
-            })
-            .catch(err => {
-                console.error('获取浏览量失败：', err);
-                return []; // 失败时返回空数组，避免页面报错
-            });
+    const url = `${walineUrl}/api/article?` + paths.map(p => `path=${encodeURIComponent(p)}`).join('&');
+    return fetch(url)
+        .then(res => res.json())
+        .then(response => {
+        // 关键：Waline接口返回的是{errno, errmsg, data}，需提取data数组
+        if (response.errno === 0) {
+            return response.data; // 返回真正的浏览量数组
+        } else {
+            console.error('Waline接口返回错误：', response.errmsg);
+            return []; // 错误时返回空数组
+        }
+        })
+        .catch(err => {
+        console.error('获取浏览量失败：', err);
+        return [];
+        });
+    }
+    // 在 waline-stats.js 中，添加以下函数（放在 getViewCount 之后）
+    function getCommentCount(paths) {
+    const url = `${walineUrl}/api/count?` + paths.map(p => `path=${encodeURIComponent(p)}`).join('&');
+    return fetch(url)
+        .then(res => res.json())
+        .then(response => {
+        // 解析 Waline 评论数接口的返回格式：{errno, errmsg, data}
+        if (response.errno === 0) {
+            return response.data; // 返回评论数数组（每个元素含 path 和 comment）
+        } else {
+            console.error('Waline评论数接口返回错误：', response.errmsg);
+            return []; // 错误时返回空数组，避免崩溃
+        }
+        })
+        .catch(err => {
+        console.error('获取评论数失败：', err);
+        return [];
+        });
     }
 
     // 第三步：定义「上报浏览量」函数（文章页专用）
@@ -43,11 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const paths = Array.from(pageViewEles).map(ele => ele.getAttribute('data-path'));
         if (paths.length > 0) {
             getViewCount(paths).then(counts => {
-                // 遍历更新每个文章的浏览量
+            // 关键：先校验是否为数组，避免非数组导致崩溃
+            if (Array.isArray(counts)) {
                 counts.forEach((item, index) => {
                     pageViewEles[index].innerText = item?.time || 0;
                 });
-            });
+            } else {
+                console.error('Waline返回的浏览量数据不是数组！当前类型：', typeof counts, '数据内容：', counts);
+                // 可选：若数据异常，给所有元素设为0
+                pageViewEles.forEach(ele => ele.innerText = '0');
+            }
+        });
         }
     }
 
@@ -78,4 +108,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 indexCountEle.innerText = data?.total || 0;
             });
     }
+
+      const commentEles = document.querySelectorAll('.waline-comment-count');
+  const commentPaths = Array.from(commentEles).map(ele => ele.getAttribute('data-path'));
+  
+  if (commentPaths.length > 0) {
+    getCommentCount(commentPaths).then(counts => {
+      if (Array.isArray(counts)) {
+        counts.forEach((item, index) => {
+          // 将评论数更新到页面元素
+          commentEles[index].innerText = item?.comment || 0;
+        });
+      } else {
+        console.error('评论数数据格式异常（非数组）：', counts);
+        commentEles.forEach(ele => ele.innerText = '0');
+      }
+    });
+  }
 });
