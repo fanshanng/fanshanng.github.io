@@ -8,18 +8,14 @@
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
         <lastBuildDate>Thu, 25 Sep 2025 22:07:51 +0800</lastBuildDate><atom:link href="https://fanshanng.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>so(ELF)文件分析与ARM基础知识</title>
-        <link>https://fanshanng.github.io/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+        <title>安卓逆向入门六：so(ELF)文件分析与ARM基础知识</title>
+        <link>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
         <pubDate>Thu, 25 Sep 2025 22:07:51 +0800</pubDate>
         
-        <guid>https://fanshanng.github.io/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
-        <description>&lt;p&gt;关键词：ELF文件入门、so文件分析 、ARM基础知识&lt;/p&gt;
+        <guid>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" alt="Featured image of post 安卓逆向入门六：so(ELF)文件分析与ARM基础知识" /&gt;&lt;p&gt;关键词：ELF文件入门、so文件分析 、ARM基础知识&lt;/p&gt;
 &lt;h1 id=&#34;0x00-elf文件入门&#34;&gt;0x00 ELF文件入门
-&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;ELF&lt;/strong&gt;（&lt;code&gt;Executable and Linkable Format&lt;/code&gt;）是一种&lt;em&gt;可执行&lt;/em&gt;和&lt;em&gt;可链接&lt;/em&gt;的文件格式，是linux底下二进制文件，可以理解为windows下的&lt;code&gt;PE文件&lt;/code&gt;，在Android中可以比作&lt;code&gt;SO&lt;/code&gt;，方便函数的移植，在常用于保护Android软件，增加逆向难度。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Executable:&lt;/strong&gt; 可执行的。ELF 文件将参与程序的执行（Execution）过程。包括二进制程序的运行以及动态库 &lt;strong&gt;.so&lt;/strong&gt; 文件的加载。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Linking:&lt;/strong&gt; 可连接的。ELF 文件参与编译链接过程。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;ELF&lt;/strong&gt;（&lt;code&gt;Executable and Linkable Format&lt;/code&gt;）是一种&lt;em&gt;&lt;strong&gt;可执行&lt;/strong&gt;&lt;/em&gt;和&lt;em&gt;&lt;strong&gt;可链接&lt;/strong&gt;&lt;/em&gt;的文件格式，是linux底下二进制文件，可以理解为windows下的&lt;code&gt;PE文件&lt;/code&gt;，在Android中可以比作&lt;code&gt;SO&lt;/code&gt;，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的&lt;strong&gt;执行&lt;/strong&gt;（如二进制程序运行、动态库加载）和&lt;strong&gt;链接&lt;/strong&gt;（编译过程中的模块组合），是跨平台二进制兼容的基础。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;ELF文件的主要组成部分包括：&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -43,9 +39,9 @@
 &gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;elf-header&#34;&gt;ELF Header
+&lt;h2 id=&#34;elf-header文件头&#34;&gt;ELF Header（文件头）
 &lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;ELF Header 描述了 ELF 文件的概要信息，利用这个数据结构可以索引到 ELF 文件的全部信息，数据结构如下：&lt;/li&gt;
+&lt;li&gt;ELF Header 描述了 ELF 文件的概要信息，利用这个数据结构可以索引到 ELF 文件的全部信息，是ELF 文件的 &amp;ldquo;总目录&amp;rdquo;，存储文件的基础元信息，可通过这些信息索引到其他所有结构。32 位 ELF 的文件头结构定义如下：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -90,7 +86,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;ELF 头中的 &lt;code&gt;e_shoff&lt;/code&gt; 项给出了&lt;strong&gt;从文件开头到节头表位置的字节偏移&lt;/strong&gt;。&lt;code&gt;e_shnum&lt;/code&gt; 告诉了我们节头表包含的&lt;strong&gt;项数&lt;/strong&gt;；&lt;code&gt;e_shentsize&lt;/code&gt; 给出了每一项的&lt;strong&gt;字节大小&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;program-header-table&#34;&gt;Program Header Table
+&lt;h2 id=&#34;program-header-table程序头表&#34;&gt;Program Header Table（程序头表）
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Program Header Table&lt;/strong&gt; 是一个结构体数组，每一个元素的类型是 &lt;code&gt;Elf32_Phdr&lt;/code&gt;，描述了一个段或者其它系统在准备程序执行时所需要的信息。&lt;/p&gt;
 &lt;p&gt;其中，ELF 头中的 &lt;code&gt;e_phentsize&lt;/code&gt; 和 &lt;code&gt;e_phnum&lt;/code&gt; 指定了该数组每个元素的大小以及元素个数。一个目标文件的段包含一个或者多个节。&lt;strong&gt;程序的头部只有对于可执行文件和共享目标文件有意义。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;可以说，&lt;strong&gt;Program Header Table&lt;/strong&gt; 就是专门为 ELF 文件运行时中的段所准备的。&lt;/p&gt;
@@ -166,8 +162,13 @@
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;section-header-table&#34;&gt;Section Header Table
-&lt;/h2&gt;&lt;p&gt;该结构用于定位 ELF 文件中的每个节区的具体位置。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心意义&lt;/strong&gt;：操作系统加载 ELF 文件时，根据程序头表将 &amp;ldquo;段&amp;rdquo; 映射到内存，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;p_type=PT_LOAD&lt;/code&gt;的段会被加载到&lt;code&gt;p_vaddr&lt;/code&gt;指定的内存地址。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p_flags=0x5&lt;/code&gt;（R+X）通常对应代码段（可执行且只读），&lt;code&gt;p_flags=0x6&lt;/code&gt;（R+W）对应数据段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;section-header-table节区头表&#34;&gt;Section Header Table（节区头表）
+&lt;/h2&gt;&lt;p&gt;该结构用于定位 ELF 文件中的每个节区的具体位置。描述 ELF 文件在&lt;strong&gt;编译链接时&lt;/strong&gt;的结构（即 &amp;ldquo;节区&amp;rdquo; 信息），用于调试、静态分析等场景。每个条目对应一个&lt;code&gt;Elf32_Shdr&lt;/code&gt;结构：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -264,8 +265,9 @@
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;常见的section字段&#34;&gt;常见的section字段
-&lt;/h2&gt;&lt;table&gt;
+&lt;h2 id=&#34;常见节区sections&#34;&gt;常见节区（Sections）
+&lt;/h2&gt;&lt;p&gt;节区是 ELF 文件的实际数据载体，常见类型及作用如下：&lt;/p&gt;
+&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
           &lt;th style=&#34;text-align: left&#34;&gt;节区名&lt;/th&gt;
@@ -307,6 +309,12 @@
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;段与节区的关系&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;段（Segment）&lt;/strong&gt;：面向运行时，由一个或多个节区组成（如&lt;code&gt;.text&lt;/code&gt;和&lt;code&gt;.rodata&lt;/code&gt;可合并为一个 &amp;ldquo;代码段&amp;rdquo;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;节区（Section）&lt;/strong&gt;：面向编译时，按功能划分的最小数据单元。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如：一个&lt;code&gt;PT_LOAD&lt;/code&gt;段可能包含&lt;code&gt;.text&lt;/code&gt;（代码）和&lt;code&gt;.rodata&lt;/code&gt;（只读数据）两个节区，共同映射到内存的只读可执行区域。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://ctf-wiki.org/executable/elf/structure/figure/ELF-Walkthrough.png&#34;
 	
 	
@@ -316,7 +324,36 @@
 	
 &gt;&lt;/p&gt;
 &lt;h1 id=&#34;0x01-arm基础知识&#34;&gt;0x01 ARM基础知识
-&lt;/h1&gt;&lt;h2 id=&#34;常见寻址方式&#34;&gt;常见寻址方式
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;ldquo;&lt;strong&gt;x86、arm、RISC-V&lt;/strong&gt;&amp;rdquo; 都是 &lt;strong&gt;指令集架构 ( CPU架构 )&lt;/strong&gt;。ARM 是主流的 RISC（精简指令集）架构，广泛用于嵌入式设备（如 Android 手机）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;指令集特点&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;固定指令长度（32 位 ARM 指令，Thumb 模式为 16 位）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大部分指令可条件执行（如&lt;code&gt;ADDNE R0, R1, R2&lt;/code&gt;：仅当标志位不为 0 时执行加法）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;寄存器操作优先（算术 / 逻辑运算通常基于寄存器，内存访问需专用指令）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;核心寄存器&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;​	ARM32 架构有 16 个通用寄存器（&lt;code&gt;R0-R15&lt;/code&gt;），其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;R0-R3&lt;/code&gt;：函数调用参数 / 返回值寄存器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R4-R11&lt;/code&gt;：通用寄存器（需手动保存）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R12&lt;/code&gt;（IP）：临时寄存器。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R13&lt;/code&gt;（SP）：栈指针寄存器（指向栈顶）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R14&lt;/code&gt;（LR）：链接寄存器（存储函数返回地址）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R15&lt;/code&gt;（PC）：程序计数器（存储下一条执行的指令地址）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;常见寻址方式&#34;&gt;常见寻址方式
 &lt;/h2&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -510,7 +547,15 @@
 	
 &gt;&lt;/p&gt;
 &lt;h1 id=&#34;0x02-android-so文件分析&#34;&gt;0x02 Android so文件分析
-&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;so&lt;/strong&gt; 文件是 Unix/Linux 系统中的动态库文件，被称为共享目标文件（Shared Object File），后缀名为 &lt;code&gt;.so&lt;/code&gt;，它是 ELF 的一种，另外属于 &lt;strong&gt;ELF&lt;/strong&gt; 类型的还有可重定位文件（Relocatable File）以及核心转储文件（Core Dump File）。&lt;/p&gt;
+&lt;/h1&gt;&lt;h2 id=&#34;1so-文件概述&#34;&gt;1.SO 文件概述
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SO&lt;/strong&gt; 文件是 Unix/Linux 系统中的动态库文件，被称为共享目标文件（&lt;strong&gt;Shared Object File&lt;/strong&gt;），后缀名为 &lt;code&gt;.so&lt;/code&gt;，它是 ELF 的一种，另外属于 &lt;strong&gt;ELF&lt;/strong&gt; 类型的还有可重定位文件（Relocatable File）以及核心转储文件（Core Dump File）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SO 文件通常用于提高开发效率、方便快速移植代码，以及保护 Android 应用的核心逻辑，增加逆向工程的难度。不同的 CPU 架构（如 ARM、x86 等）需要不同版本的 SO 文件来适配其指令集和运行环境。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -552,7 +597,81 @@
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt; 是基于 &lt;strong&gt;Linux&lt;/strong&gt; 内核开发的操作系统，所以 &lt;strong&gt;Android&lt;/strong&gt; 平台上的可执行文件格式和 &lt;strong&gt;Unix/Linux&lt;/strong&gt; 是一致的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;so文件大体上可分为四部分，一般来说从上往下是&lt;code&gt;ELF头部-&amp;gt;Pargarm头部-&amp;gt;节区(Section)-&amp;gt;节区头&lt;/code&gt;，其中，除了&lt;code&gt;ELF头部&lt;/code&gt;在文件位置固定不变外，其余三部分的位置都不固定。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;整体结构图参考非虫大佬的图：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/windy-purple/blog_picture_bed//soparser/1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2so-文件的加载方法&#34;&gt;2.SO 文件的加载方法
+&lt;/h2&gt;&lt;p&gt;Android 通过 Java 层的&lt;code&gt;System&lt;/code&gt;类加载 SO，核心方法有两种：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;方法&lt;/th&gt;
+          &lt;th&gt;签名&lt;/th&gt;
+          &lt;th&gt;特点&lt;/th&gt;
+          &lt;th&gt;适用场景&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;loadLibrary&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;System.loadLibrary(String name)&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;自动拼接文件名（name → libname.so），从默认路径（如&lt;code&gt;/data/app/.../lib&lt;/code&gt;）加载。&lt;/td&gt;
+          &lt;td&gt;应用内置 SO 的常规加载。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;code&gt;load&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;System.load(String path)&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;需传入 SO 的绝对路径（如&lt;code&gt;/sdcard/libtest.so&lt;/code&gt;）。&lt;/td&gt;
+          &lt;td&gt;插件化加载、动态下载的 SO。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;3so-文件的加载流程&#34;&gt;3.SO 文件的加载流程
+&lt;/h2&gt;&lt;h3 id=&#34;loadlibrary-加载流程&#34;&gt;loadLibrary 加载流程
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;调用 &lt;code&gt;System.loadLibrary(String libName)&lt;/code&gt; 时，实际上会调用 &lt;code&gt;Runtime.getRuntime().loadLibrary(String libName)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Runtime.loadLibrary(String libName)&lt;/code&gt; 会进一步调用 &lt;code&gt;Runtime.loadLibrary(String libName, ClassLoader loader)&lt;/code&gt;，其中 &lt;code&gt;loader&lt;/code&gt; 是当前线程的类加载器。&lt;/li&gt;
+&lt;li&gt;通过类加载器找到对应的 SO 文件路径，然后调用 &lt;code&gt;doLoad(String name, ClassLoader loader)&lt;/code&gt; 方法进行加载。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;load-加载流程&#34;&gt;load 加载流程
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;调用 &lt;code&gt;System.load(String pathName)&lt;/code&gt; 时，实际上会调用 &lt;code&gt;Runtime.getRuntime().load(String pathName)&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Runtime.load(String pathName)&lt;/code&gt; 会调用 &lt;code&gt;Runtime.load(String pathName, ClassLoader loader)&lt;/code&gt;，同样会调用 &lt;code&gt;doLoad(String name, ClassLoader loader)&lt;/code&gt; 方法进行加载。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;核心加载流程doload&#34;&gt;核心加载流程：doLoad
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;路径处理&lt;/strong&gt;：&lt;code&gt;doLoad&lt;/code&gt; 方法会根据传入的路径和类加载器，确定 SO 文件的实际路径。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动态链接库加载&lt;/strong&gt;：调用 &lt;code&gt;dlopen&lt;/code&gt; 函数加载动态链接库。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;JNI_OnLoad 调用&lt;/strong&gt;：如果 SO 文件中定义了 &lt;code&gt;JNI_OnLoad&lt;/code&gt; 函数，则在加载完成后调用该函数进行初始化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;参考文件：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.52pojie.cn/forum.php?mod=viewthread&amp;amp;tid=1282554#34529205_%E5%85%AB%E3%80%81.symtab%E8%A7%A3%E6%9E%90&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;Android so(ELF)文件解析&lt;/strong&gt;&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://www.52pojie.cn/thread-1787667-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;《安卓逆向这档事》十、不是我说，有了IDA还要什么女朋友？&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cloud.tencent.com/developer/article/2362433&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;android 加载so过程分析&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ctf-wiki.org/android/basic_operating_mechanism/native_layer/so/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;[ctfwiki]so 介绍&lt;/strong&gt; &lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
