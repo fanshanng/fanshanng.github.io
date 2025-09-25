@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。\n">
+<title>so(ELF)文件分析与ARM基础知识</title>
+
+<link rel='canonical' href='https://fanshanng.github.io/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.a39eb4c58b0ad20f1c7f8050a119c2c1e7622b20212814314da35aa550247e23.css"><meta property='og:title' content="so(ELF)文件分析与ARM基础知识">
+<meta property='og:description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。\n">
+<meta property='og:url' content='https://fanshanng.github.io/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+<meta property='og:site_name' content='梵殇-fanshanng'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-09-25T22:07:51&#43;08:00'/><meta property='article:modified_time' content='2025-09-25T22:07:51&#43;08:00'/>
+<meta name="twitter:title" content="so(ELF)文件分析与ARM基础知识">
+<meta name="twitter:description" content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_da797e92928a0a0e.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
+            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/433824520'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/fanshanng'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://fanshanng.github.io/en/" >English</option>
+                                
+                                    <option value="https://fanshanng.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                <li id="dark-mode-toggle">
+                    <!--
+tags: [temperature, hot, wheater, thermometer, forecast]
+category: Weather
+version: "1.73"
+unicode: "f236"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg>
+
+                    <!--
+tags: [night, dark mode]
+category: Weather
+version: "1.21"
+unicode: "ece7"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+  <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+  <path d="M19 11h2m-1 -1v2" />
+</svg>
+
+                    <span>暗色模式</span>
+                </li>
+                
+                
+
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#elf-header">ELF Header</a></li>
+    <li><a href="#program-header-table">Program Header Table</a></li>
+    <li><a href="#section-header-table">Section Header Table</a></li>
+    <li><a href="#常见的section字段">常见的section字段</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#常见寻址方式">常见寻址方式</a></li>
+    <li><a href="#压栈和出栈指令">压栈和出栈指令</a></li>
+    <li><a href="#跳转指令">跳转指令</a></li>
+    <li><a href="#算术运算指令">算术运算指令</a></li>
+    <li><a href="#逻辑运算">逻辑运算</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">so(ELF)文件分析与ARM基础知识</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">
+                    
+                    发布于2025-09-25</time>
+            </div>
+        
+
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    
+                    
+                    
+                    约15分钟，共3170字
+                </time>
+            </div>
+        
+
+        
+        <div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-pageview">
+                <span class="waline-pageview-count" data-path="/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">0</span> 次浏览
+            </time>
+        </div>
+
+        
+        <div>
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
+            <time class="article-comment">
+                <span class="waline-comment-count" data-path="/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">0</span> 条评论
+            </time>
+        </div>
+
+    </footer>
+    
+
+    
+
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>关键词：ELF文件入门、so文件分析 、ARM基础知识</p>
+<h1 id="0x00-elf文件入门">0x00 ELF文件入门
+</h1><p><strong>ELF</strong>（<code>Executable and Linkable Format</code>）是一种<em>可执行</em>和<em>可链接</em>的文件格式，是linux底下二进制文件，可以理解为windows下的<code>PE文件</code>，在Android中可以比作<code>SO</code>，方便函数的移植，在常用于保护Android软件，增加逆向难度。</p>
+<ul>
+<li><strong>Executable:</strong> 可执行的。ELF 文件将参与程序的执行（Execution）过程。包括二进制程序的运行以及动态库 <strong>.so</strong> 文件的加载。</li>
+<li><strong>Linking:</strong> 可连接的。ELF 文件参与编译链接过程。</li>
+</ul>
+<p><strong>ELF文件的主要组成部分包括：</strong></p>
+<ul>
+<li>
+<p><code>ELF Header</code>：文件头，描述文件的基本信息</p>
+</li>
+<li>
+<p><code>Program Header Table</code>：程序头表，描述进程映像的布局</p>
+</li>
+<li>
+<p><code>Section Header Table</code>：节区头表，描述文件的各个节区</p>
+</li>
+<li>
+<p>程序头表与分段头表引用的数据，比如 .text .data。</p>
+<p><img src="https://ctf-wiki.org/executable/elf/structure/figure/object_file_format.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+<h2 id="elf-header">ELF Header
+</h2><ul>
+<li>ELF Header 描述了 ELF 文件的概要信息，利用这个数据结构可以索引到 ELF 文件的全部信息，数据结构如下：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elm" data-lang="elm"><span class="line"><span class="cl"><span class="err">#</span><span class="nv">define</span> <span class="kt">EI_NIDENT</span>   <span class="mi">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">typedef</span> <span class="nv">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">unsigned</span> <span class="nv">char</span>   <span class="nv">e_ident</span><span class="p">[</span><span class="kt">EI_NIDENT</span><span class="p">]</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_type</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_machine</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">e_version</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Addr</span>      <span class="nv">e_entry</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Off</span>       <span class="nv">e_phoff</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Off</span>       <span class="nv">e_shoff</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">e_flags</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_ehsize</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_phentsize</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_phnum</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_shentsize</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_shnum</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Half</span>      <span class="nv">e_shstrndx</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="kt">Elf32_Ehdr</span><span class="err">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ELF 头中的 <code>e_shoff</code> 项给出了<strong>从文件开头到节头表位置的字节偏移</strong>。<code>e_shnum</code> 告诉了我们节头表包含的<strong>项数</strong>；<code>e_shentsize</code> 给出了每一项的<strong>字节大小</strong>。</p>
+<h2 id="program-header-table">Program Header Table
+</h2><p><strong>Program Header Table</strong> 是一个结构体数组，每一个元素的类型是 <code>Elf32_Phdr</code>，描述了一个段或者其它系统在准备程序执行时所需要的信息。</p>
+<p>其中，ELF 头中的 <code>e_phentsize</code> 和 <code>e_phnum</code> 指定了该数组每个元素的大小以及元素个数。一个目标文件的段包含一个或者多个节。<strong>程序的头部只有对于可执行文件和共享目标文件有意义。</strong></p>
+<p>可以说，<strong>Program Header Table</strong> 就是专门为 ELF 文件运行时中的段所准备的。</p>
+<p><code>Elf32_Phdr</code>的定义如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elm" data-lang="elm"><span class="line"><span class="cl"><span class="nv">typedef</span> <span class="nv">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>  <span class="nv">p_type</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Off</span>   <span class="nv">p_offset</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Addr</span>  <span class="nv">p_vaddr</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Addr</span>  <span class="nv">p_paddr</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>  <span class="nv">p_filesz</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>  <span class="nv">p_memsz</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>  <span class="nv">p_flags</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>  <span class="nv">p_align</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="kt">Elf32_Phdr</span><span class="err">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>字段说明</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">字段</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>p_type</code></td>
+          <td style="text-align: left">该字段为段的类型，或者表明了该结构的相关信息。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_offset</code></td>
+          <td style="text-align: left">该字段给出了从文件开始到该段开头的第一个字节的偏移。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_vaddr</code></td>
+          <td style="text-align: left">该字段给出了该段第一个字节在内存中的虚拟地址。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_paddr</code></td>
+          <td style="text-align: left">该字段仅用于物理地址寻址相关的系统中， 由于 “System V” 忽略了应用程序的物理寻址，可执行文件和共享目标文件的该项内容并未被限定。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_filesz</code></td>
+          <td style="text-align: left">该字段给出了文件镜像中该段的大小，可能为 0。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_memsz</code></td>
+          <td style="text-align: left">该字段给出了内存镜像中该段的大小，可能为 0。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_flags</code></td>
+          <td style="text-align: left">该字段给出了与段相关的标记。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p_align</code></td>
+          <td style="text-align: left">可加载的程序的段的 <code>p_vaddr</code> 以及<code> p_offset</code> 的大小必须是<code> page</code> 的整数倍。该成员给出了段在文件以及内存中的对齐方式。如果该值为 0 或 1 的话，表示不需要对齐。除此之外，p_align 应该是 2 的整数指数次方，并且 <code>p_vaddr</code> 与 <code>p_offset</code> 在模 <code>p_align</code> 的意义下，应该相等。</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="section-header-table">Section Header Table
+</h2><p>该结构用于定位 ELF 文件中的每个节区的具体位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-elm" data-lang="elm"><span class="line"><span class="cl"><span class="nv">typedef</span> <span class="nv">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_name</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_type</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_flags</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Addr</span>      <span class="nv">sh_addr</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Off</span>       <span class="nv">sh_offset</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_size</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_link</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_info</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_addralign</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">ELF32_Word</span>      <span class="nv">sh_entsize</span><span class="err">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="kt">Elf32_Shdr</span><span class="err">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">成员</th>
+          <th style="text-align: left">说明</th>
+          <th>取值</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>sh_name</code></td>
+          <td style="text-align: left"><code>sh_name</code>节名称，是节区头字符串表节区中（Section Header String Table Section）的索引，因此该字段实际是一个数值。在字符串表中的具体内容是以 NULL 结尾的字符串。</td>
+          <td>0</td>
+          <td>无名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_type</code></td>
+          <td style="text-align: left"><code>sh_type</code>根据节的内容和语义进行分类，具体的类型下面会介绍。</td>
+          <td>SHT_NULL</td>
+          <td>限制</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_flags</code></td>
+          <td style="text-align: left"><code>sh_flags</code>每一比特代表不同的标志，描述节是否可写，可执行，需要分配内存等属性。</td>
+          <td>0</td>
+          <td>无标志</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_addr</code></td>
+          <td style="text-align: left"><code>sh_addr</code>如果节区将出现在进程的内存映像中，此成员给出节区的第一个字节应该在进程镜像中的位置。否则，此字段为 0。</td>
+          <td>0</td>
+          <td>无地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_offset</code></td>
+          <td style="text-align: left"><code>sh_offset</code>给出节区的第一个字节与文件开始处之间的偏移。SHT_NOBITS 类型的节区不占用文件的空间，因此其 sh_offset 成员给出的是概念性的偏移。</td>
+          <td>0</td>
+          <td>无文件偏移</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_size</code></td>
+          <td style="text-align: left"><code>sh_size</code>此成员给出节区的字节大小。除非节区的类型是 SHT_NOBITS ，否则该节占用文件中的 <code>sh_size</code> 字节。类型为 SHT_NOBITS 的节区长度可能非零，不过却不占用文件中的空间。</td>
+          <td>0</td>
+          <td>无大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_link</code></td>
+          <td style="text-align: left"><code>sh_link</code>此成员给出节区头部表索引链接，其具体的解释依赖于节区类型。</td>
+          <td>SHN_UNDEF</td>
+          <td>无链接信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_info</code></td>
+          <td style="text-align: left"><code>sh_info</code>此成员给出附加信息，其解释依赖于节区类型。</td>
+          <td>0</td>
+          <td>无辅助信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>sh_addralign</code></td>
+          <td style="text-align: left"><code>sh_addralign</code>某些节区的地址需要对齐。例如，如果一个节区有一个 doubleword 类型的变量，那么系统必须保证整个节区按双字对齐。也就是说，sh_addr%sh_addralign=0。目前它仅允许为 0，以及 2 的正整数幂数。 0 和 1 表示没有对齐约束。</td>
+          <td>0</td>
+          <td>无对齐要求</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="常见的section字段">常见的section字段
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">节区名</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>.text</code></td>
+          <td style="text-align: left">代码段，存放程序的指令</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.data</code></td>
+          <td style="text-align: left">数据段，存放已初始化的全局变量和静态变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.rodata</code></td>
+          <td style="text-align: left">只读数据段，存放只读数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.bss</code></td>
+          <td style="text-align: left">未初始化数据段，存放未初始化的全局变量和静态变量</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.symtab</code></td>
+          <td style="text-align: left">符号表，存放符号信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.strtab</code></td>
+          <td style="text-align: left">字符串表，存放字符串数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.dynsym</code></td>
+          <td style="text-align: left">动态符号表，存放动态链接需要的符号信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>.dynamic</code></td>
+          <td style="text-align: left">动态链接信息，存放动态链接器需要的信息</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="https://ctf-wiki.org/executable/elf/structure/figure/ELF-Walkthrough.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="0x01-arm基础知识">0x01 ARM基础知识
+</h1><h2 id="常见寻址方式">常见寻址方式
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">寻址方式</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">立即数寻址</td>
+          <td style="text-align: left">直接使用立即数值作为操作数，例如：<code>MOV R0, #5</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">寄存器直接寻址</td>
+          <td style="text-align: left">使用寄存器中的值作为操作数，例如：<code>MOV R0, R1</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">寄存器间接寻址</td>
+          <td style="text-align: left">使用寄存器中的值作为内存地址，访问该地址中的数据，例如：<code>LDR R0, [R1]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">寄存器相对寻址</td>
+          <td style="text-align: left">使用寄存器中的值加上一个立即偏移量作为内存地址，例如：<code>LDR R0, [R1, #4]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">寄存器变址寻址</td>
+          <td style="text-align: left">使用两个寄存器中的值相加作为内存地址，例如：<code>LDR R0, [R1, R2]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">带有变址寄存器的寄存器相对寻址</td>
+          <td style="text-align: left">使用寄存器中的值加上另一个寄存器的值乘以一个比例因子作为内存地址，例如：<code>LDR R0, [R1, R2, LSL #2]</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">堆栈寻址</td>
+          <td style="text-align: left">使用堆栈指针寄存器（如SP）进行操作，例如：<code>PUSH {R0, R1}</code> 或 <code>POP {R0, R1}</code></td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="压栈和出栈指令">压栈和出栈指令
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指令类型</th>
+          <th style="text-align: left">指令示例</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">压栈</td>
+          <td style="text-align: left"><code>PUSH {R0, R1}</code></td>
+          <td style="text-align: left">将寄存器R0和R1的内容压入堆栈中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">压栈</td>
+          <td style="text-align: left"><code>PUSH {R0-R5}</code></td>
+          <td style="text-align: left">将寄存器R0到R5的内容压入堆栈中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">压栈</td>
+          <td style="text-align: left"><code>STMDB SP!, {R0-R5}</code></td>
+          <td style="text-align: left">将寄存器R0到R5的内容压入堆栈中（与PUSH等效）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">出栈</td>
+          <td style="text-align: left"><code>POP {R0, R1}</code></td>
+          <td style="text-align: left">从堆栈中弹出数据，恢复到寄存器R0和R1中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">出栈</td>
+          <td style="text-align: left"><code>POP {R0-R5}</code></td>
+          <td style="text-align: left">从堆栈中弹出数据，恢复到寄存器R0到R5中</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="跳转指令">跳转指令
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指令类型</th>
+          <th style="text-align: left">指令示例</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">无条件跳转</td>
+          <td style="text-align: left"><code>B label</code></td>
+          <td style="text-align: left">无条件跳转到标签<code>label</code>指向的位置</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">子程序调用</td>
+          <td style="text-align: left"><code>BL label</code></td>
+          <td style="text-align: left">调用子程序，将当前指令的下一条指令地址存入链接寄存器（LR），然后跳转到标签<code>label</code>指向的位置</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">子程序返回</td>
+          <td style="text-align: left"><code>BX LR</code></td>
+          <td style="text-align: left">返回子程序调用前的位置，跳转到链接寄存器（LR）中存储的地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">寄存器跳转</td>
+          <td style="text-align: left"><code>BX Rn</code></td>
+          <td style="text-align: left">跳转到寄存器Rn中存储的地址</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="算术运算指令">算术运算指令
+</h2><p>汇编中也可以进行算术运算， 比如加减乘除，常用的运算指令用法如表 所示：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">指令</th>
+          <th style="text-align: left">计算公式</th>
+          <th style="text-align: left">备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>ADD Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn + Rm</td>
+          <td style="text-align: left">加法运算，指令为 ADD</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>ADD Rd, Rn, #immed</code></td>
+          <td style="text-align: left">Rd = Rn + #immed</td>
+          <td style="text-align: left">加法运算，指令为 ADD</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>ADC Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn + Rm + 进位</td>
+          <td style="text-align: left">带进位的加法运算，指令为 ADC</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>ADC Rd, Rn, #immed</code></td>
+          <td style="text-align: left">Rd = Rn + #immed + 进位</td>
+          <td style="text-align: left">带进位的加法运算，指令为 ADC</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SUB Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn - Rm</td>
+          <td style="text-align: left">减法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SUB Rd, #immed</code></td>
+          <td style="text-align: left">Rd = Rd - #immed</td>
+          <td style="text-align: left">减法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SUB Rd, Rn, #immed</code></td>
+          <td style="text-align: left">Rd = Rn - #immed</td>
+          <td style="text-align: left">减法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SBC Rd, Rn, #immed</code></td>
+          <td style="text-align: left">Rd = Rn - #immed - 借位</td>
+          <td style="text-align: left">带借位的减法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SBC Rd, Rn ,Rm</code></td>
+          <td style="text-align: left">Rd = Rn - Rm - 借位</td>
+          <td style="text-align: left">带借位的减法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>MUL Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn * Rm</td>
+          <td style="text-align: left">乘法 (32 位)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>UDIV Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn / Rm</td>
+          <td style="text-align: left">无符号除法</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>SDIV Rd, Rn, Rm</code></td>
+          <td style="text-align: left">Rd = Rn / Rm</td>
+          <td style="text-align: left">有符号除法</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="逻辑运算">逻辑运算
+</h2><p>汇编语言的时候也可以使用逻辑运算指令，常用的运算指令用法如表 所示：
+<img src="http://pic.rmb.bdstatic.com/bjh/35d0832fb2523805c2a2165ec5458caa.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<h1 id="0x02-android-so文件分析">0x02 Android so文件分析
+</h1><p><strong>so</strong> 文件是 Unix/Linux 系统中的动态库文件，被称为共享目标文件（Shared Object File），后缀名为 <code>.so</code>，它是 ELF 的一种，另外属于 <strong>ELF</strong> 类型的还有可重定位文件（Relocatable File）以及核心转储文件（Core Dump File）。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>ELF 文件类型</th>
+          <th>典型后缀</th>
+          <th>核心用途</th>
+          <th>逆向 / 开发场景举例</th>
+          <th>与 ARM 的关联</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>可执行文件</td>
+          <td>无（如<code>/bin/ls</code>）</td>
+          <td>直接运行的程序</td>
+          <td>分析 Linux/ARM 嵌入式设备的二进制逻辑</td>
+          <td>ARM32/64 位设备的可执行文件需对应架构</td>
+      </tr>
+      <tr>
+          <td>共享目标文件（SO）</td>
+          <td><code>.so</code></td>
+          <td>供其他程序动态调用的库（代码复用 + 保护）</td>
+          <td>逆向 Android 的<code>libnative.so</code>（核心逻辑载体）</td>
+          <td>Android SO 分<code>armeabi-v7a</code>（ARM32）、<code>arm64-v8a</code>（ARM64）</td>
+      </tr>
+      <tr>
+          <td>目标文件</td>
+          <td><code>.o</code></td>
+          <td>编译后的中间文件（未链接）</td>
+          <td>分析编译后的单个模块代码（如 NDK 编译的<code>xxx.o</code>）</td>
+          <td>ARM 编译器（如<code>arm-linux-androideabi-gcc</code>）生成对应.o</td>
+      </tr>
+      <tr>
+          <td>核心转储文件</td>
+          <td><code>.core</code></td>
+          <td>程序崩溃时的内存快照</td>
+          <td>分析 SO 崩溃原因（如空指针访问导致的 core dump）</td>
+          <td>ARM 设备崩溃时生成的 core 需用 ARM 架构的 gdb 分析</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><strong>Android</strong> 是基于 <strong>Linux</strong> 内核开发的操作系统，所以 <strong>Android</strong> 平台上的可执行文件格式和 <strong>Unix/Linux</strong> 是一致的。</p>
+
+</section>
+
+    <div class="article-details" style="padding-top: 15px;padding-bottom: 0px;">
+        <footer class="article-time">
+            <div>
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                <span title="阅读次数" style="display: inline;font-size: 1.4rem;">阅读次数: <span class="waline-pageview-count" data-path="/p/soelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" /></span>
+            </div>
+        </footer>
+    </div>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"pageview":true,"requiredMeta":["name","email","url"],"serverURL":"https://waline-test-three-kappa.vercel.app"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 梵殇-fanshanng
+    </section>
+    
+    <section class="powerby">
+        
+            前途似海，来日方长。 <br/>
+         <br />
+        
+    </section>
+
+    <section class="visits">
+        
+        Visits: <span class="waline-index-count breathe" 
+                     waline-url="https://waline-test-three-kappa.vercel.app" 
+                     data-path="/404.html" 
+                     style="font-weight: bold;">0</span>
+    </section>
+
+    
+    <script src="/js/waline-stats.js" defer></script>
+
+
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.github.io/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
+&lt;<style>
+  body {
+    background: url(https://fanshanng.github.io/background/4.jpg) no-repeat center top;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+</style>
+<script src=https://fanshanng.github.io/background/sakura.js></script>
+
+
+
+
+    </body>
+</html>
