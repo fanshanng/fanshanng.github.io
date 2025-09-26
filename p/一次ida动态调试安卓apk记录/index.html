@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server ">
+<title>一次IDA动态调试安卓apk记录</title>
+
+<link rel='canonical' href='https://fanshanng.github.io/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.a39eb4c58b0ad20f1c7f8050a119c2c1e7622b20212814314da35aa550247e23.css"><meta property='og:title' content="一次IDA动态调试安卓apk记录">
+<meta property='og:description' content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server ">
+<meta property='og:url' content='https://fanshanng.github.io/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/'>
+<meta property='og:site_name' content='梵殇-fanshanng'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-09-26T23:55:59&#43;08:00'/><meta property='article:modified_time' content='2025-09-26T23:55:59&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs' />
+<meta name="twitter:title" content="一次IDA动态调试安卓apk记录">
+<meta name="twitter:description" content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_da797e92928a0a0e.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
+            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/433824520'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/fanshanng'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://fanshanng.github.io/en/" >English</option>
+                                
+                                    <option value="https://fanshanng.github.io/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                <li id="dark-mode-toggle">
+                    <!--
+tags: [temperature, hot, wheater, thermometer, forecast]
+category: Weather
+version: "1.73"
+unicode: "f236"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg>
+
+                    <!--
+tags: [night, dark mode]
+category: Weather
+version: "1.21"
+unicode: "ece7"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+  <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+  <path d="M19 11h2m-1 -1v2" />
+</svg>
+
+                    <span>暗色模式</span>
+                </li>
+                
+                
+
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#常用快捷键">常用快捷键</a></li>
+    <li><a href="#可能遇到的问题">可能遇到的问题</a>
+      <ol>
+        <li><a href="#推荐一个安卓的显示控制软件qtscrcpy">推荐一个安卓的显示控制软件：QtScrcpy</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" loading="lazy" alt="Featured image of post 一次IDA动态调试安卓apk记录" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">一次IDA动态调试安卓apk记录</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">
+                    
+                    发布于2025-09-26</time>
+            </div>
+        
+
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    
+                    
+                    
+                    约9分钟，共1905字
+                </time>
+            </div>
+        
+
+        
+        <div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-pageview">
+                <span class="waline-pageview-count" data-path="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">0</span> 次浏览
+            </time>
+        </div>
+
+        
+        <div>
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
+            <time class="article-comment">
+                <span class="waline-comment-count" data-path="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">0</span> 条评论
+            </time>
+        </div>
+
+    </footer>
+    
+
+    
+
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一次ida动态调试安卓apk记录">一次IDA动态调试安卓apk记录
+</h1><ul>
+<li>工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）<a class="link" href="https://pan.baidu.com/share/init?surl=cFWTLn14jeWfpXxlx3syYw&amp;pwd=nqu9"  target="_blank" rel="noopener"
+    >吾爱破解的教程demo（解压密码：52pj）</a> ADB环境</li>
+<li>在IDA目录下的dbgsrv，选择跟手机架构一致的server</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926222949.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>在mt管理器中点开目标app的属性进行手动提权</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926133418.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926222837.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>也可以adb进入提权</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926223018.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>重命名<code>android_server</code>为<code>as</code>，可以防止一些反调试</p>
+</li>
+<li>
+<p>此处运行编辑好的<code>.bat</code>文件，也可以用命令行替代</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926223340.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>运行成功就会显示如下画面（只需点击IDAdebug1.bat即可）</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926191108.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>打开ida pro，设置<code>Hostname</code>为<code>127.0.0.1</code>      使用默认端口号为<code>23946</code>
+<img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926224056.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>对check函数下断点</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926224820.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>然后</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926224332.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>附加到对应进程，会出现如下所示窗口，选择same</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926211222.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926225114.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>然后程序会停在如图所示的地方，这时候要点开始调试（蓝色小三角），在手机输入任意字符串后点击验证</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926225316.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926225337.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>等待程序运行到断点</p>
+</li>
+<li>
+<p>步进到比较函数处</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926231056.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>点击<code>_wuaipojie0123456</code>就可以看到比较的值，即为flag</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926231114.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li><strong>在第一次调试过程遇到了反调试，在<code>JNI_OnLoad</code>中</strong></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926231500.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>将对应代码patch掉后，右键保存</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926231637.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926231706.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>点击<code>Apply patches</code>覆盖掉原本的so文件，然后将这个so文件替换原本的apk/lib/arm64-v8a中的so文件，重新安装该应用，再次运行上述操作，即可绕过反调试</li>
+</ul>
+<h1 id="补充常见寄存器知识">补充常见寄存器知识
+</h1><p>在进行动态调试，以下是一些常用的寄存器介绍：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">寄存器名称</th>
+          <th style="text-align: left">功能介绍</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>R0-R12</code></td>
+          <td style="text-align: left">通用寄存器，用于存储临时数据。在函数调用时，<code>R0-R3</code>用于存储前四个参数，其余的参数通过堆栈传递。返回值也通过<code>R0</code>和<code>R1</code>传递。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>R13 (SP)</code></td>
+          <td style="text-align: left">堆栈指针寄存器，指向当前堆栈的顶部。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>R14 (LR)</code></td>
+          <td style="text-align: left">链接寄存器，存储子程序的返回地址。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>R15 (PC)</code></td>
+          <td style="text-align: left">程序计数器，指向下一条要执行的指令。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>CPSR</code></td>
+          <td style="text-align: left">当前程序状态寄存器，保存程序的状态信息，如算术运算的结果标志、中断禁止标志等。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>FPSCR</code></td>
+          <td style="text-align: left">浮点状态和控制寄存器，如果你在调试的代码中涉及到浮点运算，那么这个寄存器会比较重要。</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="常用快捷键">常用快捷键
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">快捷键</th>
+          <th style="text-align: left">功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>F2</code></td>
+          <td style="text-align: left">在所在行下断点</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>F5</code></td>
+          <td style="text-align: left">可以将ARM指令转化为可读的C代码，同时可以使用Y键，对JNIEnv指针做一个类型转换，从而对JNI里经常使用的JNIEnv方法能够识别</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>F7</code></td>
+          <td style="text-align: left">单步进入调试</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>F8</code></td>
+          <td style="text-align: left">按照顺序一行一行，单步调试</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>F9</code></td>
+          <td style="text-align: left">直接跳到下一个断点处</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Shift + F12</code></td>
+          <td style="text-align: left">快速查看so文件中的字符串信息，分析过程中通过一些关键字符串能够迅速定位到关键函数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Ctrl + s</code></td>
+          <td style="text-align: left">有两个用途，在IDA View页面中可以查看文件so文件的所有段信息，在调试页面可以查看程序中所有so文件映射到内存的基地址。tips:在进行so调试过程中，很有用的一个小技巧就是IDA双开，一个用于进行静态分析；一个用于动态调试。比如说调试过程中要找到一个函数的加载到内存中的位置</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>Esc</code></td>
+          <td style="text-align: left">回退键，能够倒回上一部操作的视图（只有在反汇编窗口才是这个作用，如果是在其他窗口按下esc，会关闭该窗口）</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>g</code></td>
+          <td style="text-align: left">直接跳到某个地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>y</code></td>
+          <td style="text-align: left">更改变量的类型</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>x</code></td>
+          <td style="text-align: left">对着某个函数、变量按该快捷键，可以查看它的交叉引用</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>n</code></td>
+          <td style="text-align: left">更改变量的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>p</code></td>
+          <td style="text-align: left">创建函数</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="可能遇到的问题">可能遇到的问题
+</h2><ul>
+<li>1.<code>jdb</code> 不是内部或外部命令，也不是可运行的程序或批处理文件。</li>
+</ul>
+<p>​	http://t.csdn.cn/paKAt</p>
+<ul>
+<li>
+<ol start="2">
+<li></li>
+</ol>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">IOException</span><span class="p">:</span> <span class="n">handshake</span> <span class="n">failed</span> <span class="o">-</span> <span class="n">connection</span> <span class="n">prematurally</span> <span class="n">closed</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">jdi</span><span class="o">.</span><span class="n">SocketTransportService</span><span class="o">.</span><span class="n">handshake</span><span class="p">(</span><span class="n">SocketTransportService</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">136</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">jdi</span><span class="o">.</span><span class="n">SocketTransportService</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">SocketTransportService</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">232</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">jdi</span><span class="o">.</span><span class="n">GenericAttachingConnector</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">GenericAttachingConnector</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">116</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">jdi</span><span class="o">.</span><span class="n">SocketAttachingConnector</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">SocketAttachingConnector</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">90</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">tty</span><span class="o">.</span><span class="n">VMConnection</span><span class="o">.</span><span class="n">attachTarget</span><span class="p">(</span><span class="n">VMConnection</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">519</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">tty</span><span class="o">.</span><span class="n">VMConnection</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">VMConnection</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">328</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">tty</span><span class="o">.</span><span class="n">Env</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">Env</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">63</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">tty</span><span class="o">.</span><span class="n">TTY</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">TTY</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1066</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">致命错误</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="err">无法附加到目标</span> <span class="n">VM</span><span class="err">。</span>
+</span></span><span class="line"><span class="cl"><span class="err">解决方法：有可能是手机问题，建议低版本真机，不要用模拟器！切命令顺序不要乱！另外也有可能软件有反调试！</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>3.<strong>动态调试中找不到so文件</strong>
+解决方法：可以尝试手动复制一份对应的so文件放到data/app/包名/lib目录下</p>
+</li>
+<li>
+<p>4.<code>device offline</code>
+解决方法：重新插拔usb，再不行就重启机子</p>
+</li>
+<li>
+<p>5.<code>0.0.0.0:23946: bind: Address already in use</code>
+解决方案：
+<code>adb shell &quot;su -c 'lsof | grep 23946'&quot;</code> //获取pid
+<code>adb shell &quot;su -c 'kill -9 PID'&quot;</code> //这里的pid要根据上一步获取的填写</p>
+</li>
+<li>
+<p>6.<strong>常见反调试</strong></p>
+</li>
+<li>
+<p>调试端口检测</p>
+<p>检测常见的<code>23946</code>端口，所以在运行时可以加<code>-p</code>指定一个另外的端口来过掉这个检测</p>
+<p>例如，使用<code>./as -p 12345</code>命令启动调试server，将调试端口改为<code>12345</code>，然后在IDA Pro中相应地修改端口号为<code>12345</code>进行连接。</p>
+</li>
+<li>
+<p>调试进程名检测</p>
+<p>固定的进程名 <code>android_server gdb_server</code>等等，所以要改个名字，例如<code>as64</code></p>
+</li>
+<li>
+<p>ptrace检测</p>
+<p>每个进程同时刻只能被1个调试进程ptrace ，主动ptrace本进程可以使得其他调试器无法调试</p>
+<p>实现代码：</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">ptrace_protect</span><span class="p">()</span><span class="c1">//ptrace附加自身线程 会导致此进程TracerPid 变为父进程的TracerPid 即zygote
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ptrace</span><span class="p">(</span><span class="n">PTRACE_TRACEME</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);;</span><span class="c1">//返回-1即为已经被调试
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h3 id="推荐一个安卓的显示控制软件qtscrcpy">推荐一个安卓的显示控制软件：<a class="link" href="https://github.com/barry-ran/QtScrcpy/blob/dev/README_zh.md"  target="_blank" rel="noopener"
+    >QtScrcpy</a>
+</h3><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926234643.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926234951.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li><strong>打开如下按钮后可以实现电脑的模拟点击，非常好用</strong></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250926234805.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>参考文件：</p>
+<p><a class="link" href="https://www.52pojie.cn/thread-1809646-1-1.html"  target="_blank" rel="noopener"
+    ><strong>《安卓逆向这档事》十二、大佬帮我分析一下</strong></a></p>
+<p><a class="link" href="https://blog.csdn.net/Onlyone_1314/article/details/108697155"  target="_blank" rel="noopener"
+    ><strong>IDA修改exe并保存运行</strong></a></p>
+<p><a class="link" href="https://www.cnblogs.com/bmjoker/p/11891123.html"  target="_blank" rel="noopener"
+    >使用IDA进行动态调试与过反调试（上）（三）</a></p>
+
+</section>
+
+    <div class="article-details" style="padding-top: 15px;padding-bottom: 0px;">
+        <footer class="article-time">
+            <div>
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+                <span title="阅读次数" style="display: inline;font-size: 1.4rem;">阅读次数: <span class="waline-pageview-count" data-path="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/" /></span>
+            </div>
+        </footer>
+    </div>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"pageview":true,"requiredMeta":["name","email","url"],"serverURL":"https://waline-test-three-kappa.vercel.app"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 梵殇-fanshanng
+    </section>
+    
+    <section class="powerby">
+        
+            前途似海，来日方长。 <br/>
+         <br />
+        
+    </section>
+
+    <section class="visits">
+        
+        Visits: <span class="waline-index-count breathe" 
+                     waline-url="https://waline-test-three-kappa.vercel.app" 
+                     data-path="/404.html" 
+                     style="font-weight: bold;">0</span>
+    </section>
+
+    
+    <script src="/js/waline-stats.js" defer></script>
+
+
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.github.io/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
+&lt;<style>
+  body {
+    background: url(https://fanshanng.github.io/background/4.jpg) no-repeat center top;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+</style>
+<script src=https://fanshanng.github.io/background/sakura.js></script>
+
+
+
+
+    </body>
+</html>
