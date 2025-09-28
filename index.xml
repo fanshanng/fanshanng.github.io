@@ -1224,12 +1224,12 @@
 </description>
         </item>
         <item>
-        <title>安卓逆向入门五</title>
-        <link>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94/</link>
+        <title>安卓逆向入门五：Xposed和hook入门</title>
+        <link>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94xposed%E5%92%8Chook%E5%85%A5%E9%97%A8/</link>
         <pubDate>Sun, 21 Sep 2025 23:31:39 +0800</pubDate>
         
-        <guid>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94/</guid>
-        <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" alt="Featured image of post 安卓逆向入门五" /&gt;&lt;p&gt;关键词：&lt;strong&gt;Xposed原理和常用api&lt;/strong&gt;、&lt;strong&gt;Android Studio&lt;/strong&gt;安装以及环境配置、&lt;strong&gt;hook&lt;/strong&gt;、借助&lt;strong&gt;lspatch&lt;/strong&gt;实现&lt;strong&gt;免root注入&lt;/strong&gt;、&lt;strong&gt;SimpleHook&lt;/strong&gt;快速hook&lt;/p&gt;
+        <guid>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94xposed%E5%92%8Chook%E5%85%A5%E9%97%A8/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" alt="Featured image of post 安卓逆向入门五：Xposed和hook入门" /&gt;&lt;p&gt;关键词：&lt;strong&gt;Xposed原理和常用api&lt;/strong&gt;、&lt;strong&gt;Android Studio&lt;/strong&gt;安装以及环境配置、&lt;strong&gt;hook&lt;/strong&gt;、借助&lt;strong&gt;lspatch&lt;/strong&gt;实现&lt;strong&gt;免root注入&lt;/strong&gt;、&lt;strong&gt;SimpleHook&lt;/strong&gt;快速hook&lt;/p&gt;
 &lt;h1 id=&#34;0x00-什么是xposed&#34;&gt;0x00 什么是Xposed
 &lt;/h1&gt;&lt;p&gt;&lt;strong&gt;Xposed 是一款无需修改 APK 即可影响程序运行的 Hook 框架&lt;/strong&gt;，基于它可以开发功能强大的插件 APP，实现对目标应用的注入、拦截、修改等操作，且多个功能不冲突的模块可同时运行。&lt;/p&gt;
 &lt;p&gt;简单来说，Xposed 的核心是 “在不改变原应用代码的情况下，动态干预其运行逻辑”，这使得它成为安卓逆向、功能扩展的重要工具。&lt;/p&gt;
