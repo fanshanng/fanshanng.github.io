@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.github.io/p/frida/'>
 
-<link rel="stylesheet" href="/scss/style.min.a39eb4c58b0ad20f1c7f8050a119c2c1e7622b20212814314da35aa550247e23.css"><meta property='og:title' content="Frida">
+<link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="Frida">
 <meta property='og:description' content="frida基础知识 基础命令 1.frida-ps -U 查看当前手机运行的进程 2.frida-ps --help 查看help指令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 frida-ps --help 使用方式: frida-ps [选项] 选项: -h, --help 显示帮助信息并退出 -D ID, --device ID 连接到具有给定ID的设备 -U, --usb 连接到USB设备 -R, --remote 连接到远程frida-server -H HOST, --host HOST 连接到HOST上的远程frida-server --certificate CERTIFICATE 与HOST进行TLS通信，期望的CERTIFICATE --origin ORIGIN 连接到设置了&#34;Origin&#34;头为ORIGIN的远程服务器 --token TOKEN 使用TOKEN验证HOST --keepalive-interval INTERVAL 设置心跳包间隔(秒)，或设置为0以禁用(默认为-1，根据传输方式自动选择) --p2p 与目标建立点对点连接 --stun-server ADDRESS 设置与--p2p一起使用的STUN服务器地址 --relay address,username,password,turn-{udp,tcp,tls} 添加与--p2p一起使用的中继 -O FILE, --options-file FILE 包含额外命令行选项的文本文件 --version 显示程序版本号并退出 -a, --applications 只列出应用程序 -i, --installed 包括所有已安装的应用程序 -j, --json 以JSON格式输出结果 操作模式 CLI模式：通过命令行直接将JavaScript脚本注入进程中。 RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处理。 4.注入模式与启动命令\n">
 <meta property='og:url' content='https://fanshanng.github.io/p/frida/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
@@ -751,15 +751,6 @@ D：表示级别  &ldquo;zj2595&quot;这个是标签</p>
 </div>
 </section>
 
-    <div class="article-details" style="padding-top: 15px;padding-bottom: 0px;">
-        <footer class="article-time">
-            <div>
-                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-                <span title="阅读次数" style="display: inline;font-size: 1.4rem;">阅读次数: <span class="waline-pageview-count" data-path="/p/frida/" /></span>
-            </div>
-        </footer>
-    </div>
-
 
     <footer class="article-footer">
     
@@ -805,7 +796,7 @@ D：表示级别  &ldquo;zj2595&quot;这个是标签</p>
     }
 </style><script type="module">
     import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
-    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"pageview":true,"requiredMeta":["name","email","url"],"serverURL":"https://waline-test-three-kappa.vercel.app"});
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"requiredMeta":["name","email","url"],"serverURL":"https://waline-test-three-kappa.vercel.app"});
 </script>
 
     
@@ -824,15 +815,13 @@ D：表示级别  &ldquo;zj2595&quot;这个是标签</p>
         
     </section>
 
-    <section class="visits">
-        
-        Visits: <span class="waline-index-count breathe" 
-                     waline-url="https://waline-test-three-kappa.vercel.app" 
-                     data-path="/404.html" 
-                     style="font-weight: bold;">0</span>
-    </section>
+<section class="visits" style="display: none;"> 
+    Visits: <span class="waline-index-count breathe" 
+                 waline-url="https://waline-test-three-kappa.vercel.app" 
+                 data-path="/404.html" 
+                 style="font-weight: bold;">0</span>
+</section>
 
-    
     <script src="/js/waline-stats.js" defer></script>
 
 

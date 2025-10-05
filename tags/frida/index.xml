@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Frida on 梵殇-fanshanng</title>
+        <link>https://fanshanng.github.io/tags/frida/</link>
+        <description>Recent content in Frida on 梵殇-fanshanng</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>梵殇-fanshanng</copyright>
+        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.github.io/tags/frida/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>安卓逆向入门七：Frida入门</title>
+        <link>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%B8%83frida%E5%85%A5%E9%97%A8/</link>
+        <pubDate>Sun, 28 Sep 2025 22:21:41 +0800</pubDate>
+        
+        <guid>https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%B8%83frida%E5%85%A5%E9%97%A8/</guid>
+        <description>&lt;img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" alt="Featured image of post 安卓逆向入门七：Frida入门" /&gt;&lt;h1 id=&#34;0x00-什么是frida&#34;&gt;0x00 什么是Frida
+&lt;/h1&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://frida.re/docs/home/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;frida官方文档&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;它是原生应用的&lt;a class=&#34;link&#34; href=&#34;https://translate.google.com/website?sl=auto&amp;amp;tl=en&amp;amp;hl=zh-CN&amp;amp;client=webapp&amp;amp;u=https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Greasemonkey&lt;/a&gt;，或者用更专业的术语来说，它是一个动态代码插桩工具包。它允许你将 JavaScript 代码片段或你自己的库注入到 Windows、macOS、GNU/Linux、iOS、watchOS、tvOS、Android、FreeBSD 和 QNX 上的原生应用中。Frida 还提供了基于 Frida API 构建的一些简单工具。这些工具可以直接使用，也可以根据你的需求进行调整，或者作为 API 使用示例。&lt;/p&gt;&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
