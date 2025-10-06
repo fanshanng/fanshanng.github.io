@@ -2,40 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://fanshanng.github.io/en/categories/</loc>
+    <loc>https://fanshanng.cn/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://fanshanng.github.io/categories/"
+                href="https://fanshanng.cn/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://fanshanng.github.io/en/categories/"
+                href="https://fanshanng.cn/en/categories/"
                 />
   </url><url>
-    <loc>https://fanshanng.github.io/en/</loc>
+    <loc>https://fanshanng.cn/en/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://fanshanng.github.io/"
+                href="https://fanshanng.cn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://fanshanng.github.io/en/"
+                href="https://fanshanng.cn/en/"
                 />
   </url><url>
-    <loc>https://fanshanng.github.io/en/tags/</loc>
+    <loc>https://fanshanng.cn/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://fanshanng.github.io/tags/"
+                href="https://fanshanng.cn/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://fanshanng.github.io/en/tags/"
+                href="https://fanshanng.cn/en/tags/"
                 />
   </url>
 </urlset>

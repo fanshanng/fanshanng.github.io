@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>安卓逆向 on 梵殇-fanshanng</title>
-        <link>https://fanshanng.github.io/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/</link>
+        <link>https://fanshanng.cn/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/</link>
         <description>Recent content in 安卓逆向 on 梵殇-fanshanng</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
-        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.github.io/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>安卓逆向入门七：Frida入门</title>
-        <link>https://fanshanng.github.io/p/frida/</link>
+        <link>https://fanshanng.cn/p/frida/</link>
         <pubDate>Sun, 28 Sep 2025 22:21:41 +0800</pubDate>
         
-        <guid>https://fanshanng.github.io/p/frida/</guid>
+        <guid>https://fanshanng.cn/p/frida/</guid>
         <description>&lt;img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" alt="Featured image of post 安卓逆向入门七：Frida入门" /&gt;&lt;h1 id=&#34;0x00-什么是frida&#34;&gt;0x00 什么是Frida
 &lt;/h1&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://frida.re/docs/home/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;frida官方文档&lt;/a&gt;&lt;/p&gt;
@@ -23,10 +23,10 @@
         </item>
         <item>
         <title>一次IDA动态调试安卓apk记录</title>
-        <link>https://fanshanng.github.io/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</link>
+        <link>https://fanshanng.cn/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</link>
         <pubDate>Fri, 26 Sep 2025 23:55:59 +0800</pubDate>
         
-        <guid>https://fanshanng.github.io/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</guid>
+        <guid>https://fanshanng.cn/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</guid>
         <description>&lt;img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" alt="Featured image of post 一次IDA动态调试安卓apk记录" /&gt;&lt;h1 id=&#34;一次ida动态调试安卓apk记录&#34;&gt;一次IDA动态调试安卓apk记录
 &lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）&lt;a class=&#34;link&#34; href=&#34;https://pan.baidu.com/share/init?surl=cFWTLn14jeWfpXxlx3syYw&amp;amp;pwd=nqu9&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

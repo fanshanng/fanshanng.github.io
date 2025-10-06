@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Frida on 梵殇-fanshanng</title>
-        <link>https://fanshanng.github.io/tags/frida/</link>
+        <link>https://fanshanng.cn/tags/frida/</link>
         <description>Recent content in Frida on 梵殇-fanshanng</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
-        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.github.io/tags/frida/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/frida/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>安卓逆向入门七：Frida入门</title>
-        <link>https://fanshanng.github.io/p/frida/</link>
+        <link>https://fanshanng.cn/p/frida/</link>
         <pubDate>Sun, 28 Sep 2025 22:21:41 +0800</pubDate>
         
-        <guid>https://fanshanng.github.io/p/frida/</guid>
+        <guid>https://fanshanng.cn/p/frida/</guid>
         <description>&lt;img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" alt="Featured image of post 安卓逆向入门七：Frida入门" /&gt;&lt;h1 id=&#34;0x00-什么是frida&#34;&gt;0x00 什么是Frida
 &lt;/h1&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://frida.re/docs/home/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;frida官方文档&lt;/a&gt;&lt;/p&gt;

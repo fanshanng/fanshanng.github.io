@@ -4,11 +4,11 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的执行（如二进制程序运行、动态库加载）和链接（编译过程中的模块组合），是跨平台二进制兼容的基础。\n">
 <title>安卓逆向入门六：so(ELF)文件分析与ARM基础知识</title>
 
-<link rel='canonical' href='https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+<link rel='canonical' href='https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
 
 <link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="安卓逆向入门六：so(ELF)文件分析与ARM基础知识">
 <meta property='og:description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的执行（如二进制程序运行、动态库加载）和链接（编译过程中的模块组合），是跨平台二进制兼容的基础。\n">
-<meta property='og:url' content='https://fanshanng.github.io/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+<meta property='og:url' content='https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-09-25T22:07:51&#43;08:00'/><meta property='article:modified_time' content='2025-09-25T22:07:51&#43;08:00'/><meta property='og:image' content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png' />
 <meta name="twitter:title" content="安卓逆向入门六：so(ELF)文件分析与ARM基础知识">
@@ -238,9 +238,9 @@
 
                             <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
                                 
-                                    <option value="https://fanshanng.github.io/en/" >English</option>
+                                    <option value="https://fanshanng.cn/en/" >English</option>
                                 
-                                    <option value="https://fanshanng.github.io/" selected>简体中文</option>
+                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
                                 
                             </select>
                         </li>
@@ -1305,7 +1305,7 @@ unicode: "ece7"
 &lt;<style>
   @font-face {
     font-family: '字体名';
-    src: url(https://fanshanng.github.io/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+    src: url(https://fanshanng.cn/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
   }
 
   :root {
@@ -1316,12 +1316,12 @@ unicode: "ece7"
 
 &lt;<style>
   body {
-    background: url(https://fanshanng.github.io/background/4.jpg) no-repeat center top;
+    background: url(https://fanshanng.cn/background/4.jpg) no-repeat center top;
     background-size:cover;
     background-attachment:fixed;
   }
 </style>
-<script src=https://fanshanng.github.io/background/sakura.js></script>
+<script src=https://fanshanng.cn/background/sakura.js></script>
 
 
 
