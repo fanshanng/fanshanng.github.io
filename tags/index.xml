@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
-        <lastBuildDate>Sun, 28 Sep 2025 22:21:41 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 07 Oct 2025 23:31:14 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Ctf</title>
+        <link>https://fanshanng.cn/tags/ctf/</link>
+        <pubDate>Tue, 07 Oct 2025 23:31:14 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/tags/ctf/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Frida</title>
         <link>https://fanshanng.cn/tags/frida/</link>
         <pubDate>Sun, 28 Sep 2025 22:21:41 +0800</pubDate>
