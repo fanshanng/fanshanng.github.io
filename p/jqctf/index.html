@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.cn/p/jqctf/'>
 
-<link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="京麒ctf 2025（复盘中）">
+<link rel="stylesheet" href="/scss/style.min.54c1203df68f3f468037f566fbcba0a60ee602f66cd67e5b312b42d1cc237ff8.css"><meta property='og:title' content="京麒ctf 2025（复盘中）">
 <meta property='og:description' content="热身题 re1 flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}\n注意到如下代码是关键：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 v29 = *(_WORD *)v16; v30 = sub_7FF7D5E81800(v4, 1i64); if ( !v30 ) sub_7FF7D5E9AFA0(1i64, v4); v31 = (_BYTE *)v30; for ( i = 0i64; i != v4; ++i ) { HIWORD(v33) = (v29 &gt;&gt; 2) ^ (v29 &gt;&gt; 3) ^ (v29 &gt;&gt; 1); LOWORD(v33) = v29; v29 = v33 &gt;&gt; 1; v34 = __ROL1__(v33, 4); v35 = (4 * (v34 &amp; 0x33)) | (v34 &gt;&gt; 2) &amp; 0x33; v31[i] = *(_BYTE *)(v16 + i) ^ (i + ((2 * (v35 &amp; 0x55)) | (v35 &gt;&gt; 1) &amp; 0x55)); } if ( v4 == 42 &amp;&amp; !memcmp(v31, &amp;unk_7FF7D5E9C458, 42ui64) ) { sub_7FF7D5E817E0(v31, 42i64, 1i64); v39 = &amp;off_7FF7D5E9C4A0; Src = (void *)1; v41 = 8i64; v42 = 0i64; sub_7FF7D5E85750(&amp;v39); } else { sub_7FF7D5E817E0(v31, v4, 1i64); v39 = (void **)&amp;off_7FF7D5E9C488; Src = (void *)1; v41 = 8i64; v42 = 0i64; sub_7FF7D5E85750(&amp;v39); } 其实就是对输入做了xor，用的序列也是由输入的前两个字节+下标生成，那么z3就是一个很自然的想法。偷懒用AI写的代码。注意需要限制开头字符是flag才能解出唯一解，或者用cfbb的这个办法获取所有解。\n">
 <meta property='og:url' content='https://fanshanng.cn/p/jqctf/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
@@ -1162,13 +1162,7 @@ unicode: "ece7"
   }
 </style>
 
-&lt;<style>
-  body {
-    background: url(https://fanshanng.cn/background/20190315194346_lmxxz.jpeg) no-repeat center top;
-    background-size:cover;
-    background-attachment:fixed;
-  }
-</style>
+
 <script src=https://fanshanng.cn/background/sakura.js></script>
 
 
