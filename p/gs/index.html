@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一、手机端下载并配置光速虚拟机 3.8.2 1.下载模拟器：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。\n">
+<title>光速虚拟机3.8.2 root及adb远程连接操作</title>
+
+<link rel='canonical' href='https://fanshanng.cn/p/gs/'>
+
+<link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="光速虚拟机3.8.2 root及adb远程连接操作">
+<meta property='og:description' content="一、手机端下载并配置光速虚拟机 3.8.2 1.下载模拟器：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。\n">
+<meta property='og:url' content='https://fanshanng.cn/p/gs/'>
+<meta property='og:site_name' content='梵殇-fanshanng'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='光速虚拟机' /><meta property='article:tag' content='root' /><meta property='article:tag' content='wifiadb' /><meta property='article:published_time' content='2025-09-23T00:37:06&#43;08:00'/><meta property='article:modified_time' content='2025-09-23T00:37:06&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs' />
+<meta name="twitter:title" content="光速虚拟机3.8.2 root及adb远程连接操作">
+<meta name="twitter:description" content="一、手机端下载并配置光速虚拟机 3.8.2 1.下载模拟器：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_da797e92928a0a0e.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
+            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/433824520'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/fanshanng'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 24 24"><path fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" data-swindex="0" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://fanshanng.cn/en/" >English</option>
+                                
+                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                <li id="dark-mode-toggle">
+                    <!--
+tags: [temperature, hot, wheater, thermometer, forecast]
+category: Weather
+version: "1.73"
+unicode: "f236"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg>
+
+                    <!--
+tags: [night, dark mode]
+category: Weather
+version: "1.21"
+unicode: "ece7"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+  <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+  <path d="M19 11h2m-1 -1v2" />
+</svg>
+
+                    <span>暗色模式</span>
+                </li>
+                
+                
+
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一手机端下载并配置光速虚拟机-382">一、手机端下载并配置光速虚拟机 3.8.2</a></li>
+    <li><a href="#二安装-magisk250-完成-root">二、安装 Magisk25.0 完成 root</a></li>
+    <li><a href="#三在安卓-10-实例内开启开发者模式与-usb-调试">三、在安卓 10 实例内开启开发者模式与 USB 调试</a></li>
+    <li><a href="#四电脑端通过-adb-远程连接手机">四、电脑端通过 adb 远程连接手机</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/gs/">
+                
+                    <img src="https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs" loading="lazy" alt="Featured image of post 光速虚拟机3.8.2 root及adb远程连接操作" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" >
+                安卓逆向
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/gs/">光速虚拟机3.8.2 root及adb远程连接操作</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">
+                    
+                    发布于2025-09-23</time>
+            </div>
+        
+
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    
+                    
+                    
+                    约6分钟，共1213字
+                </time>
+            </div>
+        
+
+        
+        <div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-pageview">
+                <span class="waline-pageview-count" data-path="/p/gs/">0</span> 次浏览
+            </time>
+        </div>
+
+        
+        <div>
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
+            <time class="article-comment">
+                <span class="waline-comment-count" data-path="/p/gs/">0</span> 条评论
+            </time>
+        </div>
+
+    </footer>
+    
+
+    
+
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="一手机端下载并配置光速虚拟机-382">一、手机端下载并配置光速虚拟机 3.8.2
+</h2><p><strong>1.下载模拟器</strong>：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0d0ec8f8a4bd5a1224ab0a3e53c77f6.jpg"
+	
+	
+	
+	loading="lazy"
+	
+	
+><strong>2.创建安卓 10 实例</strong>：进入模拟器主界面，点击 “新建实例”，在系统版本选项中选择 “安卓 10”，等待实例创建完成（过程需耐心等待，避免中途退出)。</p>
+<p><strong>3.开启 root 相关权限</strong>：</p>
+<ul>
+<li>进入已创建的安卓 10 实例，在实例浮窗内找到 “设置” 图标，进入后依次开启 “Magisk 支持” 和 “超级用户” 功能。</li>
+</ul>
+<p><strong>4.调整网络设置</strong>：</p>
+<ul>
+<li>因使用手机自身流量（路由器不支持远程 adb），需关闭网络隔离：进入浮窗内的 “设置 - 网络设置”，找到 “本地网络隔离” 选项，将其关闭（防止流量网络被隔离，影响后续连接）。</li>
+</ul>
+<h2 id="二安装-magisk250-完成-root">二、安装 Magisk25.0 完成 root
+</h2><ol>
+<li>
+<p><strong>下载指定版本 Magisk</strong>：在安卓 10 实例内，通过浏览器访问 Magisk 官网旧版本页面，下载 “Magisk25.0” 安装包（高版本不兼容光速虚拟机 3.8.2，需严格选择 25.0 版本，其余低版本未曾尝试，可能也支持）。
+<img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/628b7787ff11043aa07df1cb4496dc89.jpg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p><strong>安装 Magisk</strong>：</p>
+</li>
+</ol>
+<ul>
+<li>找到下载好的 Magisk25.0 安装包，点击Magisk处的“安装”，弹出安装界面后直接点击 “下一步”，在安装方式中选择 “直接安装（推荐）”，等待安装进度完成。</li>
+</ul>
+<ol>
+<li><strong>重启验证 root</strong>：</li>
+</ol>
+<ul>
+<li>安装完成后，按照提示重启安卓 10 实例；重启后先关闭实例内的 “超级用户” 功能，再重启，此时 root 操作完成（可通过实例内的 Magisk 应用查看 “已安装” 状态，确认 root 成功）。</li>
+</ul>
+<h2 id="三在安卓-10-实例内开启开发者模式与-usb-调试">三、在安卓 10 实例内开启开发者模式与 USB 调试
+</h2><ol>
+<li>
+<p><strong>进入 “关于手机”</strong>：在安卓 10 实例内打开 “设置”，滑动至底部找到 “关于手机” 选项，点击进入。</p>
+</li>
+<li>
+<p><strong>触发开发者模式</strong>：在 “关于手机” 页面中，找到 “版本号” 选项，连续点击 7 次 “版本号”，此时会弹出 “您现在处于开发者模式！” 的提示（若弹出验证密码 / 指纹，按实例内设置完成验证即可）。</p>
+</li>
+<li>
+<p><strong>开启 USB 调试</strong>：返回 “设置” 主界面，找到 “系统” 选项；点击进入 “开发者选项”，找到 “USB 调试” 选项并开启（部分系统需勾选 “允许 USB 调试” 弹窗，点击 “确定” 即可）。</p>
+</li>
+</ol>
+<h2 id="四电脑端通过-adb-远程连接手机">四、电脑端通过 adb 远程连接手机
+</h2><ol>
+<li>
+<p><strong>准备工作</strong>：确保电脑已提前下载并配置好 adb 环境（adb 工具包路径已添加至系统环境变量，可通过 “cmd 输入 adb &ndash;version” 验证配置）。</p>
+</li>
+<li>
+<p><strong>建立网络连接</strong>：</p>
+</li>
+</ol>
+<ul>
+<li>打开手机的 “个人热点”，将电脑连接至该热点（确保手机与电脑处于同一热点网络，替代不支持 adb 的路由器）。</li>
+</ul>
+<ol>
+<li><strong>获取手机 IP</strong>：</li>
+</ol>
+<ul>
+<li>在手机 “设置 - 无线和网络 - 个人热点” 中，查看热点的 “已连接设备” 或 “网络详情”，记录手机当前的 IP 地址（如 10.77.xx.xx）。</li>
+</ul>
+<ol>
+<li><strong>执行 adb 连接命令</strong>：</li>
+</ol>
+<ul>
+<li>
+<p>打开电脑的命令提示符（CMD），输入命令：<code>adb connect 手机IP:6556</code>（将 “手机 IP” 替换为实际记录的地址，如<code>adb connect 10.77.xx.xx:6556</code>）。</p>
+</li>
+<li>
+<p>若一切正常此时手机会弹出提示，点击确认即可。</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250923004414.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>若命令行显示 “connected to 手机 IP:6556”，则表示远程 adb 调试连接成功，可开始进行后续调试操作。</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/324bf2ba9613fad56c221f3071f240cb.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>下载用的模拟器以及magisk：</p>
+<p><a class="link" href="https://pan.baidu.com/s/1ePYYJIPQXNRKJyA9qJclWA?pwd=kdcq"  target="_blank" rel="noopener"
+    >https://pan.baidu.com/s/1ePYYJIPQXNRKJyA9qJclWA?pwd=kdcq</a> 提取码: kdcq</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%85%89%E9%80%9F%E8%99%9A%E6%8B%9F%E6%9C%BA/">光速虚拟机</a>
+        
+            <a href="/tags/root/">Root</a>
+        
+            <a href="/tags/wifiadb/">Wifiadb</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/ar1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg" loading="lazy" data-key="ar1" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向学习一</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/frida/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" loading="lazy" data-key="frida" data-hash="https://img.scwcd.cn/markdown/27lh0p36.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门七：Frida入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" loading="lazy" data-key="" data-hash="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一次IDA动态调试安卓apk记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" loading="lazy" data-key="ar6" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门六：so(ELF)文件分析与ARM基础知识</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar5/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" loading="lazy" data-key="ar5" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门五：Xposed和hook入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"requiredMeta":["name","email","url"],"serverURL":"https://comment.fanshanng.cn"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 梵殇-fanshanng
+    </section>
+    
+    <section class="powerby">
+        
+            前途似海，来日方长。 <br/>
+         <br />
+        
+    </section>
+
+<section class="visits" style="display: none;"> 
+    Visits: <span class="waline-index-count breathe" 
+                 waline-url="https://comment.fanshanng.cn" 
+                 data-path="/404.html" 
+                 style="font-weight: bold;">0</span>
+</section>
+
+    <script src="/js/waline-stats.js" defer></script>
+
+
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.cn/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
+&lt;<style>
+  body {
+    background: url(https://fanshanng.cn/background/4.jpg) no-repeat center top;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+</style>
+<script src=https://fanshanng.cn/background/sakura.js></script>
+
+
+
+
+    </body>
+</html>

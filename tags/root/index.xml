@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Root on 梵殇-fanshanng</title>
+        <link>https://fanshanng.cn/tags/root/</link>
+        <description>Recent content in Root on 梵殇-fanshanng</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>梵殇-fanshanng</copyright>
+        <lastBuildDate>Tue, 23 Sep 2025 00:37:06 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/root/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>光速虚拟机3.8.2 root及adb远程连接操作</title>
+        <link>https://fanshanng.cn/p/gs/</link>
+        <pubDate>Tue, 23 Sep 2025 00:37:06 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/p/gs/</guid>
+        <description>&lt;img src="https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs" alt="Featured image of post 光速虚拟机3.8.2 root及adb远程连接操作" /&gt;&lt;h2 id=&#34;一手机端下载并配置光速虚拟机-382&#34;&gt;一、手机端下载并配置光速虚拟机 3.8.2
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;1.下载模拟器&lt;/strong&gt;：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0d0ec8f8a4bd5a1224ab0a3e53c77f6.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;strong&gt;2.创建安卓 10 实例&lt;/strong&gt;：进入模拟器主界面，点击 “新建实例”，在系统版本选项中选择 “安卓 10”，等待实例创建完成（过程需耐心等待，避免中途退出)。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3.开启 root 相关权限&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进入已创建的安卓 10 实例，在实例浮窗内找到 “设置” 图标，进入后依次开启 “Magisk 支持” 和 “超级用户” 功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;4.调整网络设置&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;因使用手机自身流量（路由器不支持远程 adb），需关闭网络隔离：进入浮窗内的 “设置 - 网络设置”，找到 “本地网络隔离” 选项，将其关闭（防止流量网络被隔离，影响后续连接）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;二安装-magisk250-完成-root&#34;&gt;二、安装 Magisk25.0 完成 root
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;下载指定版本 Magisk&lt;/strong&gt;：在安卓 10 实例内，通过浏览器访问 Magisk 官网旧版本页面，下载 “Magisk25.0” 安装包（高版本不兼容光速虚拟机 3.8.2，需严格选择 25.0 版本，其余低版本未曾尝试，可能也支持）。
+&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/628b7787ff11043aa07df1cb4496dc89.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;安装 Magisk&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;找到下载好的 Magisk25.0 安装包，点击Magisk处的“安装”，弹出安装界面后直接点击 “下一步”，在安装方式中选择 “直接安装（推荐）”，等待安装进度完成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;重启验证 root&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;安装完成后，按照提示重启安卓 10 实例；重启后先关闭实例内的 “超级用户” 功能，再重启，此时 root 操作完成（可通过实例内的 Magisk 应用查看 “已安装” 状态，确认 root 成功）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三在安卓-10-实例内开启开发者模式与-usb-调试&#34;&gt;三、在安卓 10 实例内开启开发者模式与 USB 调试
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;进入 “关于手机”&lt;/strong&gt;：在安卓 10 实例内打开 “设置”，滑动至底部找到 “关于手机” 选项，点击进入。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;触发开发者模式&lt;/strong&gt;：在 “关于手机” 页面中，找到 “版本号” 选项，连续点击 7 次 “版本号”，此时会弹出 “您现在处于开发者模式！” 的提示（若弹出验证密码 / 指纹，按实例内设置完成验证即可）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;开启 USB 调试&lt;/strong&gt;：返回 “设置” 主界面，找到 “系统” 选项；点击进入 “开发者选项”，找到 “USB 调试” 选项并开启（部分系统需勾选 “允许 USB 调试” 弹窗，点击 “确定” 即可）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;四电脑端通过-adb-远程连接手机&#34;&gt;四、电脑端通过 adb 远程连接手机
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;准备工作&lt;/strong&gt;：确保电脑已提前下载并配置好 adb 环境（adb 工具包路径已添加至系统环境变量，可通过 “cmd 输入 adb &amp;ndash;version” 验证配置）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;建立网络连接&lt;/strong&gt;：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;打开手机的 “个人热点”，将电脑连接至该热点（确保手机与电脑处于同一热点网络，替代不支持 adb 的路由器）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;获取手机 IP&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;在手机 “设置 - 无线和网络 - 个人热点” 中，查看热点的 “已连接设备” 或 “网络详情”，记录手机当前的 IP 地址（如 10.77.xx.xx）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;执行 adb 连接命令&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;打开电脑的命令提示符（CMD），输入命令：&lt;code&gt;adb connect 手机IP:6556&lt;/code&gt;（将 “手机 IP” 替换为实际记录的地址，如&lt;code&gt;adb connect 10.77.xx.xx:6556&lt;/code&gt;）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;若一切正常此时手机会弹出提示，点击确认即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250923004414.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;若命令行显示 “connected to 手机 IP:6556”，则表示远程 adb 调试连接成功，可开始进行后续调试操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/324bf2ba9613fad56c221f3071f240cb.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下载用的模拟器以及magisk：&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://pan.baidu.com/s/1ePYYJIPQXNRKJyA9qJclWA?pwd=kdcq&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://pan.baidu.com/s/1ePYYJIPQXNRKJyA9qJclWA?pwd=kdcq&lt;/a&gt; 提取码: kdcq&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>安卓逆向学习一</title>
+        <link>https://fanshanng.cn/p/ar1/</link>
+        <pubDate>Sun, 25 May 2025 16:15:22 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/p/ar1/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg" alt="Featured image of post 安卓逆向学习一" /&gt;&lt;h1 id=&#34;安卓逆向入门一&#34;&gt;安卓逆向入门一
+&lt;/h1&gt;&lt;h2 id=&#34;0x01-前置&#34;&gt;0x01 前置
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;下载&lt;strong&gt;migisk&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Magisk（俗称面具），是一个ROOT工具。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它提供了多种功能，包括但不限于：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-apl&#34; data-lang=&#34;apl&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;MagiskSU&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;提供应用程序的&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;访问权限。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;Magisk&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;模块&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;通过安装模块来修改只读分区。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;MagiskBoot&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;用于解包和重新打包&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;Android&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;启动镜像的最完整工具。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;Zygisk&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;在每个&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;Android&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;应用程序的进程中运行代码。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;不要去&lt;a class=&#34;link&#34; href=&#34;https://magiskcn.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Magisk中文网&lt;/a&gt;&lt;/strong&gt;,这里用的是正己提供的安装包&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524081513729.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250524081513729&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这里如果下载失败的话，可以去设置里修改下图选项&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524081618279.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250524081618279&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524082215789.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250524082215789&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;0x02-apk的文件结构&#34;&gt;0x02 apk的文件结构
+&lt;/h2&gt;&lt;h3 id=&#34;apk结构&#34;&gt;Apk结构
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;apk&lt;/strong&gt; 全称 &lt;strong&gt;Android Package&lt;/strong&gt;，它相当于一个压缩文件，只要在电脑上将apk后缀改为zip即可解压。&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;文件&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;注释&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;assets目录&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;存放APK的静态资源文件，比如视频，音频，图片等&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;lib 目录&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;armeabi-v7a基本通用所有android设备，arm64-v8a只适用于64位的android设备，x86常见用于android模拟器，其目录下的.so文件是c或c++编译的动态链接库文件&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;META-INF目录&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;保存应用的签名信息，签名信息可以验证APK文件的完整性，相当于APK的身份证(验证文件是否又被修改)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;res目录&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;res目录存放资源文件，包括图片，字符串等等，APK的脸蛋由他的layout文件设计&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;AndroidManifest.xml文件&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;APK的应用清单信息，它描述了应用的名字，版本，权限，引用的库文件等等信息&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;classes.dex文件&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;classes.dex是java源码编译后生成的java字节码文件，APK运行的主要逻辑&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;resources.arsc文件&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;resources.arsc是编译后的二进制资源文件，它是一个映射表，映射着资源和id，通过R文件中的id就可以找到对应的资源&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524083039265.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250524083039265&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;demo实例中另外出现的&lt;strong&gt;kotlin&lt;/strong&gt;代表这个apk文件大概是有&lt;strong&gt;kotlin&lt;/strong&gt;语言编写，&lt;strong&gt;OkHttp&lt;/strong&gt; 是一个流行的&lt;strong&gt;开源 HTTP 客户端库&lt;/strong&gt;，&lt;strong&gt;用于发送和接收网络请求。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Kotlin&lt;/strong&gt; 是一种在 Java 虚拟机上运行的&lt;strong&gt;静态类型编程语言&lt;/strong&gt;，被称之为 Android 世界的Swift，由 JetBrains 设计开发并开源。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Kotlin 可以编译成Java字节码，也可以编译成 JavaScript，方便在没有 JVM 的设备上运行。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;0x03-双开及原理&#34;&gt;0x03 双开及原理
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;指手机同时运行两个或多个相同的应用&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u014294681/article/details/116270479&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;【VirtualAPP 双开系列08】如何实现多开 - UID&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;blockquote&gt;
+&lt;p&gt;通过在宿主容器上面&lt;strong&gt;新建一个进程供插件 APK 寄宿&lt;/strong&gt;，然后通过 &lt;strong&gt;hook 一些系统接口欺骗应用&lt;/strong&gt;—让&lt;strong&gt;虚拟化后应用以为自己是正常运行的独立 APP&lt;/strong&gt;，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;原理&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;解释&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;修改包名&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;让手机系统认为这是2个APP，这样的话就能生成2个数据存储路径，此时的多开就等于你打开了两个互不干扰的APP&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;修改Framework&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;对于有系统修改权限的厂商，可以修改Framework来实现双开的目的，例如：小米自带多开&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;通过虚拟化技术实现&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;虚拟Framework层、虚拟文件系统、模拟Android对组件的管理、虚拟应用进程管理 等一整套虚拟技术，将APK复制一份到虚拟空间中运行，例如：平行空间&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;以插件机制运行&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;利用反射替换，动态代{过}{滤}理，hook了系统的大部分与system—server进程通讯的函数，以此作为“欺上瞒下”的目的，欺骗系统“以为”只有一个apk在运行，瞒过插件让其“认为”自己已经安装。例如：VirtualApp&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250524090006213.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;0x04-汉化apk&#34;&gt;0x04 汉化APK
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;1.Arsc汉化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2.xml汉化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;3.Dex汉化
+(&lt;del&gt;教程里的汉化插件需要vip，我这里是手动改的，知道原理就行&lt;/del&gt;)&lt;/p&gt;
+&lt;p&gt;教程中用到的主要就是在mt管理器或者np管理器中对文件进行字符串搜索（管理器中设置了自动签名），如果手动的话，可以反编译改源码等
+&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/Nobody_else_/article/details/83996441&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;apk安装包快速反编译，多种反编译及失败的解决方案&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这是汉化前⬇&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250525153149550.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这是汉化（&lt;del&gt;手改&lt;/del&gt;）后⬇&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250525153131255.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;0x05-初识androidmanifestxml&#34;&gt;0x05 初识AndroidManifest.xml
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;AndroidManifest.xml&lt;/strong&gt;是Android应用的入口文件，它描述了&lt;strong&gt;package中暴露的组件&lt;/strong&gt;（activities, services, 等等），他们各自的实现类，各种能被处理的数据和启动位置。 除了能声明程序中的Activities, ContentProviders, Services, 和Intent Receivers,还能指定permissions和instrumentation（安全控制和测试）。&lt;/p&gt;
+&lt;p&gt;注：&lt;strong&gt;这里文件名不能修改&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/shujk/p/14961572.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AndroidManifest.xml 最全详解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;AndroidManifest.xml&lt;/strong&gt;文件主要包含以下几个元素：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;&lt;strong&gt;元素&lt;/strong&gt;&lt;/th&gt;
+          &lt;th&gt;&lt;strong&gt;功能描述&lt;/strong&gt;&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u013560890/article/details/81263002&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;action&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;添加一个&lt;code&gt;action&lt;/code&gt;到&lt;code&gt;intent filter&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u013560890/article/details/81277233&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;activity&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;声明 activity组件&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;activity-alias&lt;/td&gt;
+          &lt;td&gt;声明activity别名&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;application&lt;/td&gt;
+          &lt;td&gt;声明应用程序&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;category&lt;/td&gt;
+          &lt;td&gt;添加一个&lt;code&gt;category&lt;/code&gt;名称到&lt;code&gt;intent filter&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;compatible-screens&lt;/td&gt;
+          &lt;td&gt;定义应用所兼容的每种屏幕配置&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;data&lt;/td&gt;
+          &lt;td&gt;添加数据定义到&lt;code&gt;intent filter&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;grant-uri-permission&lt;/td&gt;
+          &lt;td&gt;定义应用数据的子集以供父内容提供者有权限可以访问&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;instrumentation&lt;/td&gt;
+          &lt;td&gt;声明&lt;strong&gt;Instrumentation&lt;/strong&gt;工具类并是您可以监控应用程序的交互系统&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;intent-filter&lt;/td&gt;
+          &lt;td&gt;定义activity、service或者是broadcast receiver可以响应的意图（intent）类型，&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;manifest&lt;/td&gt;
+          &lt;td&gt;AndroidManifest.xml文件中的根元素&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;meta-data&lt;/td&gt;
+          &lt;td&gt;一条额外添加的&lt;strong&gt;名称-值&lt;/strong&gt;对，可以给父组件提供任意的数据。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;path-permission&lt;/td&gt;
+          &lt;td&gt;在content provider内定义所需路径和权限特定子集数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;permission&lt;/td&gt;
+          &lt;td&gt;声明一个安全权限，可以用来限制访问特定应用的组件或功能&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;permission-group&lt;/td&gt;
+          &lt;td&gt;声明一个相关权限的逻辑组名称&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;permission-tree&lt;/td&gt;
+          &lt;td&gt;声明权限树的基础名称&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;provider&lt;/td&gt;
+          &lt;td&gt;声明一个内容提供者(content provider)组件&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;receiver&lt;/td&gt;
+          &lt;td&gt;声明一个广播接收器(broadcast receiver)组件&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;service&lt;/td&gt;
+          &lt;td&gt;声明一个服务(service)组件&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;supports-gl-texture&lt;/td&gt;
+          &lt;td&gt;声明一种应用单一支持的GL纹理(texture)压缩格式&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;supports-screens&lt;/td&gt;
+          &lt;td&gt;声明应用所支持的屏幕尺寸大小以及在启用兼容模式下系统屏幕超出应用所支持的尺寸&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-configuration&lt;/td&gt;
+          &lt;td&gt;声明应用程序的软硬件需求&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-feature&lt;/td&gt;
+          &lt;td&gt;声明应用程序需要用到的软、硬件特性。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-library&lt;/td&gt;
+          &lt;td&gt;指定应用程序必须引用的共享库&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-permission&lt;/td&gt;
+          &lt;td&gt;指定了让应用程序正常运行，用户必须授予的系统权限。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-permission-sdk-23&lt;/td&gt;
+          &lt;td&gt;指定了应用程序在Android 6.0以上所需的特定权限&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;uses-sdk&lt;/td&gt;
+          &lt;td&gt;通过API整数值来声明应用程序所兼容的Android平台版&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.bookstack.cn/read/mt-manual/80b8084f6be128c0.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MT管理器使用手册&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://bbs.kanxue.com/thread-285906.htm&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Android逆向0基础入门-APK全面解析,动调与脱壳&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

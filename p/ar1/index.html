@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Android Reverse Learning">
+<title>安卓逆向学习一</title>
+
+<link rel='canonical' href='https://fanshanng.cn/p/ar1/'>
+
+<link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="安卓逆向学习一">
+<meta property='og:description' content="Android Reverse Learning">
+<meta property='og:url' content='https://fanshanng.cn/p/ar1/'>
+<meta property='og:site_name' content='梵殇-fanshanng'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安卓' /><meta property='article:tag' content='root' /><meta property='article:published_time' content='2025-05-25T16:15:22&#43;08:00'/><meta property='article:modified_time' content='2025-05-25T16:15:22&#43;08:00'/><meta property='og:image' content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg' />
+<meta name="twitter:title" content="安卓逆向学习一">
+<meta name="twitter:description" content="Android Reverse Learning"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_da797e92928a0a0e.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
+            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/433824520'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/fanshanng'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 24 24"><path fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" data-swindex="0" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://fanshanng.cn/en/" >English</option>
+                                
+                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                <li id="dark-mode-toggle">
+                    <!--
+tags: [temperature, hot, wheater, thermometer, forecast]
+category: Weather
+version: "1.73"
+unicode: "f236"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg>
+
+                    <!--
+tags: [night, dark mode]
+category: Weather
+version: "1.21"
+unicode: "ece7"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+  <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+  <path d="M19 11h2m-1 -1v2" />
+</svg>
+
+                    <span>暗色模式</span>
+                </li>
+                
+                
+
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#0x01-前置">0x01 前置</a></li>
+    <li><a href="#0x02-apk的文件结构">0x02 apk的文件结构</a>
+      <ol>
+        <li><a href="#apk结构">Apk结构</a></li>
+      </ol>
+    </li>
+    <li><a href="#0x03-双开及原理">0x03 双开及原理</a></li>
+    <li><a href="#0x04-汉化apk">0x04 汉化APK</a></li>
+    <li><a href="#0x05-初识androidmanifestxml">0x05 初识AndroidManifest.xml</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/ar1/">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg" loading="lazy" alt="Featured image of post 安卓逆向学习一" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" >
+                安卓逆向
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/ar1/">安卓逆向学习一</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Android Reverse Learning
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">
+                    
+                    发布于2025-05-25</time>
+            </div>
+        
+
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    
+                    
+                    
+                    约11分钟，共2434字
+                </time>
+            </div>
+        
+
+        
+        <div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-pageview">
+                <span class="waline-pageview-count" data-path="/p/ar1/">0</span> 次浏览
+            </time>
+        </div>
+
+        
+        <div>
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
+            <time class="article-comment">
+                <span class="waline-comment-count" data-path="/p/ar1/">0</span> 条评论
+            </time>
+        </div>
+
+    </footer>
+    
+
+    
+
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="安卓逆向入门一">安卓逆向入门一
+</h1><h2 id="0x01-前置">0x01 前置
+</h2><ul>
+<li>
+<p>下载<strong>migisk</strong></p>
+</li>
+<li>
+<p>Magisk（俗称面具），是一个ROOT工具。</p>
+<ul>
+<li>它提供了多种功能，包括但不限于：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-apl" data-lang="apl"><span class="line"><span class="cl"><span class="nv">MagiskSU</span><span class="bp">:</span> <span class="err">提供应用程序的</span> <span class="nv">root</span> <span class="err">访问权限。</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Magisk</span> <span class="err">模块</span><span class="bp">:</span> <span class="err">通过安装模块来修改只读分区。</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MagiskBoot</span><span class="bp">:</span> <span class="err">用于解包和重新打包</span> <span class="nv">Android</span> <span class="err">启动镜像的最完整工具。</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Zygisk</span><span class="bp">:</span> <span class="err">在每个</span> <span class="nv">Android</span> <span class="err">应用程序的进程中运行代码。</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>不要去<a class="link" href="https://magiskcn.com/"  target="_blank" rel="noopener"
+    >Magisk中文网</a></strong>,这里用的是正己提供的安装包</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524081513729.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20250524081513729"
+	
+	
+></p>
+<p>这里如果下载失败的话，可以去设置里修改下图选项<img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524081618279.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20250524081618279"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524082215789.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20250524082215789"
+	
+	
+></p>
+<h2 id="0x02-apk的文件结构">0x02 apk的文件结构
+</h2><h3 id="apk结构">Apk结构
+</h3><p><strong>apk</strong> 全称 <strong>Android Package</strong>，它相当于一个压缩文件，只要在电脑上将apk后缀改为zip即可解压。</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">文件</th>
+          <th style="text-align: left">注释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">assets目录</td>
+          <td style="text-align: left">存放APK的静态资源文件，比如视频，音频，图片等</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">lib 目录</td>
+          <td style="text-align: left">armeabi-v7a基本通用所有android设备，arm64-v8a只适用于64位的android设备，x86常见用于android模拟器，其目录下的.so文件是c或c++编译的动态链接库文件</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">META-INF目录</td>
+          <td style="text-align: left">保存应用的签名信息，签名信息可以验证APK文件的完整性，相当于APK的身份证(验证文件是否又被修改)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">res目录</td>
+          <td style="text-align: left">res目录存放资源文件，包括图片，字符串等等，APK的脸蛋由他的layout文件设计</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">AndroidManifest.xml文件</td>
+          <td style="text-align: left">APK的应用清单信息，它描述了应用的名字，版本，权限，引用的库文件等等信息</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">classes.dex文件</td>
+          <td style="text-align: left">classes.dex是java源码编译后生成的java字节码文件，APK运行的主要逻辑</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">resources.arsc文件</td>
+          <td style="text-align: left">resources.arsc是编译后的二进制资源文件，它是一个映射表，映射着资源和id，通过R文件中的id就可以找到对应的资源</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250524083039265.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20250524083039265"
+	
+	
+></p>
+<ul>
+<li>demo实例中另外出现的<strong>kotlin</strong>代表这个apk文件大概是有<strong>kotlin</strong>语言编写，<strong>OkHttp</strong> 是一个流行的<strong>开源 HTTP 客户端库</strong>，<strong>用于发送和接收网络请求。</strong></li>
+</ul>
+<blockquote>
+<p><strong>Kotlin</strong> 是一种在 Java 虚拟机上运行的<strong>静态类型编程语言</strong>，被称之为 Android 世界的Swift，由 JetBrains 设计开发并开源。</p>
+<p><strong>Kotlin 可以编译成Java字节码，也可以编译成 JavaScript，方便在没有 JVM 的设备上运行。</strong></p>
+<p>在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。</p></blockquote>
+<h2 id="0x03-双开及原理">0x03 双开及原理
+</h2><ul>
+<li>
+<p><strong>指手机同时运行两个或多个相同的应用</strong></p>
+</li>
+<li>
+<p><a class="link" href="https://blog.csdn.net/u014294681/article/details/116270479"  target="_blank" rel="noopener"
+    >【VirtualAPP 双开系列08】如何实现多开 - UID</a></p>
+</li>
+<li>
+<blockquote>
+<p>通过在宿主容器上面<strong>新建一个进程供插件 APK 寄宿</strong>，然后通过 <strong>hook 一些系统接口欺骗应用</strong>—让<strong>虚拟化后应用以为自己是正常运行的独立 APP</strong>，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。</p></blockquote>
+</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">原理</th>
+          <th style="text-align: left">解释</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">修改包名</td>
+          <td style="text-align: left">让手机系统认为这是2个APP，这样的话就能生成2个数据存储路径，此时的多开就等于你打开了两个互不干扰的APP</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">修改Framework</td>
+          <td style="text-align: left">对于有系统修改权限的厂商，可以修改Framework来实现双开的目的，例如：小米自带多开</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">通过虚拟化技术实现</td>
+          <td style="text-align: left">虚拟Framework层、虚拟文件系统、模拟Android对组件的管理、虚拟应用进程管理 等一整套虚拟技术，将APK复制一份到虚拟空间中运行，例如：平行空间</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">以插件机制运行</td>
+          <td style="text-align: left">利用反射替换，动态代{过}{滤}理，hook了系统的大部分与system—server进程通讯的函数，以此作为“欺上瞒下”的目的，欺骗系统“以为”只有一个apk在运行，瞒过插件让其“认为”自己已经安装。例如：VirtualApp</td>
+      </tr>
+  </tbody>
+</table></div>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250524090006213.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="0x04-汉化apk">0x04 汉化APK
+</h2><ul>
+<li>
+<p>1.Arsc汉化</p>
+</li>
+<li>
+<p>2.xml汉化</p>
+</li>
+<li>
+<p>3.Dex汉化
+(<del>教程里的汉化插件需要vip，我这里是手动改的，知道原理就行</del>)</p>
+<p>教程中用到的主要就是在mt管理器或者np管理器中对文件进行字符串搜索（管理器中设置了自动签名），如果手动的话，可以反编译改源码等
+<a class="link" href="https://blog.csdn.net/Nobody_else_/article/details/83996441"  target="_blank" rel="noopener"
+    >apk安装包快速反编译，多种反编译及失败的解决方案</a></p>
+<p>这是汉化前⬇</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250525153149550.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+<p>这是汉化（<del>手改</del>）后⬇</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250525153131255.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="0x05-初识androidmanifestxml">0x05 初识AndroidManifest.xml
+</h2><p><strong>AndroidManifest.xml</strong>是Android应用的入口文件，它描述了<strong>package中暴露的组件</strong>（activities, services, 等等），他们各自的实现类，各种能被处理的数据和启动位置。 除了能声明程序中的Activities, ContentProviders, Services, 和Intent Receivers,还能指定permissions和instrumentation（安全控制和测试）。</p>
+<p>注：<strong>这里文件名不能修改</strong></p>
+<ul>
+<li><a class="link" href="https://www.cnblogs.com/shujk/p/14961572.html"  target="_blank" rel="noopener"
+    >AndroidManifest.xml 最全详解</a></li>
+</ul>
+<p><strong>AndroidManifest.xml</strong>文件主要包含以下几个元素：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><strong>元素</strong></th>
+          <th><strong>功能描述</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a class="link" href="https://blog.csdn.net/u013560890/article/details/81263002"  target="_blank" rel="noopener"
+    >action</a></td>
+          <td>添加一个<code>action</code>到<code>intent filter</code></td>
+      </tr>
+      <tr>
+          <td><a class="link" href="https://blog.csdn.net/u013560890/article/details/81277233"  target="_blank" rel="noopener"
+    >activity</a></td>
+          <td>声明 activity组件</td>
+      </tr>
+      <tr>
+          <td>activity-alias</td>
+          <td>声明activity别名</td>
+      </tr>
+      <tr>
+          <td>application</td>
+          <td>声明应用程序</td>
+      </tr>
+      <tr>
+          <td>category</td>
+          <td>添加一个<code>category</code>名称到<code>intent filter</code></td>
+      </tr>
+      <tr>
+          <td>compatible-screens</td>
+          <td>定义应用所兼容的每种屏幕配置</td>
+      </tr>
+      <tr>
+          <td>data</td>
+          <td>添加数据定义到<code>intent filter</code></td>
+      </tr>
+      <tr>
+          <td>grant-uri-permission</td>
+          <td>定义应用数据的子集以供父内容提供者有权限可以访问</td>
+      </tr>
+      <tr>
+          <td>instrumentation</td>
+          <td>声明<strong>Instrumentation</strong>工具类并是您可以监控应用程序的交互系统</td>
+      </tr>
+      <tr>
+          <td>intent-filter</td>
+          <td>定义activity、service或者是broadcast receiver可以响应的意图（intent）类型，</td>
+      </tr>
+      <tr>
+          <td>manifest</td>
+          <td>AndroidManifest.xml文件中的根元素</td>
+      </tr>
+      <tr>
+          <td>meta-data</td>
+          <td>一条额外添加的<strong>名称-值</strong>对，可以给父组件提供任意的数据。</td>
+      </tr>
+      <tr>
+          <td>path-permission</td>
+          <td>在content provider内定义所需路径和权限特定子集数据</td>
+      </tr>
+      <tr>
+          <td>permission</td>
+          <td>声明一个安全权限，可以用来限制访问特定应用的组件或功能</td>
+      </tr>
+      <tr>
+          <td>permission-group</td>
+          <td>声明一个相关权限的逻辑组名称</td>
+      </tr>
+      <tr>
+          <td>permission-tree</td>
+          <td>声明权限树的基础名称</td>
+      </tr>
+      <tr>
+          <td>provider</td>
+          <td>声明一个内容提供者(content provider)组件</td>
+      </tr>
+      <tr>
+          <td>receiver</td>
+          <td>声明一个广播接收器(broadcast receiver)组件</td>
+      </tr>
+      <tr>
+          <td>service</td>
+          <td>声明一个服务(service)组件</td>
+      </tr>
+      <tr>
+          <td>supports-gl-texture</td>
+          <td>声明一种应用单一支持的GL纹理(texture)压缩格式</td>
+      </tr>
+      <tr>
+          <td>supports-screens</td>
+          <td>声明应用所支持的屏幕尺寸大小以及在启用兼容模式下系统屏幕超出应用所支持的尺寸</td>
+      </tr>
+      <tr>
+          <td>uses-configuration</td>
+          <td>声明应用程序的软硬件需求</td>
+      </tr>
+      <tr>
+          <td>uses-feature</td>
+          <td>声明应用程序需要用到的软、硬件特性。</td>
+      </tr>
+      <tr>
+          <td>uses-library</td>
+          <td>指定应用程序必须引用的共享库</td>
+      </tr>
+      <tr>
+          <td>uses-permission</td>
+          <td>指定了让应用程序正常运行，用户必须授予的系统权限。</td>
+      </tr>
+      <tr>
+          <td>uses-permission-sdk-23</td>
+          <td>指定了应用程序在Android 6.0以上所需的特定权限</td>
+      </tr>
+      <tr>
+          <td>uses-sdk</td>
+          <td>通过API整数值来声明应用程序所兼容的Android平台版</td>
+      </tr>
+  </tbody>
+</table></div>
+<ul>
+<li>
+<p><a class="link" href="https://www.bookstack.cn/read/mt-manual/80b8084f6be128c0.md"  target="_blank" rel="noopener"
+    >MT管理器使用手册</a></p>
+</li>
+<li>
+<p><a class="link" href="https://bbs.kanxue.com/thread-285906.htm"  target="_blank" rel="noopener"
+    >Android逆向0基础入门-APK全面解析,动调与脱壳</a></p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%AE%89%E5%8D%93/">安卓</a>
+        
+            <a href="/tags/root/">Root</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/frida/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" loading="lazy" data-key="frida" data-hash="https://img.scwcd.cn/markdown/27lh0p36.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门七：Frida入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" loading="lazy" data-key="" data-hash="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一次IDA动态调试安卓apk记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" loading="lazy" data-key="ar6" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门六：so(ELF)文件分析与ARM基础知识</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/gs/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs" loading="lazy" data-key="gs" data-hash="https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">光速虚拟机3.8.2 root及adb远程连接操作</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar5/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" loading="lazy" data-key="ar5" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门五：Xposed和hook入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"requiredMeta":["name","email","url"],"serverURL":"https://comment.fanshanng.cn"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 梵殇-fanshanng
+    </section>
+    
+    <section class="powerby">
+        
+            前途似海，来日方长。 <br/>
+         <br />
+        
+    </section>
+
+<section class="visits" style="display: none;"> 
+    Visits: <span class="waline-index-count breathe" 
+                 waline-url="https://comment.fanshanng.cn" 
+                 data-path="/404.html" 
+                 style="font-weight: bold;">0</span>
+</section>
+
+    <script src="/js/waline-stats.js" defer></script>
+
+
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.cn/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
+&lt;<style>
+  body {
+    background: url(https://fanshanng.cn/background/4.jpg) no-repeat center top;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+</style>
+<script src=https://fanshanng.cn/background/sakura.js></script>
+
+
+
+
+    </body>
+</html>

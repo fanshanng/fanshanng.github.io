@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>动态调试 on 梵殇-fanshanng</title>
+        <link>https://fanshanng.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/</link>
+        <description>Recent content in 动态调试 on 梵殇-fanshanng</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>梵殇-fanshanng</copyright>
+        <lastBuildDate>Thu, 26 Jun 2025 01:03:40 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>安卓逆向入门三</title>
+        <link>https://fanshanng.cn/p/ar3/</link>
+        <pubDate>Thu, 26 Jun 2025 01:03:40 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/p/ar3/</guid>
+        <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124652.png" alt="Featured image of post 安卓逆向入门三" /&gt;&lt;h1 id=&#34;安卓逆向入门三&#34;&gt;安卓逆向入门三
+&lt;/h1&gt;&lt;p&gt;学习关键词: Jeb、动态调试、Log插桩&lt;/p&gt;
+&lt;p&gt;学习链接：&lt;a class=&#34;link&#34; href=&#34;https://www.52pojie.cn/thread-1714727-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;《安卓逆向这档事》五、1000-7=？&amp;amp;动态调试&amp;amp;Log插桩&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;jeb学习&#34;&gt;JEB学习
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;环境配置&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Java环境配置，我这里不细讲。没有配置过java环境的我建议去看看  &lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/taiyang3285/article/details/135231807&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;多个 JDK 版本（Java 8、Java 17、Java 21）下载和切换&lt;/a&gt;  这篇文章，我的建议是一开始就做好java多版本共存的准备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;下载JEB&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;JEB&lt;/strong&gt; (Java Editor for Android) 是一款用于安卓应用逆向工程的工具，它可以帮助开发者分析和修改安卓应用的字节码。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;jeb推荐jdk-11或jdk-17（我用的是jdk-11）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;下载教程可以看这篇文章：&lt;a class=&#34;link&#34; href=&#34;https://www.52pojie.cn/thread-1598242-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;strong&gt;JEB动态调试Smali-真机/模拟器（详细，新手必看）&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;本次学习下载正己提供的jeb安装包，下载好就可以使用，如果需要激活就去看上面的文章&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;动态调试&#34;&gt;动态调试
+&lt;/h2&gt;&lt;p&gt;熟悉IDA的逆向人应该知道动态调试是什么，这里指的是Android动态调试，&lt;/p&gt;
+&lt;p&gt;修改方法：&lt;/p&gt;
+&lt;h3 id=&#34;修改debug权限&#34;&gt;修改debug权限
+&lt;/h3&gt;&lt;p&gt;**方法一:**在&lt;code&gt;AndroidManifest.xml&lt;/code&gt;里添加可调试权限&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;android:debuggable=&amp;#34;true&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250626153816877.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;image-20250626153816877&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;**方法二：**XappDebug模块hook对应的app&lt;/p&gt;
+&lt;p&gt;**方法三：**Magisk命令(重启失效)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;1.&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;adb&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;adb进入命令行模式&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;2.&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;su&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;#切换至超级用户&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;3.&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;magisk&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;resetprop&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ro&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debuggable&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;4.&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;#一定要通过该方式重启&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;**方法四:**刷入MagiskHide Props Config模块&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一般来说，在4选项中如果有ro.debuggable那就直接修改&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;没有的话就选5&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250626162704.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;端口转发以及开启adb权限&#34;&gt;端口转发以及开启adb权限
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;版本号点击七次开启开发者模式并开启adb调试权限&lt;/li&gt;
+&lt;li&gt;有时候重新进入模拟器的时候usb调试会取消，需要手动开启&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;下断点&#34;&gt;下断点
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;ctrl+b&lt;/code&gt;下断点&lt;/p&gt;
+&lt;h3 id=&#34;debug模式启动&#34;&gt;debug模式启动
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;adb shell am start -D -n com.zj.wuaipojie/.ui.MainActivity
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;adb shell am start -D -n adb shell am start -D -n 包名/类名 am start -n 表示启动一个activity am start -D 表示将应用设置为可调试模式&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/6643aba11f49d750402b98478138126.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;6643aba11f49d750402b98478138126&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/c80d2a148be5fa70145c3bc5784019b.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;jeb附加调试进程&#34;&gt;Jeb附加调试进程
+&lt;/h3&gt;&lt;p&gt;常用快捷键：
+&lt;strong&gt;F6  进入方法&lt;/strong&gt;
+&lt;strong&gt;F6  跳过方法&lt;/strong&gt;
+&lt;strong&gt;F7  从方法中跳出来&lt;/strong&gt;
+&lt;strong&gt;R  运行到光标处&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/627c47033b7d9648cd05a40c7471073.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;627c47033b7d9648cd05a40c7471073&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;运行到断点&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/5d85411c54e3edf29265b7062be3e5a.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;5d85411c54e3edf29265b7062be3e5a&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;步进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/b0b853bdee7eeba384f25b1e1891a99.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;b0b853bdee7eeba384f25b1e1891a99&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;得到参数值：&lt;strong&gt;5qKA5q61DAUM&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;log插桩&#34;&gt;Log插桩
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;：Log 插桩是在反编译 APK 后的 Smali 代码中插入日志输出语句，通过&lt;code&gt;Log.v()&lt;/code&gt;等方法将关键变量、函数调用过程打印到系统日志，适用于无法动态调试或需要追踪后台逻辑的场景。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;对应寄存器&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Lcom&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mtools&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LogUtils&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ljava&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;ne&#34;&gt;Object&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;)&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;V&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/db09905d9407505121290fbdaf05b4e.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在应用里随机输入字符串，然后查看日志&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/c740ec1e82dc69684ba15c82489b8b0.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/8ef3d97c1d07785c6f62c1dd3034f38.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

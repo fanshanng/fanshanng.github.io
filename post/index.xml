@@ -457,10 +457,10 @@
         </item>
         <item>
         <title>安卓逆向入门六：so(ELF)文件分析与ARM基础知识</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+        <link>https://fanshanng.cn/p/ar6/</link>
         <pubDate>Thu, 25 Sep 2025 22:07:51 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%85%ADsoelf%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B8%8Earm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+        <guid>https://fanshanng.cn/p/ar6/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" alt="Featured image of post 安卓逆向入门六：so(ELF)文件分析与ARM基础知识" /&gt;&lt;p&gt;关键词：ELF文件入门、so文件分析 、ARM基础知识&lt;/p&gt;
 &lt;h1 id=&#34;0x00-elf文件入门&#34;&gt;0x00 ELF文件入门
 &lt;/h1&gt;&lt;p&gt;&lt;strong&gt;ELF&lt;/strong&gt;（&lt;code&gt;Executable and Linkable Format&lt;/code&gt;）是一种&lt;em&gt;&lt;strong&gt;可执行&lt;/strong&gt;&lt;/em&gt;和&lt;em&gt;&lt;strong&gt;可链接&lt;/strong&gt;&lt;/em&gt;的文件格式，是linux底下二进制文件，可以理解为windows下的&lt;code&gt;PE文件&lt;/code&gt;，在Android中可以比作&lt;code&gt;SO&lt;/code&gt;，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的&lt;strong&gt;执行&lt;/strong&gt;（如二进制程序运行、动态库加载）和&lt;strong&gt;链接&lt;/strong&gt;（编译过程中的模块组合），是跨平台二进制兼容的基础。&lt;/p&gt;
@@ -1124,10 +1124,10 @@
         </item>
         <item>
         <title>光速虚拟机3.8.2 root及adb远程连接操作</title>
-        <link>https://fanshanng.cn/p/%E5%85%89%E9%80%9F%E8%99%9A%E6%8B%9F%E6%9C%BA3.8.2-root%E5%8F%8Aadb%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%93%8D%E4%BD%9C/</link>
+        <link>https://fanshanng.cn/p/gs/</link>
         <pubDate>Tue, 23 Sep 2025 00:37:06 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%85%89%E9%80%9F%E8%99%9A%E6%8B%9F%E6%9C%BA3.8.2-root%E5%8F%8Aadb%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E6%93%8D%E4%BD%9C/</guid>
+        <guid>https://fanshanng.cn/p/gs/</guid>
         <description>&lt;img src="https://s.panlai.com/upload/bizhihui_com_20231111141953169968359310619.jpg-arthumbs" alt="Featured image of post 光速虚拟机3.8.2 root及adb远程连接操作" /&gt;&lt;h2 id=&#34;一手机端下载并配置光速虚拟机-382&#34;&gt;一、手机端下载并配置光速虚拟机 3.8.2
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;1.下载模拟器&lt;/strong&gt;：在手机应用商店或官方渠道，搜索并下载 “光速虚拟机 3.8.2” 版本，安装完成后打开，此时会指导进行解除安卓进程限制，跟着步骤来即可。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0d0ec8f8a4bd5a1224ab0a3e53c77f6.jpg&#34;
@@ -1239,10 +1239,10 @@
         </item>
         <item>
         <title>安卓逆向入门五：Xposed和hook入门</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94xposed%E5%92%8Chook%E5%85%A5%E9%97%A8/</link>
+        <link>https://fanshanng.cn/p/ar5/</link>
         <pubDate>Sun, 21 Sep 2025 23:31:39 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%94xposed%E5%92%8Chook%E5%85%A5%E9%97%A8/</guid>
+        <guid>https://fanshanng.cn/p/ar5/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" alt="Featured image of post 安卓逆向入门五：Xposed和hook入门" /&gt;&lt;p&gt;关键词：&lt;strong&gt;Xposed原理和常用api&lt;/strong&gt;、&lt;strong&gt;Android Studio&lt;/strong&gt;安装以及环境配置、&lt;strong&gt;hook&lt;/strong&gt;、借助&lt;strong&gt;lspatch&lt;/strong&gt;实现&lt;strong&gt;免root注入&lt;/strong&gt;、&lt;strong&gt;SimpleHook&lt;/strong&gt;快速hook&lt;/p&gt;
 &lt;h1 id=&#34;0x00-什么是xposed&#34;&gt;0x00 什么是Xposed
 &lt;/h1&gt;&lt;p&gt;&lt;strong&gt;Xposed 是一款无需修改 APK 即可影响程序运行的 Hook 框架&lt;/strong&gt;，基于它可以开发功能强大的插件 APP，实现对目标应用的注入、拦截、修改等操作，且多个功能不冲突的模块可同时运行。&lt;/p&gt;
@@ -2278,10 +2278,10 @@
         </item>
         <item>
         <title>安卓逆向入门四</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%9B%9B/</link>
+        <link>https://fanshanng.cn/p/ar4/</link>
         <pubDate>Sun, 20 Jul 2025 12:02:51 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E5%9B%9B/</guid>
+        <guid>https://fanshanng.cn/p/ar4/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124723.png" alt="Featured image of post 安卓逆向入门四" /&gt;&lt;h1 id=&#34;安卓逆向入门四&#34;&gt;安卓逆向入门四
 &lt;/h1&gt;&lt;p&gt;关键词：apk签名、apk校验及对抗方法、PM代理、io重定向&lt;/p&gt;
 &lt;p&gt;学习链接：https://www.52pojie.cn/thread-1731181-1-1.html&lt;/p&gt;
@@ -3564,10 +3564,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>安卓逆向入门三</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%B8%89/</link>
+        <link>https://fanshanng.cn/p/ar3/</link>
         <pubDate>Thu, 26 Jun 2025 01:03:40 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%B8%89/</guid>
+        <guid>https://fanshanng.cn/p/ar3/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124652.png" alt="Featured image of post 安卓逆向入门三" /&gt;&lt;h1 id=&#34;安卓逆向入门三&#34;&gt;安卓逆向入门三
 &lt;/h1&gt;&lt;p&gt;学习关键词: Jeb、动态调试、Log插桩&lt;/p&gt;
 &lt;p&gt;学习链接：&lt;a class=&#34;link&#34; href=&#34;https://www.52pojie.cn/thread-1714727-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -3774,10 +3774,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>安卓逆向入门二</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%8C/</link>
+        <link>https://fanshanng.cn/p/ar2/</link>
         <pubDate>Sun, 01 Jun 2025 01:03:40 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E4%BA%8C/</guid>
+        <guid>https://fanshanng.cn/p/ar2/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250601010933131.png" alt="Featured image of post 安卓逆向入门二" /&gt;&lt;h1 id=&#34;0x00-smali及其语法&#34;&gt;0x00 smali及其语法
 &lt;/h1&gt;&lt;h2 id=&#34;smali是dalvik的寄存器语言smali代码是dex反编译而来的&#34;&gt;&lt;strong&gt;smali&lt;/strong&gt;是&lt;strong&gt;Dalvik的寄存器语言&lt;/strong&gt;，smali代码是dex反编译而来的。
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Smali&lt;/strong&gt;是Dalvik虚拟机和ART运行时的寄存器指令语言，相当于Android平台的汇编语言。当APK被反编译时，DEX文件会转换为Smali代码（&lt;code&gt;.smali&lt;/code&gt;文件），它是逆向分析的核心载体。&lt;/p&gt;
@@ -4547,10 +4547,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>京麒ctf 2025（复盘中）</title>
-        <link>https://fanshanng.cn/p/%E4%BA%AC%E9%BA%92ctf-2025%E5%A4%8D%E7%9B%98%E4%B8%AD/</link>
+        <link>https://fanshanng.cn/p/jqctf/</link>
         <pubDate>Fri, 30 May 2025 23:34:46 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E4%BA%AC%E9%BA%92ctf-2025%E5%A4%8D%E7%9B%98%E4%B8%AD/</guid>
+        <guid>https://fanshanng.cn/p/jqctf/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0457db2a018c2ee683618e3e5a3b90e_720.jpg" alt="Featured image of post 京麒ctf 2025（复盘中）" /&gt;&lt;h1 id=&#34;热身题&#34;&gt;热身题
 &lt;/h1&gt;&lt;h3 id=&#34;re1&#34;&gt;re1
 &lt;/h3&gt;&lt;blockquote&gt;
@@ -5011,10 +5011,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>Hook</title>
-        <link>https://fanshanng.cn/p/hook/</link>
+        <link>https://fanshanng.cn/p/hk/</link>
         <pubDate>Fri, 30 May 2025 10:26:28 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/hook/</guid>
+        <guid>https://fanshanng.cn/p/hk/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/1.jpg" alt="Featured image of post Hook" /&gt;&lt;h1 id=&#34;hook随记&#34;&gt;hook随记
 &lt;/h1&gt;&lt;blockquote&gt;
 &lt;p&gt;此文目前为摘录他人&lt;/p&gt;&lt;/blockquote&gt;
@@ -5104,10 +5104,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>安卓逆向学习一</title>
-        <link>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E4%B8%80/</link>
+        <link>https://fanshanng.cn/p/ar1/</link>
         <pubDate>Sun, 25 May 2025 16:15:22 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E4%B8%80/</guid>
+        <guid>https://fanshanng.cn/p/ar1/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/preview.jpg" alt="Featured image of post 安卓逆向学习一" /&gt;&lt;h1 id=&#34;安卓逆向入门一&#34;&gt;安卓逆向入门一
 &lt;/h1&gt;&lt;h2 id=&#34;0x01-前置&#34;&gt;0x01 前置
 &lt;/h2&gt;&lt;ul&gt;
@@ -5451,10 +5451,10 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         </item>
         <item>
         <title>Buuctf刷题记录</title>
-        <link>https://fanshanng.cn/p/buuctf%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</link>
+        <link>https://fanshanng.cn/p/buuctf/</link>
         <pubDate>Thu, 22 May 2025 21:08:17 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/buuctf%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</guid>
+        <guid>https://fanshanng.cn/p/buuctf/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/2.jpg" alt="Featured image of post Buuctf刷题记录" /&gt;&lt;p&gt;并非是wp，而是做题过程中的一些记录&lt;/p&gt;
 &lt;h1 id=&#34;luck_guy&#34;&gt;luck_guy
 &lt;/h1&gt;&lt;p&gt;主函数
@@ -5898,10 +5898,10 @@ s=0x7F666F6067756369LL，按r键将它转换为字符就是“\x7Ffo`guci”，�
         </item>
         <item>
         <title>Frida</title>
-        <link>https://fanshanng.cn/p/frida/</link>
+        <link>https://fanshanng.cn/p/fr1da/</link>
         <pubDate>Mon, 19 May 2025 00:15:39 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/frida/</guid>
+        <guid>https://fanshanng.cn/p/fr1da/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/3.png" alt="Featured image of post Frida" /&gt;&lt;h1 id=&#34;frida基础知识&#34;&gt;frida基础知识
 &lt;/h1&gt;&lt;h2 id=&#34;基础命令&#34;&gt;基础命令
 &lt;/h2&gt;&lt;p&gt;1.&lt;code&gt;frida-ps -U&lt;/code&gt;  查看当前手机运行的进程

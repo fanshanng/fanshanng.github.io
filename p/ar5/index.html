@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="关键词：Xposed原理和常用api、Android Studio安装以及环境配置、hook、借助lspatch实现免root注入、SimpleHook快速hook\n">
+<title>安卓逆向入门五：Xposed和hook入门</title>
+
+<link rel='canonical' href='https://fanshanng.cn/p/ar5/'>
+
+<link rel="stylesheet" href="/scss/style.min.27ff395e368d7954d01eb877439673ba2b3c8f6f7828e05d2e04267ca9afedd7.css"><meta property='og:title' content="安卓逆向入门五：Xposed和hook入门">
+<meta property='og:description' content="关键词：Xposed原理和常用api、Android Studio安装以及环境配置、hook、借助lspatch实现免root注入、SimpleHook快速hook\n">
+<meta property='og:url' content='https://fanshanng.cn/p/ar5/'>
+<meta property='og:site_name' content='梵殇-fanshanng'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安卓' /><meta property='article:tag' content='Xposed' /><meta property='article:tag' content='hook' /><meta property='article:published_time' content='2025-09-21T23:31:39&#43;08:00'/><meta property='article:modified_time' content='2025-09-21T23:31:39&#43;08:00'/><meta property='og:image' content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png' />
+<meta name="twitter:title" content="安卓逆向入门五：Xposed和hook入门">
+<meta name="twitter:description" content="关键词：Xposed原理和常用api、Android Studio安装以及环境配置、hook、借助lspatch实现免root注入、SimpleHook快速hook\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_da797e92928a0a0e.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
+            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/433824520'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/fanshanng'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='/index.xml'
+                        target="_blank"
+                        title="RSS"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 24 24"><path fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" data-swindex="0" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://fanshanng.cn/en/" >English</option>
+                                
+                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                <li id="dark-mode-toggle">
+                    <!--
+tags: [temperature, hot, wheater, thermometer, forecast]
+category: Weather
+version: "1.73"
+unicode: "f236"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" />
+  <path d="M6.343 17.657l-1.414 1.414" />
+  <path d="M6.343 6.343l-1.414 -1.414" />
+  <path d="M17.657 6.343l1.414 -1.414" />
+  <path d="M17.657 17.657l1.414 1.414" />
+  <path d="M4 12h-2" />
+  <path d="M12 4v-2" />
+  <path d="M20 12h2" />
+  <path d="M12 20v2" />
+</svg>
+
+                    <!--
+tags: [night, dark mode]
+category: Weather
+version: "1.21"
+unicode: "ece7"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#000000"
+  stroke-width="1"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+  <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+  <path d="M19 11h2m-1 -1v2" />
+</svg>
+
+                    <span>暗色模式</span>
+                </li>
+                
+                
+
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1hook普通方法">1.Hook普通方法</a></li>
+    <li><a href="#2hook复杂自定义参数">2.Hook复杂&amp;自定义参数</a></li>
+    <li><a href="#3hook替换函数">3.Hook替换函数</a></li>
+    <li><a href="#4hook加固通杀">4.Hook加固通杀</a></li>
+    <li><a href="#5hook变量">5.Hook变量</a></li>
+    <li><a href="#6hook构造函数">6.Hook构造函数</a></li>
+    <li><a href="#7hook-multidex方法">7.Hook multiDex方法</a></li>
+    <li><a href="#8主动调用">8.主动调用</a></li>
+    <li><a href="#9hook内部类">9.Hook内部类</a></li>
+    <li><a href="#10反射大法">10.反射大法</a></li>
+    <li><a href="#11遍历所有类下的所有方法">11.遍历所有类下的所有方法</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#参考文档">参考文档</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/ar5/">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921233613.png" loading="lazy" alt="Featured image of post 安卓逆向入门五：Xposed和hook入门" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" >
+                安卓逆向
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/ar5/">安卓逆向入门五：Xposed和hook入门</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">
+                    
+                    发布于2025-09-21</time>
+            </div>
+        
+
+        
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    
+                    
+                    
+                    约20分钟，共4344字
+                </time>
+            </div>
+        
+
+        
+        <div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
+            <time class="article-pageview">
+                <span class="waline-pageview-count" data-path="/p/ar5/">0</span> 次浏览
+            </time>
+        </div>
+
+        
+        <div>
+            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
+            <time class="article-comment">
+                <span class="waline-comment-count" data-path="/p/ar5/">0</span> 条评论
+            </time>
+        </div>
+
+    </footer>
+    
+
+    
+
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>关键词：<strong>Xposed原理和常用api</strong>、<strong>Android Studio</strong>安装以及环境配置、<strong>hook</strong>、借助<strong>lspatch</strong>实现<strong>免root注入</strong>、<strong>SimpleHook</strong>快速hook</p>
+<h1 id="0x00-什么是xposed">0x00 什么是Xposed
+</h1><p><strong>Xposed 是一款无需修改 APK 即可影响程序运行的 Hook 框架</strong>，基于它可以开发功能强大的插件 APP，实现对目标应用的注入、拦截、修改等操作，且多个功能不冲突的模块可同时运行。</p>
+<p>简单来说，Xposed 的核心是 “在不改变原应用代码的情况下，动态干预其运行逻辑”，这使得它成为安卓逆向、功能扩展的重要工具。</p>
+<p><a class="link" href="https://zh.wikipedia.org/wiki/Xposed_%28%E6%A1%86%E6%9E%B6%29"  target="_blank" rel="noopener"
+    >Xposed (维基百科)</a></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921162625.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="0x01-xposed原理">0x01 Xposed原理
+</h1><p>Xposed 的核心是<strong>劫持 Zygote 进程</strong>（安卓系统的进程孵化器，所有应用进程都由它创建），具体过程如下：</p>
+<ol>
+<li>用自定义实现的<code>app_process</code>替换系统原生的<code>app_process</code>；</li>
+<li>加载额外的 XposedBridge.jar 包，将程序入口从系统默认的<code>com.android.internal.os.ZygoteInit.main()</code>替换为<code>de.robv.android.xposed.XposedBridge.main()</code>；</li>
+<li>改造后的 Zygote 进程创建的所有 Dalvik/ART 虚拟机都会被 Hook，从而实现对所有应用进程的动态干预。</li>
+</ol>
+<p><del>通俗来讲，hook就是<strong>狸猫换太子</strong></del></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921162739.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="0x02-xposed的发展及免root框架">0x02 Xposed的发展及免root框架
+</h1><p>随着安卓版本迭代，Xposed 衍生出多个分支，下表整理了主流框架的特点：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">名称</th>
+          <th style="text-align: left">地址</th>
+          <th style="text-align: left">支持版本</th>
+          <th style="text-align: left">是否免root</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">xposed</td>
+          <td style="text-align: left"><a class="link" href="https://github.com/rovo89/Xposed"  target="_blank" rel="noopener"
+    >https://github.com/rovo89/Xposed</a></td>
+          <td style="text-align: left">2.3-8.1</td>
+          <td style="text-align: left">否</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">EDXposed</td>
+          <td style="text-align: left"><a class="link" href="https://github.com/ElderDrivers/EdXposed"  target="_blank" rel="noopener"
+    >https://github.com/ElderDrivers/EdXposed</a></td>
+          <td style="text-align: left">8.0-10</td>
+          <td style="text-align: left">否</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">LSPosed</td>
+          <td style="text-align: left"><a class="link" href="https://github.com/LSPosed/LSPosed"  target="_blank" rel="noopener"
+    >https://github.com/LSPosed/LSPosed</a></td>
+          <td style="text-align: left">8.1-13</td>
+          <td style="text-align: left">否</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">VirtualXposed</td>
+          <td style="text-align: left"><a class="link" href="https://github.com/android-hacker/VirtualXposed"  target="_blank" rel="noopener"
+    >https://github.com/android-hacker/VirtualXposed</a></td>
+          <td style="text-align: left">5.0-10.0</td>
+          <td style="text-align: left">是</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">太极</td>
+          <td style="text-align: left"><a class="link" href="https://www.coolapk.com/apk/me.weishu.exp"  target="_blank" rel="noopener"
+    >https://www.coolapk.com/apk/me.weishu.exp</a></td>
+          <td style="text-align: left">5.0-13</td>
+          <td style="text-align: left">是</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">两仪</td>
+          <td style="text-align: left"><a class="link" href="https://www.coolapk.com/apk/io.twoyi"  target="_blank" rel="noopener"
+    >https://www.coolapk.com/apk/io.twoyi</a></td>
+          <td style="text-align: left">8.1-13</td>
+          <td style="text-align: left">是</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">天鉴</td>
+          <td style="text-align: left"><a class="link" href="https://github.com/Katana-Official/SPatch-Update"  target="_blank" rel="noopener"
+    >https://github.com/Katana-Official/SPatch-Update</a></td>
+          <td style="text-align: left">6-10</td>
+          <td style="text-align: left">是</td>
+      </tr>
+  </tbody>
+</table></div>
+<h1 id="0x03-xposed可以用来做什么">0x03 Xposed可以用来做什么？
+</h1><ul>
+<li>
+<p><strong>功能增强</strong>：修改应用布局（如<a class="link" href="https://github.com/kaisar945/Xposed-GodMode"  target="_blank" rel="noopener"
+    >上帝模式</a>）、去除广告（如<a class="link" href="https://github.com/shatyuka/Zhiliao"  target="_blank" rel="noopener"
+    >知乎去广告模块</a>）；</p>
+</li>
+<li>
+<p><strong>数据干预</strong>：劫持参数 / 返回值（如微信防撤回、步数修改、一键新机）；</p>
+</li>
+<li>
+<p><strong>自动化操作</strong>：微信自动抢红包、抖音自动操作等；</p>
+</li>
+<li>
+<p><strong>逆向辅助</strong>：动态分析应用逻辑、绕过加密 / 验证（如<a class="link" href="https://github.com/monkeylord/XServer"  target="_blank" rel="noopener"
+    >XServer</a>）。</p>
+</li>
+</ul>
+<p><a class="link" href="https://www.xda-developers.com/best-xposed-modules/"  target="_blank" rel="noopener"
+    >2022 最好的Xposed模块: GravityBox, Pixelify, XPrivacyLua</a></p>
+<p><a class="link" href="https://github.com/Lstaynight/xposed-dy"  target="_blank" rel="noopener"
+    >基于Xposed的抖音爬虫，抖音风控后自动一键新机，模拟一个全新的运行环境</a></p>
+<p><a class="link" href="https://github.com/svengong/xcubebase"  target="_blank" rel="noopener"
+    >基于xposed的frida持久化方案</a></p>
+<p><a class="link" href="https://github.com/monkeylord/XServer"  target="_blank" rel="noopener"
+    >A Xposed Module for Android Penetration Test, with NanoHttpd.</a></p>
+<p><a class="link" href="https://github.com/GravityBox/GravityBox"  target="_blank" rel="noopener"
+    >GravityBox</a></p>
+<p><a class="link" href="https://github.com/Xposed-Modules-Repo"  target="_blank" rel="noopener"
+    >Xposed-Modules-Repo</a>]</p>
+<p><a class="link" href="https://github.com/ferredoxin/QNotified"  target="_blank" rel="noopener"
+    >一个旨在使QQ变得更好用的开源Xposed模块</a></p>
+<p><a class="link" href="https://github.com/nining377/dolby_beta"  target="_blank" rel="noopener"
+    >杜比大喇叭</a></p>
+<p><a class="link" href="https://github.com/yujincheng08/BiliRoaming"  target="_blank" rel="noopener"
+    >哔哩漫游</a></p>
+<p><a class="link" href="https://github.com/Mocha-L/QuJing"  target="_blank" rel="noopener"
+    >曲境</a></p>
+<p><a class="link" href="https://github.com/monkeylord/XposedTemplateForAS"  target="_blank" rel="noopener"
+    >自动化创建Xposed模块及钩子，让Xposed模块编写时只需关注钩子实现</a></p>
+<h1 id="0x04-xposed环境配置">0x04 Xposed环境配置
+</h1><p>这里下载的是正己提供的<a class="link" href="https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html"  target="_blank" rel="noopener"
+    >Ubuntu虚拟机</a>    密码:toor</p>
+<p><strong>内置:</strong></p>
+<ul>
+<li><code>Frida</code>开发环境</li>
+<li>动态分析及开发工具：android-studio</li>
+<li>动态分析工具：ddms</li>
+<li>静态分析工具：jadx1.4.4</li>
+<li>动静态分析工具：jeb</li>
+<li>动态分析工具：集成HyperPwn</li>
+<li>静态分析工具：010 editor</li>
+<li>抓包工具：Charles</li>
+<li>抓包工具：WireShark</li>
+<li>动态分析工具:unidbg</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921154314.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>1.Android Studio创建新项目</p>
+</li>
+<li>
+<p>2.将下载的<code>xposedBridgeApi.jar</code>包拖进<code>libs</code>文件夹</p>
+</li>
+<li>
+<p>3.右击<code>jar</code>包，选择<code>add as library</code></p>
+</li>
+<li>
+<p>4.修改<strong>AndroidManifest.xml</strong>文件配置</p>
+<ul>
+<li>
+<p>将如下代码复制到xml文件中，如图</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="c">&lt;!-- 是否是xposed模块，xposed根据这个来判断是否是模块 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;meta-data</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:name=</span><span class="s">&#34;xposedmodule&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:value=</span><span class="s">&#34;true&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 模块描述，显示在xposed模块列表那里第二行 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;meta-data</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:name=</span><span class="s">&#34;xposeddescription&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:value=</span><span class="s">&#34;这是一个Xposed模块&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- 最低xposed版本号(lib文件名可知) --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;meta-data</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:name=</span><span class="s">&#34;xposedminversion&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">android:value=</span><span class="s">&#34;89&#34;</span> <span class="nt">/&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921154711.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>5.修改<code>build.gradle</code>,将此处修改为<code>compileOnly</code> 默认的是<code>implementation</code></p>
+<blockquote>
+<p>implementation 使用该方式依赖的库将会参与编译和打包</p>
+<p>compileOnly 只在编译时有效，不会参与打包</p></blockquote>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/32a45106-67a2-4528-b1a1-4606bed14803.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>6.新建&ndash;&gt;Folder&ndash;&gt;Assets Folder，创建xposed_init(不要后缀名):只有一行代码，就是说明入口类</p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250917114023.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>7.新建Hook类，实现<code>IXposedHookLoadPackage</code>接口，然后在<code>handleLoadPackage</code>函数内编写Hook逻辑</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span><span class="w"> </span><span class="nn">de.robv.android.xposed.IXposedHookLoadPackage</span><span class="p">;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kn">import</span><span class="w"> </span><span class="nn">de.robv.android.xposed.callbacks.XC_LoadPackage</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Hook</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">IXposedHookLoadPackage</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handleLoadPackage</span><span class="p">(</span><span class="n">XC_LoadPackage</span><span class="p">.</span><span class="na">LoadPackageParam</span><span class="w"> </span><span class="n">loadPackageParam</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>继承了IXposedHookLoadPackag便拥有了hook的能力</p>
+</li>
+</ul>
+<h1 id="0x05--xposed常用api">0x05  Xposed常用API
+</h1><h2 id="1hook普通方法">1.Hook普通方法
+</h2><ul>
+<li>
+<p>修改返回值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">loadPackageParam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">param</span><span class="p">.</span><span class="na">setResult</span><span class="p">(</span><span class="n">999</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">loadPackageParam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;pt&#34;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">param</span><span class="p">.</span><span class="na">args</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/f2c285d9eb7101daf57e03195d6edc24.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/00f9bc7b44068db4458184d7275456e0.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="2hook复杂自定义参数">2.Hook复杂&amp;自定义参数
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadPackageParam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">.</span><span class="na">loadClass</span><span class="p">(</span><span class="s">&#34;类名&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedBridge</span><span class="p">.</span><span class="na">hookAllMethods</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;方法名&#34;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/99881de9606e7e5c6737a8c9590ffecf.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="3hook替换函数">3.Hook替换函数
+</h2><p>使用<code>XC_MethodReplacement</code>直接替换原方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">classLoader</span><span class="p">.</span><span class="na">loadClass</span><span class="p">(</span><span class="s">&#34;类名&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedBridge</span><span class="p">.</span><span class="na">hookAllMethods</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="s">&#34;方法名&#34;</span><span class="p">,</span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodReplacement</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">replaceHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">methodHookParam</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&#34;&#34;</span><span class="p">;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921155958.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>上图中日志这里的 <em>“这是替换函数”</em> 就被替换无了</p>
+<h2 id="4hook加固通杀">4.Hook加固通杀
+</h2><p>加固应用会动态加载 dex，需在<code>Application.attach</code>时获取加载后的类加载器：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="n">Application</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;attach&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Context</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Context</span><span class="p">)</span><span class="w"> </span><span class="n">param</span><span class="p">.</span><span class="na">args</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ClassLoader</span><span class="w"> </span><span class="n">classLoader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getClassLoader</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">//hook逻辑在这里面写  </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/91e07704b5022d9612c35cd6893c86cd.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="5hook变量">5.Hook变量
+</h2><ul>
+<li>静态变量与实例变量
+<ul>
+<li>静态变量(static)：类被初始化，同步进行初始化</li>
+<li>非静态变量：类被实例化(产生一个对象的时候)，进行初始化</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921170530.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="6hook构造函数">6.Hook构造函数
+</h2><ul>
+<li>
+<p>无参构造函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookConstructor</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">classLoader</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>有参构造函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookConstructor</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">classLoader</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921181509.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="7hook-multidex方法">7.Hook multiDex方法
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="n">Application</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;attach&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ClassLoader</span><span class="w"> </span><span class="n">cl</span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">Context</span><span class="p">)</span><span class="n">param</span><span class="p">.</span><span class="na">args</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">).</span><span class="na">getClassLoader</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Class</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">hookclass</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">hookclass</span><span class="o">=</span><span class="n">cl</span><span class="p">.</span><span class="na">loadClass</span><span class="p">(</span><span class="s">&#34;类名&#34;</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">){</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">Log</span><span class="p">.</span><span class="na">e</span><span class="p">(</span><span class="s">&#34;zj2595&#34;</span><span class="p">,</span><span class="s">&#34;未找到类&#34;</span><span class="p">,</span><span class="n">e</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="n">hookclass</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;方法名&#34;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">});</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="8主动调用">8.主动调用
+</h2><ul>
+<li>
+<p>静态方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">clazz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findClass</span><span class="p">(</span><span class="s">&#34;类名&#34;</span><span class="p">,</span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">callStaticMethod</span><span class="p">(</span><span class="n">clazz</span><span class="p">,</span><span class="s">&#34;方法名&#34;</span><span class="p">,</span><span class="n">参数</span><span class="p">(</span><span class="n">非必须</span><span class="p">));</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>实例方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">clazz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findClass</span><span class="p">(</span><span class="s">&#34;类名&#34;</span><span class="p">,</span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">callMethod</span><span class="p">(</span><span class="n">clazz</span><span class="p">.</span><span class="na">newInstance</span><span class="p">(),</span><span class="s">&#34;方法名&#34;</span><span class="p">,</span><span class="n">参数</span><span class="p">(</span><span class="n">非必须</span><span class="p">));</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921182801.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+<h2 id="9hook内部类">9.Hook内部类
+</h2><p>内部类名格式为<code>外部类$内部类</code>（如<code>com.zj.wuaipojie.Demo$InnerClass</code>）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo$InnerClass&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;innerFunc&#34;</span><span class="p">,</span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921183118.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="10反射大法">10.反射大法
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">clazz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findClass</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo$InnerClass&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;innerFunc&#34;</span><span class="p">,</span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w">  </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">//第一步找到类</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">//找到方法，如果是私有方法就要setAccessible设置访问权限</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">//invoke主动调用或者set修改值(变量)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Class</span><span class="w"> </span><span class="n">democlass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.Demo&#34;</span><span class="p">,</span><span class="kc">false</span><span class="p">,</span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Method</span><span class="w"> </span><span class="n">demomethod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">democlass</span><span class="p">.</span><span class="na">getDeclaredMethod</span><span class="p">(</span><span class="s">&#34;refl&#34;</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">demomethod</span><span class="p">.</span><span class="na">setAccessible</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">demomethod</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">clazz</span><span class="p">.</span><span class="na">newInstance</span><span class="p">());</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921183654.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="11遍历所有类下的所有方法">11.遍历所有类下的所有方法
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="n">ClassLoader</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;loadClass&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Class</span><span class="w"> </span><span class="n">clazz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Class</span><span class="p">)</span><span class="w"> </span><span class="n">param</span><span class="p">.</span><span class="na">getResult</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">clazzName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clazz</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">//排除非包名的类  </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">clazzName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie&#34;</span><span class="p">)){</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">Method</span><span class="o">[]</span><span class="w"> </span><span class="n">mds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clazz</span><span class="p">.</span><span class="na">getDeclaredMethods</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="n">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">mds</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="kd">final</span><span class="w"> </span><span class="n">Method</span><span class="w"> </span><span class="n">md</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="kt">int</span><span class="w"> </span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">getModifiers</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="c1">//去除抽象、native、接口方法  </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">Modifier</span><span class="p">.</span><span class="na">isAbstract</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">Modifier</span><span class="p">.</span><span class="na">isNative</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="o">&amp;&amp;!</span><span class="n">Modifier</span><span class="p">.</span><span class="na">isAbstract</span><span class="p">(</span><span class="n">mod</span><span class="p">)){</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="n">XposedBridge</span><span class="p">.</span><span class="na">hookMethod</span><span class="p">(</span><span class="n">mds</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                            </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                            </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&#34;zj2595&#34;</span><span class="p">,</span><span class="n">md</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="p">});</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">           </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921184352.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h1 id="0x06-xposed妙用">0x06 Xposed妙用
+</h1><ul>
+<li>
+<p>字符串赋值定位:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;android.widget.TextView&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;setText&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">CharSequence</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">beforeHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&#34;zj2595&#34;</span><span class="p">,</span><span class="n">param</span><span class="p">.</span><span class="na">args</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="na">toString</span><span class="p">());</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="na">args</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&#34;已过期&#34;</span><span class="p">)){</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="n">printStackTrace</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printStackTrace</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Throwable</span><span class="w"> </span><span class="n">ex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Throwable</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">StackTraceElement</span><span class="o">[]</span><span class="w"> </span><span class="n">stackElements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getStackTrace</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">stackElements</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">StackTraceElement</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stackElements</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&#34;zj2595&#34;</span><span class="p">,</span><span class="s">&#34;at &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">element</span><span class="p">.</span><span class="na">getClassName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;.&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">element</span><span class="p">.</span><span class="na">getMethodName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;(&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">element</span><span class="p">.</span><span class="na">getFileName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;:&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">element</span><span class="p">.</span><span class="na">getLineNumber</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&#34;)&#34;</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921185837.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>点击事件监听</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="w"> </span><span class="n">clazz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findClass</span><span class="p">(</span><span class="s">&#34;android.view.View&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">XposedBridge</span><span class="p">.</span><span class="na">hookAllMethods</span><span class="p">(</span><span class="n">clazz</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;performClick&#34;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Object</span><span class="w"> </span><span class="n">listenerInfoObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">getObjectField</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="na">thisObject</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;mListenerInfo&#34;</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Object</span><span class="w"> </span><span class="n">mOnClickListenerObject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">getObjectField</span><span class="p">(</span><span class="n">listenerInfoObject</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;mOnClickListener&#34;</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">callbackType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mOnClickListenerObject</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getName</span><span class="p">();</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Log</span><span class="p">.</span><span class="na">d</span><span class="p">(</span><span class="s">&#34;zj2595&#34;</span><span class="p">,</span><span class="n">callbackType</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250921190211.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>改写布局</p>
+<p>在 Activity 初始化后修改 UI 元素（如隐藏图片）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">findAndHookMethod</span><span class="p">(</span><span class="s">&#34;com.zj.wuaipojie.ui.ChallengeSixth&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">lpparam</span><span class="p">.</span><span class="na">classLoader</span><span class="p">,</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;onCreate&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">Bundle</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">XC_MethodHook</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nd">@Override</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterHookedMethod</span><span class="p">(</span><span class="n">MethodHookParam</span><span class="w"> </span><span class="n">param</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">super</span><span class="p">.</span><span class="na">afterHookedMethod</span><span class="p">(</span><span class="n">param</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">View</span><span class="w"> </span><span class="n">img</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">View</span><span class="p">)</span><span class="n">XposedHelpers</span><span class="p">.</span><span class="na">callMethod</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="na">thisObject</span><span class="p">,</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="s">&#34;findViewById&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">0x7f0800de</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">img</span><span class="p">.</span><span class="na">setVisibility</span><span class="p">(</span><span class="n">View</span><span class="p">.</span><span class="na">GONE</span><span class="p">);</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">  
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">});</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>修改前</th>
+          <th>修改后</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/d6e19d174340d14e81bc882d67e38f61.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></td>
+          <td><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/Screenshot_20250921_190430_com.vphonegaga.titan.jpg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></td>
+      </tr>
+  </tbody>
+</table></div>
+<h1 id="0x07-lsposed-免root实现">0x07 Lsposed 免root实现
+</h1><ul>
+<li><a class="link" href="https://github.com/LSPosed/LSPatch"  target="_blank" rel="noopener"
+    >Lsposed</a>：LSPosed 框架的无 Root 实现方案，通过将 dex 文件与 so 文件插入到目标 APK（安卓应用安装包）中，实现 Xposed API（应用程序编程接口）的集成。</li>
+<li><strong>核心原理</strong>：重打包目标 APK，将模块代码集成到其中，避免对系统环境的依赖。</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/c2057631e9347fa1774c7038ff71908f.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></th>
+          <th><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/df88157a075e458a489051fc31d6a03f.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table></div>
+<h1 id="0x07-xposed快速hooksimplehook">0x07 Xposed快速Hook&mdash;&ndash;<strong>SimpleHook</strong>
+</h1><p><a class="link" href="https://github.com/littleWhiteDuck/SimpleHook"  target="_blank" rel="noopener"
+    >SimpleHook</a> 是 GitHub 用户 littleWhiteDuck 开发的一款 <strong>Android 轻量型 Hook 工具</strong>，核心定位是 “简单易用”—— 无需复杂配置即可实现常见 Hook 需求，适合对 Hook 操作复杂度要求低的用户；若需复杂功能（如自定义脚本）或更多扩展能力，官方推荐搭配 <a class="link" href="https://github.com/Xposed-Modules-Repo/me.jsonet.jshook"  target="_blank" rel="noopener"
+    >jshook（复杂功能）</a>、<a class="link" href="https://github.com/Mocha-L/QuJing"  target="_blank" rel="noopener"
+    >曲境（电脑端浏览器操作）</a>或算法助手（扩展功能）使用。</p>
+<ul>
+<li><strong>使用步骤</strong>：
+<ul>
+<li>在 LSPosed 中启用 SimpleHook 模块；</li>
+<li>选择目标应用，添加 Hook 配置（类名、方法名、参数类型等）；</li>
+<li>重启应用，配置生效。</li>
+</ul>
+</li>
+</ul>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/de9ac7bb0e43419dc96076d22cee9cb6.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></th>
+          <th><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/7c5b8f7f32f97c1526cf5358dd7a63fa.jpeg"
+	
+	
+	
+	loading="lazy"
+	
+	
+></th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table></div>
+<p>工具覆盖多种常见 Hook 场景，部分关键模式及示例如下：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>模式类型</th>
+          <th>功能说明</th>
+          <th>关键特点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Hook 返回值</td>
+          <td>修改目标方法的返回结果，支持基本类型（如 boolean、int）、字符串及 null</td>
+          <td>参数类型留空表示无参，多参数用英文逗号分隔（如 <code>java.lang.String,int</code>）</td>
+      </tr>
+      <tr>
+          <td>Hook 返回值 +</td>
+          <td>进阶功能，支持通过 JSON 格式将数据转为目标对象（依赖 Gson）</td>
+          <td>需填写 “返回值类名”，修改值为 JSON 字符串（如 <code>{&quot;isHook&quot;:false,&quot;level&quot;:10000}</code>）</td>
+      </tr>
+      <tr>
+          <td>Hook 参数值</td>
+          <td>修改目标方法的输入参数，支持部分参数或全部参数修改</td>
+          <td>未修改的参数留空（如仅改第 2、3 个参数，修改值填 <code>,啦啦啦,99</code>）</td>
+      </tr>
+      <tr>
+          <td>中断执行</td>
+          <td>拦截目标方法执行，使其不触发原有逻辑</td>
+          <td>无需填写修改值，仅需配置类名、方法名及参数类型</td>
+      </tr>
+      <tr>
+          <td>特殊方法 Hook</td>
+          <td>- 构造方法：方法名填写 <code>&lt;init&gt;</code>- 所有同名方法：参数类型填 <code>*</code>- 类内所有方法：方法名填 <code>*</code></td>
+          <td>适配不同场景下的批量或特殊方法 Hook 需求</td>
+      </tr>
+      <tr>
+          <td>变量 Hook</td>
+          <td>- 静态变量：支持 <code>before/after</code> 两个 Hook 点（方法执行前后修改）- 实例变量：仅支持在本类方法执行后修改，不可跨类</td>
+          <td>仅支持基本类型和字符串，需填写 “变量所在类名”“变量名”</td>
+      </tr>
+      <tr>
+          <td>记录类模式（3 种）</td>
+          <td>记录参数值、记录返回值、记录参返（参数 + 返回值）</td>
+          <td>数组或 List 类型参数 / 返回值会自动转为 JSON 格式，便于查看</td>
+      </tr>
+  </tbody>
+</table></div>
+<p>该软件还满足自定义hook，具体细节请前往<a class="link" href="https://github.com/littleWhiteDuck/SimpleHook"  target="_blank" rel="noopener"
+    >SimpleHook</a>学习。</p>
+<h2 id="参考文档">参考文档
+</h2><p><a class="link" href="https://www.52pojie.cn/thread-1740944-1-1.html"  target="_blank" rel="noopener"
+    ><strong>《安卓逆向这档事》七、Sorry，会Hook真的可以为所欲为-Xposed快速上手(上)</strong></a></p>
+<p><a class="link" href="https://www.52pojie.cn/thread-1748081-1-1.html"  target="_blank" rel="noopener"
+    ><strong>《安卓逆向这档事》八、Sorry，会Hook真的可以为所欲为-xposed快速上手(下)</strong></a></p>
+<p><a class="link" href="https://bbs.kanxue.com/thread-269616.htm#msg_header_h2_0"  target="_blank" rel="noopener"
+    >源码编译（2）——Xopsed源码编译详解</a>
+<a class="link" href="https://bbs.kanxue.com/thread-260484.htm"  target="_blank" rel="noopener"
+    >Xposed Hook技巧，代{过}{滤}理abstract</a>
+<a class="link" href="https://bbs.kanxue.com/thread-257100.htm"  target="_blank" rel="noopener"
+    >Xposed callMethod 如何传入接口参数</a></p>
+<p><a class="link" href="https://www.52pojie.cn/thread-1149210-1-1.html"  target="_blank" rel="noopener"
+    >XPOSED魔改一：获取特征</a>
+<a class="link" href="https://www.52pojie.cn/thread-1694093-1-1.html"  target="_blank" rel="noopener"
+    >Lsposed 技术原理探讨 &amp;&amp; 基本安装使用</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%AE%89%E5%8D%93/">安卓</a>
+        
+            <a href="/tags/xposed/">Xposed</a>
+        
+            <a href="/tags/hook/">Hook</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/frida/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://img.scwcd.cn/markdown/27lh0p36.jpg" loading="lazy" data-key="frida" data-hash="https://img.scwcd.cn/markdown/27lh0p36.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门七：Frida入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" loading="lazy" data-key="" data-hash="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一次IDA动态调试安卓apk记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" loading="lazy" data-key="ar6" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门六：so(ELF)文件分析与ARM基础知识</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar4/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124723.png" loading="lazy" data-key="ar4" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124723.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门四</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124652.png" loading="lazy" data-key="ar3" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250720124652.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门三</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"注意：评论需要开启代理"},"requiredMeta":["name","email","url"],"serverURL":"https://comment.fanshanng.cn"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 梵殇-fanshanng
+    </section>
+    
+    <section class="powerby">
+        
+            前途似海，来日方长。 <br/>
+         <br />
+        
+    </section>
+
+<section class="visits" style="display: none;"> 
+    Visits: <span class="waline-index-count breathe" 
+                 waline-url="https://comment.fanshanng.cn" 
+                 data-path="/404.html" 
+                 style="font-weight: bold;">0</span>
+</section>
+
+    <script src="/js/waline-stats.js" defer></script>
+
+
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<script src="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://npm.elemecdn.com/nprogress@0.2.0/nprogress.css" crossorigin="anonymous" />
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+&lt;<style>
+  @font-face {
+    font-family: '字体名';
+    src: url(https://fanshanng.cn/font/LXGWWenKaiMonoGB-Light.ttf) format('truetype');
+  }
+
+  :root {
+    --base-font-family: '字体名';
+    --code-font-family: '字体名';
+  }
+</style>
+
+&lt;<style>
+  body {
+    background: url(https://fanshanng.cn/background/4.jpg) no-repeat center top;
+    background-size:cover;
+    background-attachment:fixed;
+  }
+</style>
+<script src=https://fanshanng.cn/background/sakura.js></script>
+
+
+
+
+    </body>
+</html>
