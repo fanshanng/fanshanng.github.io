@@ -7,15 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
-        <lastBuildDate>Fri, 10 Oct 2025 21:48:13 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>MiniL</title>
-        <link>https://fanshanng.cn/tags/minil/</link>
-        <pubDate>Fri, 10 Oct 2025 21:48:13 +0800</pubDate>
-        
-        <guid>https://fanshanng.cn/tags/minil/</guid>
-        <description></description>
-        </item>
-        <item>
+        <lastBuildDate>Tue, 07 Oct 2025 23:31:14 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Ctf</title>
         <link>https://fanshanng.cn/tags/ctf/</link>
         <pubDate>Tue, 07 Oct 2025 23:31:14 +0800</pubDate>
@@ -181,6 +173,14 @@
         <pubDate>Thu, 22 May 2025 21:08:17 +0800</pubDate>
         
         <guid>https://fanshanng.cn/tags/buuctf/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>MiniL</title>
+        <link>https://fanshanng.cn/tags/minil/</link>
+        <pubDate>Thu, 22 May 2025 21:08:17 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/tags/minil/</guid>
         <description></description>
         </item>
         
