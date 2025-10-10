@@ -389,7 +389,7 @@ unicode: "ece7"
                     
                     
                     
-                    约9分钟，共1908字
+                    约10分钟，共2101字
                 </time>
             </div>
         
@@ -1301,7 +1301,8 @@ unicode: "ece7"
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div class="chroma">
+</div><p>魔改tea，脚本如下</p>
+<div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1401,6 +1402,81 @@ unicode: "ece7"
     >2024 强网杯 - Reverse</a></p>
 <p><a class="link" href="https://xz.aliyun.com/news/15602"  target="_blank" rel="noopener"
     >2024强网杯 web&amp;re 部分wp</a></p>
+<h1 id="mips">mips
+</h1><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20251010125229.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">strings ./emu <span class="p">|</span> grep -i <span class="s2">&#34;qemu.*version\|version.*qemu&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20251010125619.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#下载官方完整包（已含子模块）</span>
+</span></span><span class="line"><span class="cl">wget https://download.qemu.org/qemu-6.2.0.tar.xz          <span class="c1"># 官方源，子模块都齐了</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">tar -xf qemu-6.2.0.tar.xz
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> qemu-6.2.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#一次性配置 + 编译</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&#34;-g -O0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">&#34;-g -O0&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">./configure --target-list<span class="o">=</span>x86_64-softmmu <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>            --disable-werror <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>            --enable-debug <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>            --disable-strip
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">make -j<span class="k">$(</span>nproc<span class="k">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后就可以在<code>~/qemu-6.2.0/build </code>目录下找到<code>qemu-system-x86_64</code></p>
+<p><img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20251010192142.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>右键全部 import model ，可以看到一个魔改的RC4</p>
+<p><a class="link" href="https://www.anquanke.com/post/id/169503#h2-4"  target="_blank" rel="noopener"
+    >mips64逆向新手入门（从jarvisoj一道mips64题目说起）</a></p>
 
 </section>
 
@@ -1441,6 +1517,25 @@ unicode: "ece7"
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/minil/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs%20" loading="lazy" data-key="minil" data-hash="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs "/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MiniL</h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="has-image">
