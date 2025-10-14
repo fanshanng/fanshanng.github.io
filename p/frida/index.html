@@ -360,6 +360,11 @@ unicode: "ece7"
       </ol>
     </li>
   </ol>
+
+  <ol>
+    <li><a href="#什么是objection">什么是objection</a></li>
+    <li><a href="#objection-命令注释">objection 命令注释</a></li>
+  </ol>
 </nav>
         </div>
     </section>
@@ -439,7 +444,7 @@ unicode: "ece7"
                     
                     
                     
-                    约21分钟，共4608字
+                    约29分钟，共6483字
                 </time>
             </div>
         
@@ -1344,6 +1349,442 @@ D：表示级别  &ldquo;zj2595&quot;这个是标签</p>
 	
 	
 ></p>
+<h1 id="0x01-objection">0x01 objection
+</h1><h2 id="什么是objection">什么是objection
+</h2><ul>
+<li><code>objection</code>是基于frida的命令行<code>hook</code>集合工具, 可以让你不写代码, 敲几句命令就可以对<code>java</code>函数的高颗粒度<code>hook</code>, 还支持<strong>RPC</strong>调用。可以实现诸如内存搜索、类和模块搜索、方法<code>hook</code>打印参数返回值调用栈等常用功能，是一个非常方便的，逆向必备、内存漫游神器。</li>
+</ul>
+<p><a class="link" href="https://github.com/sensepost/objection"  target="_blank" rel="noopener"
+    >项目地址</a></p>
+<ul>
+<li>
+<p>由于objection在2021就已经停止更新，所以需要<strong>使用较低版本的frida和frida_tools</strong>，建议重新设置一个虚拟环境，因为之前虚拟环境用的是最新版本的，不太支持objection，配置一个新的环境也方便管理
+我这里配置的是</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">objection</span>   	   <span class="mf">1.11.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">frida</span>              <span class="mf">15.2.2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">frida</span><span class="o">-</span><span class="n">tools</span>        <span class="mf">11.0.0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>简单测试一下，出现如下图所示就是成功了
+<img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20251014155109.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+</ul>
+<h2 id="objection-命令注释">objection 命令注释
+</h2><ul>
+<li><strong>1.help命令注释</strong></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">objection --help(help命令)
+</span></span><span class="line"><span class="cl">Checking for a newer version of objection...
+</span></span><span class="line"><span class="cl">Usage: objection [OPTIONS] COMMAND [ARGS]...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       _   _         _   _
+</span></span><span class="line"><span class="cl">   ___<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span>_<span class="p">|</span>___ ___<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span>_<span class="p">|</span>___ ___
+</span></span><span class="line"><span class="cl">  <span class="p">|</span> . <span class="p">|</span> . <span class="p">|</span> <span class="p">|</span> -_<span class="p">|</span>  _<span class="p">|</span>  _<span class="p">|</span> <span class="p">|</span> . <span class="p">|</span>   <span class="p">|</span>
+</span></span><span class="line"><span class="cl">  <span class="p">|</span>___<span class="p">|</span>___<span class="p">|</span> <span class="p">|</span>___<span class="p">|</span>___<span class="p">|</span>_<span class="p">|</span> <span class="p">|</span>_<span class="p">|</span>___<span class="p">|</span>_<span class="p">|</span>_<span class="p">|</span>
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>___<span class="p">|(</span>object<span class="p">)</span>inject(ion)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       Runtime Mobile Exploration
+</span></span><span class="line"><span class="cl">          by: @leonjza from @sensepost
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  默认情况下，通信将通过USB进行，除非提供了`--network`选项。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">选项:
+</span></span><span class="line"><span class="cl">  -N, --network            使用网络连接而不是USB连接。
+</span></span><span class="line"><span class="cl">  -h, --host TEXT          [默认: 127.0.0.1]
+</span></span><span class="line"><span class="cl">  -p, --port INTEGER       [默认: 27042]
+</span></span><span class="line"><span class="cl">  -ah, --api-host TEXT     [默认: 127.0.0.1]
+</span></span><span class="line"><span class="cl">  -ap, --api-port INTEGER  [默认: 8888]
+</span></span><span class="line"><span class="cl">  -g, --gadget TEXT        要连接的Frida Gadget/进程的名称。 [默认: Gadget]
+</span></span><span class="line"><span class="cl">  -S, --serial TEXT        要连接的设备序列号。
+</span></span><span class="line"><span class="cl">  -d, --debug              启用带有详细输出的调试模式。(在堆栈跟踪中包括代{过}{滤}理源图)
+</span></span><span class="line"><span class="cl">  --help                   显示此消息并退出。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">命令:
+</span></span><span class="line"><span class="cl">  api          以无头模式启动objection API服务器。
+</span></span><span class="line"><span class="cl">  device-type  获取关于已连接设备的信息。
+</span></span><span class="line"><span class="cl">  explore      启动objection探索REPL。
+</span></span><span class="line"><span class="cl">  patchapk     使用frida-gadget.so补丁一个APK。
+</span></span><span class="line"><span class="cl">  patchipa     使用FridaGadget dylib补丁一个IPA。
+</span></span><span class="line"><span class="cl">  run          运行单个objection命令。
+</span></span><span class="line"><span class="cl">  signapk      使用objection密钥对APK进行Zipalign和签名。
+</span></span><span class="line"><span class="cl">  version      打印当前版本并退出。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>2.注入命令</strong></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">objection -g 包名 explore
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-   help：不知道当前命令的效果是什么，在当前命令前加help比如:help env，回车之后会出现当前命令的解释信息
+</span></span><span class="line"><span class="cl">-   按空格：不知道输入什么就按空格，会有提示出来
+</span></span><span class="line"><span class="cl">-   jobs：可以进行多项hook
+</span></span><span class="line"><span class="cl">-   日志：objection的日志文件生成在 C:\Users\Administrator\.objection
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动前就hook</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">objection -g 进程名 explore --startup-command <span class="s2">&#34;android hooking watch class 路径.类名&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p><strong>3.objection基础api</strong></p>
+<ul>
+<li><code>memory list modules</code>  -查看内存中加载的库</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">memory list modules
+</span></span><span class="line"><span class="cl">Save the output by adding `--json modules.json` to this command
+</span></span><span class="line"><span class="cl">Name                                                              Base          Size                 Path
+</span></span><span class="line"><span class="cl">----------------------------------------------------------------  ------------  -------------------  ------------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">app_process64                                                     0x57867c9000  40960 (40.0 KiB)     /system/bin/app_process64
+</span></span><span class="line"><span class="cl">linker64                                                          0x72e326a000  229376 (224.0 KiB)   /system/bin/linker64
+</span></span><span class="line"><span class="cl">libandroid_runtime.so                                             0x72e164e000  2113536 (2.0 MiB)    /system/lib64/libandroid_runtime.so
+</span></span><span class="line"><span class="cl">libbase.so                                                        0x72dfa67000  81920 (80.0 KiB)     /system/lib64/libbase.so
+</span></span><span class="line"><span class="cl">libbinder.so                                                      0x72dec1c000  643072 (628.0 KiB)   /system/lib64/libbinder.so
+</span></span><span class="line"><span class="cl">libcutils.so                                                      0x72de269000  86016 (84.0 KiB)     /system/lib64/libcutils.so
+</span></span><span class="line"><span class="cl">libhidlbase.so                                                    0x72df4cc000  692224 (676.0 KiB)   /system/lib64/libhidlbase.so
+</span></span><span class="line"><span class="cl">liblog.so                                                         0x72e0be1000  98304 (96.0 KiB)     /system/lib64/liblog
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>memory list exports so名称</code> - 查看库的导出函数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">memory list exports liblog.so
+</span></span><span class="line"><span class="cl">Save the output by adding `--json exports.json` to this command
+</span></span><span class="line"><span class="cl"><span class="k">Type</span>      Name                                  Address
+</span></span><span class="line"><span class="cl">--------  ------------------------------------  ------------
+</span></span><span class="line"><span class="cl">function  android_log_write_int32               0x72e0be77c8
+</span></span><span class="line"><span class="cl">function  android_log_write_list_begin          0x72e0be76f0
+</span></span><span class="line"><span class="cl">function  __android_log_bswrite                 0x72e0be9bd8
+</span></span><span class="line"><span class="cl">function  __android_log_security                0x72e0bf2144
+</span></span><span class="line"><span class="cl">function  __android_log_bwrite                  0x72e0be9a18
+</span></span><span class="line"><span class="cl">function  android_log_reset                     0x72e0be75ec
+</span></span><span class="line"><span class="cl">function  android_log_write_string8             0x72e0be7a38
+</span></span><span class="line"><span class="cl">function  android_logger_list_free              0x72e0be8c04
+</span></span><span class="line"><span class="cl">function  __android_log_print                   0x72e0be9728
+</span></span><span class="line"><span class="cl">function  __android_logger_property_get_bool    0x72e0bf2248
+</span></span><span class="line"><span class="cl">function  android_logger_get_id                 0x72e0be8270
+</span></span><span class="line"><span class="cl">function  android_logger_set_prune_list         0x72e0be8948
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>android hooking list activities</code> -查看内存中加载的activity  <code>/android hooking list services</code> -查看内存中加载的services</li>
+<li><code>android intent launch_activity</code> 类名 -启动<code>activity</code>或<code>service</code>(可以用于一些没有验证的activity,在一些简单的ctf中有时候可以出奇效)</li>
+<li>关闭ssl校验 <code>android sslpinning disable</code></li>
+<li>关闭root检测 <code>android root disable</code></li>
+</ul>
+</li>
+<li>
+<p><strong>4.objection内存漫游</strong></p>
+<ul>
+<li>内存搜刮类实例</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">android heap search instances 类名(命令)
+</span></span><span class="line"><span class="cl">Class instance enumeration complete for com.zj.wuaipojie.Demo  
+</span></span><span class="line"><span class="cl"> Hashcode  Class                  toString()
+</span></span><span class="line"><span class="cl">---------  ---------------------  -----------------------------
+</span></span><span class="line"><span class="cl">215120583  com.zj.wuaipojie.Demo  com.zj.wuaipojie.Demo@cd27ac7
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>调用实例的方法</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">android heap execute <span class="p">&lt;</span>handle<span class="p">&gt;</span> getPublicInt(实例的hashcode+方法名)
+</span></span><span class="line"><span class="cl">如果是带参数的方法，则需要进入编辑器环境  
+</span></span><span class="line"><span class="cl">android heap evaluate <span class="p">&lt;</span>handle&gt;  
+</span></span><span class="line"><span class="cl">console.log(clazz.a(<span class="s2">&#34;吾爱破解&#34;</span>));
+</span></span><span class="line"><span class="cl">按住esc+enter触发
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>android hooking list classes -列出内存中所有的类(结果比静态分析的更准确)</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">android hooking list classes 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.MainApplication
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookMain
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookMain$a
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookMain$b
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookMain$c
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookMain$d
+</span></span><span class="line"><span class="cl">tw.idv.palatis.xappdebug.xposed.HookSelf
+</span></span><span class="line"><span class="cl">u
+</span></span><span class="line"><span class="cl">v
+</span></span><span class="line"><span class="cl">void
+</span></span><span class="line"><span class="cl">w
+</span></span><span class="line"><span class="cl">xposed.dummy.XResourcesSuperClass
+</span></span><span class="line"><span class="cl">xposed.dummy.XTypedArraySuperClass
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Found 10798 classes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>android hooking search classes 关键类名 -在内存中所有已加载的类中搜索包含特定关键词的类</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">android hooking search classes wuaipojie
+</span></span><span class="line"><span class="cl">Note that Java classes are only loaded when they are used, so if the expected class has not been found, it might not have been loaded yet.
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.Demo
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.Demo$Animal
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.Demo$Companion
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.Demo$InnerClass
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.Demo$test$1
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.MainApplication
+</span></span><span class="line"><span class="cl">com.zj.wuaipojie.databinding.ActivityMainBinding
+</span></span><span class="line"><span class="cl">... 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Found 38 classes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>android hooking search methods 关键方法名 -在内存中所有已加载的类的方法中搜索包含特定关键词的方法(一般不建议使用，特别耗时，还可能崩溃)</li>
+<li>android hooking list class_methods 类名 -内存漫游类中的所有方法</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">android hooking list class_methods com.zj.wuaipojie.ui.ChallengeSixth
+</span></span><span class="line"><span class="cl">private static final void com.zj.wuaipojie.ui.ChallengeSixth.onCreate$lambda-0(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">private static final void com.zj.wuaipojie.ui.ChallengeSixth.onCreate$lambda-1(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">private static final void com.zj.wuaipojie.ui.ChallengeSixth.onCreate$lambda-2(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">private static final void com.zj.wuaipojie.ui.ChallengeSixth.onCreate$lambda-3(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">protected void com.zj.wuaipojie.ui.ChallengeSixth.onCreate(android.os.Bundle)
+</span></span><span class="line"><span class="cl">public final java.lang.String com.zj.wuaipojie.ui.ChallengeSixth.hexToString(java.lang.String)
+</span></span><span class="line"><span class="cl">public final java.lang.String com.zj.wuaipojie.ui.ChallengeSixth.unicodeToString(java.lang.String)
+</span></span><span class="line"><span class="cl">public final void com.zj.wuaipojie.ui.ChallengeSixth.toastPrint(java.lang.String)
+</span></span><span class="line"><span class="cl">public static void com.zj.wuaipojie.ui.ChallengeSixth.$r8$lambda$1lrkrgiCEFWXZDHzLRibYURG1h8(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">public static void com.zj.wuaipojie.ui.ChallengeSixth.$r8$lambda$IUqwMqbTKaOGiTaeOmvy_GjNBso(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">public static void com.zj.wuaipojie.ui.ChallengeSixth.$r8$lambda$Kc_cRYZjjhjsTl6GYNHbgD-i6sE(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">public static void com.zj.wuaipojie.ui.ChallengeSixth.$r8$lambda$PDKm2AfziZQo6Lv1HEFkJWkUsoE(com.zj.wuaipojie.ui.ChallengeSixth,android.view.View)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Found 12 method(s)
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>5.objectionHook</strong></p>
+</li>
+</ul>
+<p>hook类的所有方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">android</span> <span class="n">hooking</span> <span class="n">watch</span> <span class="k">class</span> <span class="err">类名</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>hook方法的参数、返回值和调用栈</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-perl" data-lang="perl"><span class="line"><span class="cl"><span class="n">android</span> <span class="n">hooking</span> <span class="n">watch</span> <span class="n">class_method</span> <span class="n">类名</span><span class="o">.</span><span class="n">方法名</span> <span class="o">--</span><span class="nb">dump</span><span class="o">-</span><span class="n">args</span> <span class="o">--</span><span class="nb">dump</span><span class="o">-</span><span class="k">return</span> <span class="o">--</span><span class="nb">dump</span><span class="o">-</span><span class="n">backtrace</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>hook 类的构造方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">android</span> <span class="s">hooking</span> <span class="s">watch</span> <span class="s">class_method</span> <span class="s">类名.</span><span class="nv">$init</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>hook 方法的所有重载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">android hooking watch class_method 类名.方法名
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>参考：</p>
+<p><a class="link" href="https://www.anquanke.com/post/id/197657"  target="_blank" rel="noopener"
+    >实用FRIDA进阶：内存漫游、hook anywhere、抓包</a></p>
+<p><a class="link" href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1742935&amp;highlight=objection"  target="_blank" rel="noopener"
+    ><strong>使用objection对吾爱破解2023春节安卓初级题进行快速解题</strong></a></p>
 
 </section>
 
