@@ -436,7 +436,8 @@
 &lt;li&gt;64位类型(long/double)占用&lt;strong&gt;两个连续寄存器&lt;/strong&gt;（如v0-v1）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250531191307992.png&#34;
 	
 	

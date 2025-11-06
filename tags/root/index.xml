@@ -246,7 +246,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Kotlin&lt;/strong&gt; 是一种在 Java 虚拟机上运行的&lt;strong&gt;静态类型编程语言&lt;/strong&gt;，被称之为 Android 世界的Swift，由 JetBrains 设计开发并开源。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Kotlin 可以编译成Java字节码，也可以编译成 JavaScript，方便在没有 JVM 的设备上运行。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;0x03-双开及原理&#34;&gt;0x03 双开及原理
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
@@ -258,7 +259,8 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;blockquote&gt;
-&lt;p&gt;通过在宿主容器上面&lt;strong&gt;新建一个进程供插件 APK 寄宿&lt;/strong&gt;，然后通过 &lt;strong&gt;hook 一些系统接口欺骗应用&lt;/strong&gt;—让&lt;strong&gt;虚拟化后应用以为自己是正常运行的独立 APP&lt;/strong&gt;，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;通过在宿主容器上面&lt;strong&gt;新建一个进程供插件 APK 寄宿&lt;/strong&gt;，然后通过 &lt;strong&gt;hook 一些系统接口欺骗应用&lt;/strong&gt;—让&lt;strong&gt;虚拟化后应用以为自己是正常运行的独立 APP&lt;/strong&gt;，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;table&gt;

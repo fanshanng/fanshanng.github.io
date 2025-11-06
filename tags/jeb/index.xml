@@ -25,7 +25,8 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;下载JEB&lt;/strong&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;JEB&lt;/strong&gt; (Java Editor for Android) 是一款用于安卓应用逆向工程的工具，它可以帮助开发者分析和修改安卓应用的字节码。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;JEB&lt;/strong&gt; (Java Editor for Android) 是一款用于安卓应用逆向工程的工具，它可以帮助开发者分析和修改安卓应用的字节码。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;jeb推荐jdk-11或jdk-17（我用的是jdk-11）&lt;/p&gt;

@@ -317,7 +317,8 @@ s=0x7F666F6067756369LL，按r键将它转换为字符就是“\x7Ffo`guci”，�
 &lt;h1 id=&#34;crackrtf&#34;&gt;CrackRTF
 &lt;/h1&gt;&lt;p&gt;这道题的考点是&lt;strong&gt;rtf&lt;/strong&gt;文件,主要的逻辑是先输入六个数字拼接&lt;code&gt;@DBApp&lt;/code&gt;然后判断hash-sha1编码，这里爆破出的结果是123321，然后是长度为6的字符串，拼接在一起进行MD5编码，&lt;strong&gt;由于MD5编码不可逆&lt;/strong&gt;，我尝试过爆破，生成所有 6 位组合，总数为 95^6 ≈ 735 亿次，遂放弃。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250523212038394.png&#34;
 	
 	

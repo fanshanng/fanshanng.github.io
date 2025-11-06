@@ -1080,7 +1080,8 @@
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0457db2a018c2ee683618e3e5a3b90e_720.jpg" alt="Featured image of post 京麒ctf 2025（复盘中）" /&gt;&lt;h1 id=&#34;热身题&#34;&gt;热身题
 &lt;/h1&gt;&lt;h3 id=&#34;re1&#34;&gt;re1
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;注意到如下代码是关键：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1457,7 +1458,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;re2&#34;&gt;re2
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;flag{cdb0444318e24beb8f374e9181599072}&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;flag{cdb0444318e24beb8f374e9181599072}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1845,7 +1847,8 @@ s=0x7F666F6067756369LL，按r键将它转换为字符就是“\x7Ffo`guci”，�
 &lt;h1 id=&#34;crackrtf&#34;&gt;CrackRTF
 &lt;/h1&gt;&lt;p&gt;这道题的考点是&lt;strong&gt;rtf&lt;/strong&gt;文件,主要的逻辑是先输入六个数字拼接&lt;code&gt;@DBApp&lt;/code&gt;然后判断hash-sha1编码，这里爆破出的结果是123321，然后是长度为6的字符串，拼接在一起进行MD5编码，&lt;strong&gt;由于MD5编码不可逆&lt;/strong&gt;，我尝试过爆破，生成所有 6 位组合，总数为 95^6 ≈ 735 亿次，遂放弃。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250523212038394.png&#34;
 	
 	

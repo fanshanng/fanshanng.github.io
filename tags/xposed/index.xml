@@ -232,7 +232,8 @@
 &lt;p&gt;5.修改&lt;code&gt;build.gradle&lt;/code&gt;,将此处修改为&lt;code&gt;compileOnly&lt;/code&gt; 默认的是&lt;code&gt;implementation&lt;/code&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;implementation 使用该方式依赖的库将会参与编译和打包&lt;/p&gt;
-&lt;p&gt;compileOnly 只在编译时有效，不会参与打包&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;compileOnly 只在编译时有效，不会参与打包&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/32a45106-67a2-4528-b1a1-4606bed14803.png&#34;

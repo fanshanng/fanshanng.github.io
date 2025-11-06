@@ -1082,7 +1082,8 @@
     &gt;frida官方文档&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;它是原生应用的&lt;a class=&#34;link&#34; href=&#34;https://translate.google.com/website?sl=auto&amp;amp;tl=en&amp;amp;hl=zh-CN&amp;amp;client=webapp&amp;amp;u=https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Greasemonkey&lt;/a&gt;，或者用更专业的术语来说，它是一个动态代码插桩工具包。它允许你将 JavaScript 代码片段或你自己的库注入到 Windows、macOS、GNU/Linux、iOS、watchOS、tvOS、Android、FreeBSD 和 QNX 上的原生应用中。Frida 还提供了基于 Frida API 构建的一些简单工具。这些工具可以直接使用，也可以根据你的需求进行调整，或者作为 API 使用示例。&lt;/p&gt;&lt;/blockquote&gt;
+    &gt;Greasemonkey&lt;/a&gt;，或者用更专业的术语来说，它是一个动态代码插桩工具包。它允许你将 JavaScript 代码片段或你自己的库注入到 Windows、macOS、GNU/Linux、iOS、watchOS、tvOS、Android、FreeBSD 和 QNX 上的原生应用中。Frida 还提供了基于 Frida API 构建的一些简单工具。这些工具可以直接使用，也可以根据你的需求进行调整，或者作为 API 使用示例。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;frida原理及重要组件&#34;&gt;Frida原理及重要组件
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;frida&lt;/code&gt;注入的原理就是找到目标进程,使用&lt;code&gt;ptrace&lt;/code&gt;跟踪目标进程获取&lt;code&gt;mmap&lt;/code&gt;，&lt;code&gt;dlpoen&lt;/code&gt;，&lt;code&gt;dlsym&lt;/code&gt;等函数库的偏移获取&lt;code&gt;mmap&lt;/code&gt;在目标进程申请一段内存空间将在目标进程中找到存放&lt;code&gt;frida-agent-32/64.so&lt;/code&gt;的空间启动执行各种操作由&lt;code&gt;agent&lt;/code&gt;去实现&lt;/p&gt;
 &lt;table&gt;
@@ -1257,7 +1258,8 @@ RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处�
 &lt;li&gt;&lt;strong&gt;Spawn模式&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;将启动App的权利交由Frida来控制，即使目标App已经启动，在使用Frida注入程序时还是会重新启动App&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;将启动App的权利交由Frida来控制，即使目标App已经启动，在使用Frida注入程序时还是会重新启动App&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;当需要监控App从启动开始的所有行为时使用
 &lt;code&gt;frida -U -f 进程名 -l hook.js&lt;/code&gt;
 &lt;strong&gt;进程名&lt;/strong&gt;可以通过&lt;code&gt;frida-ps -U&lt;/code&gt;来查看&lt;/p&gt;
@@ -1265,7 +1267,8 @@ RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处�
 &lt;li&gt;&lt;strong&gt;Attach模式&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在目标App已经启动的情况下，Frida通过ptrace注入程序从而执行Hook的操作&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在目标App已经启动的情况下，Frida通过ptrace注入程序从而执行Hook的操作&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;frida -U 进程名 -l hook.js&lt;/code&gt;
 在App已经启动，或者我们只关心特定时刻或特定功能的行为时使用&lt;/p&gt;
 &lt;/li&gt;
@@ -1972,9 +1975,9 @@ D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;objection&lt;/span&gt;   	   &lt;span class=&#34;mf&#34;&gt;1.11.0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;frida&lt;/span&gt;              &lt;span class=&#34;mf&#34;&gt;15.2.2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;frida&lt;/span&gt;              &lt;span class=&#34;mf&#34;&gt;16.2.1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;frida&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tools&lt;/span&gt;        &lt;span class=&#34;mf&#34;&gt;11.0.0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;frida&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tools&lt;/span&gt;        &lt;span class=&#34;mf&#34;&gt;13.2.0&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
@@ -2435,7 +2438,8 @@ D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;AKA：精简版 objection + Wallbreaker&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;AKA：精简版 objection + Wallbreaker&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id=&#34;0x02-processmodulememory基础&#34;&gt;0x02 Process、Module、Memory基础
 &lt;/h1&gt;&lt;h2 id=&#34;1process&#34;&gt;1.Process
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;Process&lt;/code&gt; 对象代表当前被Hook的进程，能获取进程的信息，枚举模块，枚举范围等&lt;/p&gt;
@@ -2764,7 +2768,7 @@ D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h1 id=&#34;0x04-native函数的基础hook打印&#34;&gt;0x04 Native函数的基础Hook打印
-&lt;/h1&gt;&lt;h2 id=&#34;1整数型布尔值类型char类型&#34;&gt;1.整数型、布尔值类型、char类型
+&lt;/h1&gt;&lt;h2 id=&#34;1整数型布尔值类型char类型hook&#34;&gt;1.整数型、布尔值类型、char类型Hook
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2823,7 +2827,7 @@ D：表示级别  &amp;ldquo;zj2595&amp;quot;这个是标签&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;2字符串类型&#34;&gt;2.字符串类型
+&lt;/div&gt;&lt;h2 id=&#34;2字符串类型hook&#34;&gt;2.字符串类型Hook
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -3129,10 +3133,10 @@ arm 指令，函数地址计算方式： so 基址 + 函数在 so 中的偏移&l
         </item>
         <item>
         <title>一次IDA动态调试安卓apk记录</title>
-        <link>https://fanshanng.cn/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</link>
+        <link>https://fanshanng.cn/p/as_debug/</link>
         <pubDate>Fri, 26 Sep 2025 23:55:59 +0800</pubDate>
         
-        <guid>https://fanshanng.cn/p/%E4%B8%80%E6%AC%A1ida%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95%E5%AE%89%E5%8D%93apk%E8%AE%B0%E5%BD%95/</guid>
+        <guid>https://fanshanng.cn/p/as_debug/</guid>
         <description>&lt;img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" alt="Featured image of post 一次IDA动态调试安卓apk记录" /&gt;&lt;h1 id=&#34;一次ida动态调试安卓apk记录&#34;&gt;一次IDA动态调试安卓apk记录
 &lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）&lt;a class=&#34;link&#34; href=&#34;https://pan.baidu.com/share/init?surl=cFWTLn14jeWfpXxlx3syYw&amp;amp;pwd=nqu9&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -4568,7 +4572,8 @@ arm 指令，函数地址计算方式： so 基址 + 函数在 so 中的偏移&l
 &lt;p&gt;5.修改&lt;code&gt;build.gradle&lt;/code&gt;,将此处修改为&lt;code&gt;compileOnly&lt;/code&gt; 默认的是&lt;code&gt;implementation&lt;/code&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;implementation 使用该方式依赖的库将会参与编译和打包&lt;/p&gt;
-&lt;p&gt;compileOnly 只在编译时有效，不会参与打包&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;compileOnly 只在编译时有效，不会参与打包&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/32a45106-67a2-4528-b1a1-4606bed14803.png&#34;
@@ -6686,7 +6691,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;下载JEB&lt;/strong&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;JEB&lt;/strong&gt; (Java Editor for Android) 是一款用于安卓应用逆向工程的工具，它可以帮助开发者分析和修改安卓应用的字节码。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;JEB&lt;/strong&gt; (Java Editor for Android) 是一款用于安卓应用逆向工程的工具，它可以帮助开发者分析和修改安卓应用的字节码。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;jeb推荐jdk-11或jdk-17（我用的是jdk-11）&lt;/p&gt;
@@ -7307,7 +7313,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
 &lt;li&gt;64位类型(long/double)占用&lt;strong&gt;两个连续寄存器&lt;/strong&gt;（如v0-v1）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;&lt;/blockquote&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250531191307992.png&#34;
 	
 	
@@ -7660,7 +7667,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/a0457db2a018c2ee683618e3e5a3b90e_720.jpg" alt="Featured image of post 京麒ctf 2025（复盘中）" /&gt;&lt;h1 id=&#34;热身题&#34;&gt;热身题
 &lt;/h1&gt;&lt;h3 id=&#34;re1&#34;&gt;re1
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;flag{1c98572d-7f7b-4fbf-8750-4a2986c695ce}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;注意到如下代码是关键：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -8037,7 +8045,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;re2&#34;&gt;re2
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;flag{cdb0444318e24beb8f374e9181599072}&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;flag{cdb0444318e24beb8f374e9181599072}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -8123,7 +8132,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
         <guid>https://fanshanng.cn/p/hk/</guid>
         <description>&lt;img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/1.jpg" alt="Featured image of post Hook" /&gt;&lt;h1 id=&#34;hook随记&#34;&gt;hook随记
 &lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;此文目前为摘录他人&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;此文目前为摘录他人&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;hook&lt;/strong&gt;（钩子）是一种编程机制，在操作系统、编程里也会用到。&lt;/p&gt;
 &lt;p&gt;hook的作用是让程序能够在特定事件发生时插入自定义代码，或者对系统行为进行拦截和修改。它是一种软件设计模式，借助预留接口，实现对系统或框架原有流程的扩展与增强。&lt;/p&gt;
 &lt;p&gt;Java中有一种机制，叫做&lt;code&gt;动态代理&lt;/code&gt;（Dynamic Proxy），它可以被视为一种特殊的运行时钩子（Runtime Hook），因为它允许你在不修改原有代码的情况下，拦截并增强对象方法的调用。&lt;/p&gt;
@@ -8332,7 +8342,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Kotlin&lt;/strong&gt; 是一种在 Java 虚拟机上运行的&lt;strong&gt;静态类型编程语言&lt;/strong&gt;，被称之为 Android 世界的Swift，由 JetBrains 设计开发并开源。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Kotlin 可以编译成Java字节码，也可以编译成 JavaScript，方便在没有 JVM 的设备上运行。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在Google I/O 2017中，Google 宣布 Kotlin 成为 Android 官方开发语言。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;0x03-双开及原理&#34;&gt;0x03 双开及原理
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
@@ -8344,7 +8355,8 @@ v4 方案：&lt;a class=&#34;link&#34; href=&#34;https://source.android.google.c
 &lt;/li&gt;
 &lt;li&gt;
 &lt;blockquote&gt;
-&lt;p&gt;通过在宿主容器上面&lt;strong&gt;新建一个进程供插件 APK 寄宿&lt;/strong&gt;，然后通过 &lt;strong&gt;hook 一些系统接口欺骗应用&lt;/strong&gt;—让&lt;strong&gt;虚拟化后应用以为自己是正常运行的独立 APP&lt;/strong&gt;，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;通过在宿主容器上面&lt;strong&gt;新建一个进程供插件 APK 寄宿&lt;/strong&gt;，然后通过 &lt;strong&gt;hook 一些系统接口欺骗应用&lt;/strong&gt;—让&lt;strong&gt;虚拟化后应用以为自己是正常运行的独立 APP&lt;/strong&gt;，欺骗系统—让系统认为此虚拟化应用是一个已正常安装在系统的应用。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;table&gt;
@@ -8865,7 +8877,8 @@ s=0x7F666F6067756369LL，按r键将它转换为字符就是“\x7Ffo`guci”，�
 &lt;h1 id=&#34;crackrtf&#34;&gt;CrackRTF
 &lt;/h1&gt;&lt;p&gt;这道题的考点是&lt;strong&gt;rtf&lt;/strong&gt;文件,主要的逻辑是先输入六个数字拼接&lt;code&gt;@DBApp&lt;/code&gt;然后判断hash-sha1编码，这里爆破出的结果是123321，然后是长度为6的字符串，拼接在一起进行MD5编码，&lt;strong&gt;由于MD5编码不可逆&lt;/strong&gt;，我尝试过爆破，生成所有 6 位组合，总数为 95^6 ≈ 735 亿次，遂放弃。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;RTF是&lt;strong&gt;Rich Text Format&lt;/strong&gt;的缩写，意即多文本格式。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/image-20250523212038394.png&#34;
 	
 	
@@ -10100,7 +10113,8 @@ RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处�
 &lt;li&gt;Spawn模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;将启动App的权利交由Frida来控制，即使目标App已经启动，在使用Frida注入程序时还是会重新启动App&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;将启动App的权利交由Frida来控制，即使目标App已经启动，在使用Frida注入程序时还是会重新启动App&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;当需要监控App从启动开始的所有行为时使用
 &lt;code&gt;frida -U -f 进程名 -l hook.js&lt;/code&gt;
 &lt;strong&gt;进程名&lt;/strong&gt;可以通过&lt;code&gt;frida-ps -U&lt;/code&gt;来查看&lt;/p&gt;
@@ -10108,7 +10122,8 @@ RPC模式：使用Python进行JavaScript脚本的注入，适合复杂数据处�
 &lt;li&gt;Attach模式&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在目标App已经启动的情况下，Frida通过ptrace注入程序从而执行Hook的操作&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;在目标App已经启动的情况下，Frida通过ptrace注入程序从而执行Hook的操作&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;frida -U 进程名 -l hook.js&lt;/code&gt;
 在App已经启动，或者我们只关心特定时刻或特定功能的行为时使用&lt;/p&gt;
 &lt;p&gt;5.基础语法
