@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
         <lastBuildDate>Mon, 15 Dec 2025 13:30:53 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/%E7%BE%8E%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>博客新增5个趣味小功能：让静态网页动起来</title>
+        <title>博客新增5个小功能</title>
         <link>https://fanshanng.cn/p/blog_up1/</link>
         <pubDate>Mon, 15 Dec 2025 13:30:53 +0800</pubDate>
         
         <guid>https://fanshanng.cn/p/blog_up1/</guid>
-        <description>&lt;img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" alt="Featured image of post 博客新增5个趣味小功能：让静态网页动起来" /&gt;&lt;p&gt;为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 &lt;code&gt;static/js/custom.js&lt;/code&gt; 和相关模板文件实现。&lt;/p&gt;
+        <description>&lt;img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" alt="Featured image of post 博客新增5个小功能" /&gt;&lt;p&gt;为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 &lt;code&gt;static/js/custom.js&lt;/code&gt; 和相关模板文件实现。&lt;/p&gt;
 &lt;h2 id=&#34;1-网站运行时间-site-running-time&#34;&gt;1. 网站运行时间 (Site Running Time)
 &lt;/h2&gt;&lt;p&gt;在页脚显示博客已经安全运行了多久，给访客一种持久运营的信任感。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;实现效果&lt;/strong&gt;：
