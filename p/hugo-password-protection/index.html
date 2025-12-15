@@ -6,14 +6,15 @@
 
 <link rel='canonical' href='https://fanshanng.cn/p/hugo-password-protection/'>
 
-<link rel="stylesheet" href="/scss/style.min.54c1203df68f3f468037f566fbcba0a60ee602f66cd67e5b312b42d1cc237ff8.css"><meta property='og:title' content="Hugo 博客添加文章密码保护功能">
+<link rel="stylesheet" href="/scss/style.min.205c0a8bc9e90c40f17202c2395321e7cea81d414f7b60b26814f0e63e73f3bf.css"><meta property='og:title' content="Hugo 博客添加文章密码保护功能">
 <meta property='og:description' content="本文记录了如何为 Hugo 博客（基于 Stack 主题）添加文章密码保护功能。这是一个基于前端的轻量级保护方案，适用于静态博客。\n实现原理 内容页保护：通过检查文章 Front Matter 中的 password 字段。如果存在，将正文内容进行 Base64 编码并隐藏。用户输入密码后，前端计算 SHA256 哈希值与预设密码比对，验证通过后解码并显示内容。 隐私防泄露： RSS：在 RSS 订阅源中隐藏加密文章的正文，只显示提示信息。 搜索：在站内搜索索引中排除加密文章的正文，防止通过搜索结果预览泄露内容。 修改步骤 1. 修改文章内容页模板 文件路径：layouts/partials/article/components/content.html\n">
 <meta property='og:url' content='https://fanshanng.cn/p/hugo-password-protection/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Hugo' /><meta property='article:tag' content='教程' /><meta property='article:tag' content='功能开发' /><meta property='article:published_time' content='2025-12-15T13:03:22&#43;08:00'/><meta property='article:modified_time' content='2025-12-15T13:03:22&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/05/20250509175822174678470279469.jpg-arthumbs' />
 <meta name="twitter:title" content="Hugo 博客添加文章密码保护功能">
 <meta name="twitter:description" content="本文记录了如何为 Hugo 博客（基于 Stack 主题）添加文章密码保护功能。这是一个基于前端的轻量级保护方案，适用于静态博客。\n实现原理 内容页保护：通过检查文章 Front Matter 中的 password 字段。如果存在，将正文内容进行 Base64 编码并隐藏。用户输入密码后，前端计算 SHA256 哈希值与预设密码比对，验证通过后解码并显示内容。 隐私防泄露： RSS：在 RSS 订阅源中隐藏加密文章的正文，只显示提示信息。 搜索：在站内搜索索引中排除加密文章的正文，防止通过搜索结果预览泄露内容。 修改步骤 1. 修改文章内容页模板 文件路径：layouts/partials/article/components/content.html\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/05/20250509175822174678470279469.jpg-arthumbs' />
+    <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/05/20250509175822174678470279469.jpg-arthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
+
     </head>
     <body class="
     article-page
@@ -231,33 +232,11 @@
         
         <li class="menu-bottom-section">
             <ol class="menu">
-                    
-                        <li id="i18n-switch">  
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
-
-
-
-                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
-                                
-                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
-                                
-                                    <option value="https://fanshanng.cn/en/" >English</option>
-                                
-                            </select>
-                        </li>
-                    
-                
 
                 
-                <li id="dark-mode-toggle">
-                    <!--
+                <li id="dark-mode-toggle" class="toggle-container">
+                    <div class="dark-mode-switch">
+                        <div class="switch-icon sun"><!--
 tags: [temperature, hot, wheater, thermometer, forecast]
 category: Weather
 version: "1.73"
@@ -284,8 +263,8 @@ unicode: "f236"
   <path d="M20 12h2" />
   <path d="M12 20v2" />
 </svg>
-
-                    <!--
+</div>
+                        <div class="switch-icon moon"><!--
 tags: [night, dark mode]
 category: Weather
 version: "1.21"
@@ -306,8 +285,9 @@ unicode: "ece7"
   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
   <path d="M19 11h2m-1 -1v2" />
 </svg>
-
-                    <span>暗色模式</span>
+</div>
+                        <div class="switch-circle"></div>
+                    </div>
                 </li>
                 
                 
@@ -315,6 +295,16 @@ unicode: "ece7"
             </ol>
         </li>
     </ol>
+
+    
+    <meting-js 
+        server="netease" 
+        type="playlist" 
+        id="17556275859"
+        fixed="true"
+        list-folded="true"
+        theme="#2980b9">
+    </meting-js>
 </aside>
 
     <aside class="sidebar right-sidebar sticky">
@@ -879,7 +869,7 @@ unicode: "ece7"
         
 
         <div class="article-details">
-            <h2 class="article-title">博客新增5个小功能</h2>
+            <h2 class="article-title">博客新增小功能</h2>
         </div>
     </a>
 </article>
@@ -937,6 +927,9 @@ unicode: "ece7"
 
     <script src="/js/waline-stats.js" defer></script>
     <script src="/js/custom.js" defer></script>
+    
+    <script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://unpkg.com/meting@2.0.1/dist/Meting.min.js" crossorigin="anonymous" defer></script>
 
 
 </footer>

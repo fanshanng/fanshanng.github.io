@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
         <lastBuildDate>Mon, 15 Dec 2025 13:30:53 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/hugo/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>博客新增5个小功能</title>
+        <title>博客新增小功能</title>
         <link>https://fanshanng.cn/p/blog_up1/</link>
         <pubDate>Mon, 15 Dec 2025 13:30:53 +0800</pubDate>
         
         <guid>https://fanshanng.cn/p/blog_up1/</guid>
-        <description>&lt;img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" alt="Featured image of post 博客新增5个小功能" /&gt;&lt;p&gt;为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 &lt;code&gt;static/js/custom.js&lt;/code&gt; 和相关模板文件实现。&lt;/p&gt;
+        <description>&lt;img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" alt="Featured image of post 博客新增小功能" /&gt;&lt;p&gt;为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 &lt;code&gt;static/js/custom.js&lt;/code&gt; 和相关模板文件实现。&lt;/p&gt;
 &lt;h2 id=&#34;1-网站运行时间-site-running-time&#34;&gt;1. 网站运行时间 (Site Running Time)
 &lt;/h2&gt;&lt;p&gt;在页脚显示博客已经安全运行了多久，给访客一种持久运营的信任感。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;实现效果&lt;/strong&gt;：
@@ -119,8 +119,81 @@
 &lt;li&gt;修改 &lt;code&gt;layouts/partials/sidebar/left.html&lt;/code&gt;，将副标题内容放入 &lt;code&gt;data-text&lt;/code&gt; 属性。&lt;/li&gt;
 &lt;li&gt;使用 JS 递归函数 &lt;code&gt;typeWriter&lt;/code&gt; 逐个字符读取并添加到 innerHTML 中。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;hr&gt;
-&lt;p&gt;这些功能虽然简单，但组合在一起能让静态博客显得不再单调。如果你也喜欢，可以参考我的代码进行修改！&lt;/p&gt;
+&lt;h2 id=&#34;6-全局悬浮音乐播放器-metingjs&#34;&gt;6. 全局悬浮音乐播放器 (MetingJS)
+&lt;/h2&gt;&lt;p&gt;在页面左下角添加一个悬浮的音乐播放器，直接同步网易云歌单，无需手动维护歌曲链接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现步骤&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 &lt;code&gt;layouts/partials/head/custom.html&lt;/code&gt; 引入 APlayer 的样式：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;rel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;crossorigin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;anonymous&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;layouts/partials/footer/footer.html&lt;/code&gt; 引入 APlayer 和 MetingJS 脚本：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;crossorigin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;anonymous&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;defer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/meting@2.0.1/dist/Meting.min.js&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;crossorigin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;anonymous&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;defer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;layouts/partials/sidebar/left.html&lt;/code&gt; 的末尾添加 MetingJS 标签（开启 &lt;code&gt;fixed=&amp;quot;true&amp;quot;&lt;/code&gt;）：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- 悬浮音乐播放器 (MetingJS) --&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meting-js&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;netease&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;playlist&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;17556275859&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;fixed&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;list-folded&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;theme&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;#2980b9&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meting-js&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;自动解析&lt;/strong&gt;：MetingJS 会自动处理网易云音乐的防盗链和真实地址解析。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;全局悬浮&lt;/strong&gt;：播放器固定在左下角，不占用页面布局空间，且随时可控。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实时同步&lt;/strong&gt;：在网易云 APP 里更新歌单，博客上也会自动更新。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;关于音乐中断问题&lt;/strong&gt;：
+由于博客是静态网站（多页架构），每次点击链接跳转都会重新加载页面，因此音乐会中断。这是静态网站的特性。&lt;/p&gt;
+&lt;h2 id=&#34;7-暗色模式滑动开关-dark-mode-slider&#34;&gt;7. 暗色模式滑动开关 (Dark Mode Slider)
+&lt;/h2&gt;&lt;p&gt;将原本单调的暗色模式切换按钮（月亮/太阳图标）升级为更现代的滑动开关样式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现效果&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;外观&lt;/strong&gt;：采用圆角胶囊形状，内部包含太阳和月亮图标。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动画&lt;/strong&gt;：点击切换时，滑块平滑移动，背景色和图标颜色随之渐变。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;交互&lt;/strong&gt;：太阳和月亮图标在激活状态下会有缩放和变色效果（太阳变橙色，月亮变金色）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;实现原理&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;HTML 结构&lt;/strong&gt;：修改 &lt;code&gt;layouts/partials/sidebar/left.html&lt;/code&gt;，将原来的简单 &lt;code&gt;li&lt;/code&gt; 标签替换为包含轨道、滑块和图标的复杂结构。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CSS 样式&lt;/strong&gt;：在 &lt;code&gt;assets/scss/custom.scss&lt;/code&gt; 中添加样式。利用 &lt;code&gt;:root[data-scheme=&amp;quot;dark&amp;quot;]&lt;/code&gt; 选择器来区分深色和浅色模式下的样式，通过 &lt;code&gt;transition&lt;/code&gt; 属性实现平滑过渡动画。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;逻辑保持&lt;/strong&gt;：保留原有的 &lt;code&gt;colorScheme.ts&lt;/code&gt; 逻辑，点击事件依然绑定在父容器上，确保功能不受影响。&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         </item>
         <item>

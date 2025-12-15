@@ -2,18 +2,19 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 static/js/custom.js 和相关模板文件实现。\n1. 网站运行时间 (Site Running Time) 在页脚显示博客已经安全运行了多久，给访客一种持久运营的信任感。\n">
-<title>博客新增5个小功能</title>
+<title>博客新增小功能</title>
 
 <link rel='canonical' href='https://fanshanng.cn/p/blog_up1/'>
 
-<link rel="stylesheet" href="/scss/style.min.54c1203df68f3f468037f566fbcba0a60ee602f66cd67e5b312b42d1cc237ff8.css"><meta property='og:title' content="博客新增5个小功能">
+<link rel="stylesheet" href="/scss/style.min.205c0a8bc9e90c40f17202c2395321e7cea81d414f7b60b26814f0e63e73f3bf.css"><meta property='og:title' content="博客新增小功能">
 <meta property='og:description' content="为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 static/js/custom.js 和相关模板文件实现。\n1. 网站运行时间 (Site Running Time) 在页脚显示博客已经安全运行了多久，给访客一种持久运营的信任感。\n">
 <meta property='og:url' content='https://fanshanng.cn/p/blog_up1/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Hugo' /><meta property='article:tag' content='JavaScript' /><meta property='article:tag' content='美化' /><meta property='article:published_time' content='2025-12-15T13:30:53&#43;08:00'/><meta property='article:modified_time' content='2025-12-15T13:30:53&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs' />
-<meta name="twitter:title" content="博客新增5个小功能">
+<meta name="twitter:title" content="博客新增小功能">
 <meta name="twitter:description" content="为了提升博客的趣味性和交互体验，今天给博客添加了5个实用又好玩的小功能。本文记录了这些功能的实现方法，主要通过修改 static/js/custom.js 和相关模板文件实现。\n1. 网站运行时间 (Site Running Time) 在页脚显示博客已经安全运行了多久，给访客一种持久运营的信任感。\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs' />
+    <meta name="twitter:image" content='https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
+
     </head>
     <body class="
     article-page
@@ -231,33 +232,11 @@
         
         <li class="menu-bottom-section">
             <ol class="menu">
-                    
-                        <li id="i18n-switch">  
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M4 5h7" />
-  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
-  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
-  <path d="M12 20l4 -9l4 9" />
-  <path d="M19.1 18h-6.2" />
-</svg>
-
-
-
-                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
-                                
-                                    <option value="https://fanshanng.cn/" selected>简体中文</option>
-                                
-                                    <option value="https://fanshanng.cn/en/" >English</option>
-                                
-                            </select>
-                        </li>
-                    
-                
 
                 
-                <li id="dark-mode-toggle">
-                    <!--
+                <li id="dark-mode-toggle" class="toggle-container">
+                    <div class="dark-mode-switch">
+                        <div class="switch-icon sun"><!--
 tags: [temperature, hot, wheater, thermometer, forecast]
 category: Weather
 version: "1.73"
@@ -284,8 +263,8 @@ unicode: "f236"
   <path d="M20 12h2" />
   <path d="M12 20v2" />
 </svg>
-
-                    <!--
+</div>
+                        <div class="switch-icon moon"><!--
 tags: [night, dark mode]
 category: Weather
 version: "1.21"
@@ -306,8 +285,9 @@ unicode: "ece7"
   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
   <path d="M19 11h2m-1 -1v2" />
 </svg>
-
-                    <span>暗色模式</span>
+</div>
+                        <div class="switch-circle"></div>
+                    </div>
                 </li>
                 
                 
@@ -315,6 +295,16 @@ unicode: "ece7"
             </ol>
         </li>
     </ol>
+
+    
+    <meting-js 
+        server="netease" 
+        type="playlist" 
+        id="17556275859"
+        fixed="true"
+        list-folded="true"
+        theme="#2980b9">
+    </meting-js>
 </aside>
 
     <aside class="sidebar right-sidebar sticky">
@@ -344,6 +334,8 @@ unicode: "ece7"
     <li><a href="#3-鼠标点击爱心特效-click-heart-effect">3. 鼠标点击爱心特效 (Click Heart Effect)</a></li>
     <li><a href="#4-复制成功提示-copy-toast">4. 复制成功提示 (Copy Toast)</a></li>
     <li><a href="#5-侧边栏打字机特效-typewriter-effect">5. 侧边栏打字机特效 (Typewriter Effect)</a></li>
+    <li><a href="#6-全局悬浮音乐播放器-metingjs">6. 全局悬浮音乐播放器 (MetingJS)</a></li>
+    <li><a href="#7-暗色模式滑动开关-dark-mode-slider">7. 暗色模式滑动开关 (Dark Mode Slider)</a></li>
   </ol>
 </nav>
         </div>
@@ -360,7 +352,7 @@ unicode: "ece7"
         <div class="article-image">
             <a href="/p/blog_up1/">
                 
-                    <img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" loading="lazy" alt="Featured image of post 博客新增5个小功能" />
+                    <img src="https://s.panlai.com/upload/20231108125026169941902637945.jpg-arthumbs" loading="lazy" alt="Featured image of post 博客新增小功能" />
                 
             </a>
         </div>
@@ -379,7 +371,7 @@ unicode: "ece7"
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/blog_up1/">博客新增5个小功能</a>
+            <a href="/p/blog_up1/">博客新增小功能</a>
         </h2>
     
         
@@ -424,7 +416,7 @@ unicode: "ece7"
                     
                     
                     
-                    约5分钟，共1001字
+                    约7分钟，共1566字
                 </time>
             </div>
         
@@ -564,8 +556,81 @@ unicode: "ece7"
 <li>修改 <code>layouts/partials/sidebar/left.html</code>，将副标题内容放入 <code>data-text</code> 属性。</li>
 <li>使用 JS 递归函数 <code>typeWriter</code> 逐个字符读取并添加到 innerHTML 中。</li>
 </ol>
-<hr>
-<p>这些功能虽然简单，但组合在一起能让静态博客显得不再单调。如果你也喜欢，可以参考我的代码进行修改！</p>
+<h2 id="6-全局悬浮音乐播放器-metingjs">6. 全局悬浮音乐播放器 (MetingJS)
+</h2><p>在页面左下角添加一个悬浮的音乐播放器，直接同步网易云歌单，无需手动维护歌曲链接。</p>
+<p><strong>实现步骤</strong>：</p>
+<ol>
+<li>在 <code>layouts/partials/head/custom.html</code> 引入 APlayer 的样式：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>在 <code>layouts/partials/footer/footer.html</code> 引入 APlayer 和 MetingJS 脚本：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span> <span class="na">defer</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://unpkg.com/meting@2.0.1/dist/Meting.min.js&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span> <span class="na">defer</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>在 <code>layouts/partials/sidebar/left.html</code> 的末尾添加 MetingJS 标签（开启 <code>fixed=&quot;true&quot;</code>）：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="c">&lt;!-- 悬浮音乐播放器 (MetingJS) --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meting-js</span> 
+</span></span><span class="line"><span class="cl">    <span class="na">server</span><span class="o">=</span><span class="s">&#34;netease&#34;</span> 
+</span></span><span class="line"><span class="cl">    <span class="na">type</span><span class="o">=</span><span class="s">&#34;playlist&#34;</span> 
+</span></span><span class="line"><span class="cl">    <span class="na">id</span><span class="o">=</span><span class="s">&#34;17556275859&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">fixed</span><span class="o">=</span><span class="s">&#34;true&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">list-folded</span><span class="o">=</span><span class="s">&#34;true&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">theme</span><span class="o">=</span><span class="s">&#34;#2980b9&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">meting-js</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p><strong>优势</strong>：</p>
+<ul>
+<li><strong>自动解析</strong>：MetingJS 会自动处理网易云音乐的防盗链和真实地址解析。</li>
+<li><strong>全局悬浮</strong>：播放器固定在左下角，不占用页面布局空间，且随时可控。</li>
+<li><strong>实时同步</strong>：在网易云 APP 里更新歌单，博客上也会自动更新。</li>
+</ul>
+<p><strong>关于音乐中断问题</strong>：
+由于博客是静态网站（多页架构），每次点击链接跳转都会重新加载页面，因此音乐会中断。这是静态网站的特性。</p>
+<h2 id="7-暗色模式滑动开关-dark-mode-slider">7. 暗色模式滑动开关 (Dark Mode Slider)
+</h2><p>将原本单调的暗色模式切换按钮（月亮/太阳图标）升级为更现代的滑动开关样式。</p>
+<p><strong>实现效果</strong>：</p>
+<ul>
+<li><strong>外观</strong>：采用圆角胶囊形状，内部包含太阳和月亮图标。</li>
+<li><strong>动画</strong>：点击切换时，滑块平滑移动，背景色和图标颜色随之渐变。</li>
+<li><strong>交互</strong>：太阳和月亮图标在激活状态下会有缩放和变色效果（太阳变橙色，月亮变金色）。</li>
+</ul>
+<p><strong>实现原理</strong>：</p>
+<ol>
+<li><strong>HTML 结构</strong>：修改 <code>layouts/partials/sidebar/left.html</code>，将原来的简单 <code>li</code> 标签替换为包含轨道、滑块和图标的复杂结构。</li>
+<li><strong>CSS 样式</strong>：在 <code>assets/scss/custom.scss</code> 中添加样式。利用 <code>:root[data-scheme=&quot;dark&quot;]</code> 选择器来区分深色和浅色模式下的样式，通过 <code>transition</code> 属性实现平滑过渡动画。</li>
+<li><strong>逻辑保持</strong>：保留原有的 <code>colorScheme.ts</code> 逻辑，点击事件依然绑定在父容器上，确保功能不受影响。</li>
+</ol>
 
     
 </section>
@@ -683,6 +748,9 @@ unicode: "ece7"
 
     <script src="/js/waline-stats.js" defer></script>
     <script src="/js/custom.js" defer></script>
+    
+    <script src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://unpkg.com/meting@2.0.1/dist/Meting.min.js" crossorigin="anonymous" defer></script>
 
 
 </footer>
