@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://fanshanng.cn/</loc>
-    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://fanshanng.cn/categories/</loc>
-    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,14 +28,17 @@
                 href="https://fanshanng.cn/categories/"
                 />
   </url><url>
-    <loc>https://fanshanng.cn/tags/ida/</loc>
-    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
+    <loc>https://fanshanng.cn/tags/hugo/</loc>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/tags/javascript/</loc>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
   </url><url>
     <loc>https://fanshanng.cn/post/</loc>
-    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
   </url><url>
     <loc>https://fanshanng.cn/tags/</loc>
-    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -46,6 +49,27 @@
                 hreflang="zh-cn"
                 href="https://fanshanng.cn/tags/"
                 />
+  </url><url>
+    <loc>https://fanshanng.cn/categories/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E8%AE%BE/</loc>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/p/blog_up1/</loc>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/tags/%E7%BE%8E%E5%8C%96/</loc>
+    <lastmod>2025-12-15T13:30:53+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/p/hugo-password-protection/</loc>
+    <lastmod>2025-12-15T13:03:22+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/tags/%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2025-12-15T13:03:22+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/tags/%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2025-12-15T13:03:22+08:00</lastmod>
+  </url><url>
+    <loc>https://fanshanng.cn/tags/ida/</loc>
+    <lastmod>2025-11-06T13:57:03+08:00</lastmod>
   </url><url>
     <loc>https://fanshanng.cn/p/zuhu1/</loc>
     <lastmod>2025-11-06T13:57:03+08:00</lastmod>

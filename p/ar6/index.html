@@ -69,7 +69,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">梵殇-fanshanng</a></h1>
-            <h2 class="site-description">你好，我是梵殇，欢迎来到我的博客</h2>
+            <h2 class="site-description" id="typewriter-text" data-text="你好，我是梵殇，欢迎来到我的博客"></h2>
         </div>
     </header><ol class="menu-social">
             
@@ -475,7 +475,9 @@ unicode: "ece7"
     <section class="article-content">
     
     
-    <p>关键词：ELF文件入门、so文件分析 、ARM基础知识</p>
+    
+    
+        <p>关键词：ELF文件入门、so文件分析 、ARM基础知识</p>
 <h1 id="0x00-elf文件入门">0x00 ELF文件入门
 </h1><p><strong>ELF</strong>（<code>Executable and Linkable Format</code>）是一种<em><strong>可执行</strong></em>和<em><strong>可链接</strong></em>的文件格式，是linux底下二进制文件，可以理解为windows下的<code>PE文件</code>，在Android中可以比作<code>SO</code>，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的<strong>执行</strong>（如二进制程序运行、动态库加载）和<strong>链接</strong>（编译过程中的模块组合），是跨平台二进制兼容的基础。</p>
 <p><strong>ELF文件的主要组成部分包括：</strong></p>
@@ -1135,6 +1137,7 @@ unicode: "ece7"
 <p><a class="link" href="https://ctf-wiki.org/android/basic_operating_mechanism/native_layer/so/"  target="_blank" rel="noopener"
     ><strong>[ctfwiki]so 介绍</strong> </a></p>
 
+    
 </section>
 
 
@@ -1315,6 +1318,8 @@ unicode: "ece7"
             前途似海，来日方长。 <br/>
          <br />
         
+        <br />
+        <span id="run-time"></span>
     </section>
 
 <section class="visits" style="display: none;"> 
@@ -1325,6 +1330,7 @@ unicode: "ece7"
 </section>
 
     <script src="/js/waline-stats.js" defer></script>
+    <script src="/js/custom.js" defer></script>
 
 
 </footer>
