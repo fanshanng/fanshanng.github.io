@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>公钥密码学 on 梵殇-fanshanng</title>
+        <link>https://fanshanng.cn/tags/%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%AD%A6/</link>
+        <description>Recent content in 公钥密码学 on 梵殇-fanshanng</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>梵殇-fanshanng</copyright>
+        <lastBuildDate>Wed, 24 Dec 2025 21:17:41 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Digital_Signature</title>
+        <link>https://fanshanng.cn/p/digital_signature/</link>
+        <pubDate>Wed, 24 Dec 2025 21:17:41 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/p/digital_signature/</guid>
+        <description>&lt;img src="https://s.panlai.com/zb_users/upload/2025/12/bizhihui_com_202512231766466605537803.png-arthumbs" alt="Featured image of post Digital_Signature" /&gt;&lt;h1 id=&#34;数字签名体制学习笔记&#34;&gt;数字签名体制学习笔记
+&lt;/h1&gt;&lt;h2 id=&#34;1-概述-overview&#34;&gt;1. 概述 (Overview)
+&lt;/h2&gt;&lt;p&gt;数字签名（Digital Signature）是公钥密码学的核心原语，通过“私钥签名、公钥验证”的机制，模拟物理手写签名的法律效力，核心作用是保障消息的&lt;strong&gt;完整性&lt;/strong&gt;（防篡改）、&lt;strong&gt;来源认证&lt;/strong&gt;（防伪造）和&lt;strong&gt;不可否认性&lt;/strong&gt;（防抵赖），是电子政务、电子商务、区块链等领域的安全基石。&lt;/p&gt;
+&lt;h3 id=&#34;11-基本模型&#34;&gt;1.1 基本模型
+&lt;/h3&gt;&lt;p&gt;一个数字签名方案通常由三个算法组成 $(Gen, Sign, Verify)$：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;密钥生成 (Key Generation)&lt;/strong&gt;: $Gen(1^\lambda) \to (pk, sk)$。输入安全参数 $\lambda$，输出公钥 $pk$ 和私钥 $sk$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名 (Signing)&lt;/strong&gt;: $Sign(sk, m) \to \sigma$。输入私钥 $sk$ 和消息 $m$，输出签名 $\sigma$。算法通常是概率性的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证 (Verification)&lt;/strong&gt;: $Verify(pk, m, \sigma) \to {0, 1}$。输入公钥 $pk$、消息 $m$ 和签名 $\sigma$，输出 1 (有效) 或 0 (无效)。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;12-安全性定义&#34;&gt;1.2 安全性定义
+&lt;/h3&gt;&lt;p&gt;最常用的安全定义是 &lt;strong&gt;EUF-CMA&lt;/strong&gt; (Existential Unforgeability under Chosen Message Attack，选择消息攻击下的存在不可伪造性)。&lt;/p&gt;
+&lt;h4 id=&#34;安全游戏-security-game&#34;&gt;安全游戏 (Security Game)
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;为什么要引入安全游戏？&lt;/strong&gt;
+在现代密码学中，“安全”不能只靠直觉。安全游戏通过模拟攻击者 ($\mathcal{A}$) 与挑战者之间的交互，精确地量化了：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;攻击者的能力&lt;/strong&gt; (例如：可以请求任意消息的签名)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;攻击者的目标&lt;/strong&gt; (例如：伪造一个从未见过的消息的签名)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;成功的定义&lt;/strong&gt; (例如：验证通过且消息新颖)。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;游戏流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Setup&lt;/strong&gt;: 挑战者运行 $Gen(1^\lambda)$ 生成 $(pk, sk)$，将 $pk$ 发送给攻击者 $\mathcal{A}$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Query&lt;/strong&gt;: $\mathcal{A}$ 可以自适应地请求消息 $m_1, m_2, \dots, m_q$ 的签名。挑战者使用 $sk$ 计算 $\sigma_i = Sign(sk, m_i)$ 并返回给 $\mathcal{A}$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Forgery&lt;/strong&gt;: $\mathcal{A}$ 输出一对 $(m^&lt;em&gt;, \sigma^&lt;/em&gt;)$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Win Condition&lt;/strong&gt;: $\mathcal{A}$ 赢得游戏当且仅当：
+&lt;ul&gt;
+&lt;li&gt;$Verify(pk, m^&lt;em&gt;, \sigma^&lt;/em&gt;) = 1$ (签名有效)&lt;/li&gt;
+&lt;li&gt;$m^* \notin {m_1, \dots, m_q}$ (消息未被查询过)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;若对任意多项式时间攻击者 $\mathcal{A}$，其赢得上述游戏的概率 $Pr[\mathcal{A} \text{ wins}]$ 是关于 $\lambda$ 的&lt;strong&gt;可忽略函数&lt;/strong&gt;（即概率随 $\lambda$ 增大快速趋近于0），则称该数字签名方案是 EUF-CMA 安全的。&lt;/p&gt;
+&lt;h4 id=&#34;与-mac-的区别&#34;&gt;与 MAC 的区别
+&lt;/h4&gt;&lt;p&gt;MAC（消息认证码）与数字签名均能提供完整性和来源认证，但核心差异在于“验证方式”和“不可否认性”，具体对比如下：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;特性&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;数字签名 (Digital Signature)&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;消息认证码 (MAC)&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;验证密钥&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;公钥（任何人可验证）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;对称密钥（仅持有密钥者可验证）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;不可否认性&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;支持（私钥唯一，签名者无法抵赖）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;不支持（收发双方均有密钥，无法区分签名者）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;适用场景&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;开放场景（如互联网通信、电子合同）&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;封闭场景（如端到端通信、内部数据传输）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;2-经典数字签名方案&#34;&gt;2. 经典数字签名方案
+&lt;/h2&gt;&lt;h3 id=&#34;21-rsa-签名&#34;&gt;2.1 RSA 签名
+&lt;/h3&gt;&lt;p&gt;基于大整数分解困难问题。&lt;/p&gt;
+&lt;h4 id=&#34;教科书式-rsa-签名-textbook-rsa&#34;&gt;教科书式 RSA 签名 (Textbook RSA)
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;密钥&lt;/strong&gt;：$N=pq$，$(e, d)$ 满足 $ed \equiv 1 \pmod{\phi(N)}$。$pk=(N, e), sk=d$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;：$\sigma = m^d \pmod N$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;：检查 $\sigma^e \equiv m \pmod N$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缺陷&lt;/strong&gt;：存在乘法同态性 ($\sigma(m_1)\sigma(m_2) = \sigma(m_1m_2)$)，易受伪造攻击。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;rsa-pss签名-probabilistic-signature-scheme&#34;&gt;RSA-PSS签名 (Probabilistic Signature Scheme)
+&lt;/h4&gt;&lt;p&gt;为解决教科书式 RSA 缺陷，PKCS#1 v2.1（RFC 8017）定义了 RSA-PSS（Probabilistic Signature Scheme），引入&lt;strong&gt;随机盐值&lt;/strong&gt;和&lt;strong&gt;掩码生成函数&lt;/strong&gt;（MGF），是目前推荐的 RSA 签名标准。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心改进&lt;/strong&gt;：通过“消息哈希+随机填充”破坏同态性，使签名具有随机性（同一消息多次签名结果不同）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名流程&lt;/strong&gt;（简化版）： ① 哈希消息：计算 $h = H(m)$（$H$ 为安全哈希函数，如 SHA-256）； ② 生成盐值：随机选择盐值 $s$（长度与哈希输出一致）； ③ 消息编码：将 $h$、$s$ 拼接后通过 MGF 生成编码 $EM$（确保 $EM &amp;lt; N$）； ④ 生成签名：$\sigma = EM^d \pmod{N}$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证流程&lt;/strong&gt;（简化版）： ① 计算 $\sigma^e \pmod{N}$ 得到 $EM&amp;rsquo;$； ② 对 $EM&amp;rsquo;$ 解码，提取盐值 $s&amp;rsquo;$ 和哈希值 $h&amp;rsquo;$； ③ 计算 $h = H(m)$，对比 $h$ 与 $h&amp;rsquo;$，一致则签名有效。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关键特性&lt;/strong&gt;： ① 安全性：随机预言机模型下，可紧致归约到 RSA 困难问题； ② 实用性：支持任意长度消息，抵抗所有已知攻击； ③ 兼容性：广泛支持于 TLS、SSH、数字证书等场景。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;22-elgamal-签名&#34;&gt;2.2 ElGamal 签名
+&lt;/h3&gt;&lt;p&gt;基于有限域上的离散对数问题 (DLP)：给定有限群 $G$、生成元 $g$ 和元素 $y = g^x$，求解 $x$ 是计算困难的。DLP 家族签名方案因“密钥短、效率高”成为主流，包括 ElGamal、Schnorr、DSA/ECDSA、EdDSA 等。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;参数&lt;/strong&gt;：大素数 $p$，生成元 $g$。私钥 $x \in [1, p-2]$，公钥 $y = g^x \pmod p$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;：
+&lt;ol&gt;
+&lt;li&gt;选择随机数  $k \in [1, p-2]$，且 $\gcd(k, p-1)=1$（确保 $k$ 存在逆元）。&lt;/li&gt;
+&lt;li&gt;计算 $r = g^k \pmod p$。&lt;/li&gt;
+&lt;li&gt;计算 $s = k^{-1}(H(m) - xr) \pmod{p-1}$（$H$ 为哈希函数，$k^{-1}$ 是 $k$ 在模 $p-1$ 下的逆元）。&lt;/li&gt;
+&lt;li&gt;签名 $\sigma = (r, s)$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;：检查 $g^{H(m)} \equiv y^r r^s \pmod p$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;注意&lt;/strong&gt;：随机数 $k$ 必须&lt;strong&gt;保密且不可重用&lt;/strong&gt;！若 $k$ 泄露或重复使用，攻击者可通过联立方程求解私钥 $x$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;23-schnorr-签名&#34;&gt;2.3 Schnorr 签名
+&lt;/h3&gt;&lt;p&gt;由 Schnorr 于1989年提出，基于“强离散对数问题”（SDLP），通过 Fiat-Shamir 变换将交互式零知识证明转化为非交互式签名，以“简洁性、高效性”著称，因专利过期后被广泛应用（如 Bitcoin Taproot）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;参数&lt;/strong&gt;： 系统参数：素数阶群 $G$（阶为 $q$，$q$ 为大素数），生成元 $g \in G$；  私钥：$x \in [1, q-1]$；  公钥：$y = g^x \in G$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;：
+&lt;ol&gt;
+&lt;li&gt;选择随机数 $k \in [1, q-1]$，计算承诺 $R = g^k \in G$。&lt;/li&gt;
+&lt;li&gt;计算挑战 $e = H(R | m)$ (将承诺与消息拼接后哈希，绑定消息与承诺)。&lt;/li&gt;
+&lt;li&gt;计算响应 $s = k + xe \pmod q$。&lt;/li&gt;
+&lt;li&gt;签名 $\sigma = (e, s)$ 或 $\sigma = (R, s)$（两种表示等价，后者更简洁）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;：$\sigma = (e, s)$，计算 $R&amp;rsquo; = g^s y^{-e}\pmod{p}$，检查 $H(R&amp;rsquo; | m) \stackrel{?}{=} e$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;优点&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;线性特性&lt;/strong&gt;：支持多重签名 (Multi-sig) 和聚合签名 (Aggregate Signature)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全性&lt;/strong&gt;：在随机预言机模型下证明安全。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用&lt;/strong&gt;：Bitcoin (BIP-340, Taproot)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;3-标准化的签名体制&#34;&gt;3. 标准化的签名体制
+&lt;/h2&gt;&lt;h3 id=&#34;31-dsa-digital-signature-algorithm&#34;&gt;3.1 DSA (Digital Signature Algorithm)
+&lt;/h3&gt;&lt;p&gt;NIST 标准（FIPS 186），1991年发布，是 ElGamal 签名的优化版本，核心改进是“运算在子群上进行”，减少签名长度和运算量。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;特点&lt;/strong&gt;：运算在模 $p$ 的子群 (阶为 $q$) 上进行，签名长度较短。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;：$r = (g^k \pmod p) \pmod q$, $s = k^{-1}(H(m) + xr) \pmod q$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;：$w = s^{-1} \pmod q$, $u_1 = H(m)w, u_2 = rw$，检查 $r \stackrel{?}{=} (g^{u_1}y^{u_2} \pmod p) \pmod q$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;32-ecdsa-elliptic-curve-dsa&#34;&gt;3.2 ECDSA (Elliptic Curve DSA)
+&lt;/h3&gt;&lt;p&gt;DSA 在椭圆曲线群上的变体（FIPS 186-5），核心优势是“相同安全强度下，密钥和签名长度远短于 RSA/DSA”，是移动设备、区块链、TLS 等场景的主流方案。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;优势&lt;/strong&gt;：相比 RSA/DSA，在相同安全强度下密钥和签名更短。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;风险&lt;/strong&gt;：对随机数 $k$ 极其敏感。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;若 $k$ 重复使用或可预测，攻击者可通过以下方式求解私钥 $x$： 已知 $(r, s_1)$（$m_1$ 的签名）和 $(r, s_2)$（$m_2$ 的签名），联立 $s_1 = k^{-1}(H(m_1) + xr)$ 和 $s_2 = k^{-1}(H(m_2) + xr)$，消去 $k$ 得 $x = (s_2H(m_1) - s_1H(m_2)) \cdot (s_1r - s_2r)^{-1} \pmod{q}$。&lt;/li&gt;
+&lt;li&gt;典型案例：Sony PS3 因 ECDSA 随机数 $k$ 固定，导致私钥泄露。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;改进 (RFC 6979)&lt;/strong&gt;：为了避免随机数生成器 (RNG) 故障带来的灾难性后果，现代实现通常使用&lt;strong&gt;确定性 ECDSA&lt;/strong&gt;。即 $k = HMAC(sk, m)$，确保对同一消息始终生成相同的 $k$，且 $k$ 对攻击者不可预测。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;应用&lt;/strong&gt;：Bitcoin（secp256k1 曲线）、Ethereum、TLS 1.3、iOS/Android 密钥存储。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;33-eddsa-edwards-curve-dsa&#34;&gt;3.3 EdDSA (Edwards-curve DSA)
+&lt;/h3&gt;&lt;p&gt;基于扭曲爱德华曲线 (Twisted Edwards Curve)，如 Ed25519。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;特点&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;确定性签名&lt;/strong&gt;：随机数 $k$ 由 $H(sk, m)$ 确定性生成，消除了随机数发生器故障导致的风险。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高性能&lt;/strong&gt;：Ed25519 签名和验证速度极快，且公钥很短 (32 字节)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;侧信道安全&lt;/strong&gt;：设计上避免了分支和秘密相关的内存访问。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;变体&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PureEdDSA&lt;/strong&gt;: 直接对消息 $m$ 签名。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HashEdDSA (Ed25519ph)&lt;/strong&gt;: 先对消息 $m$ 进行哈希，再签名。适用于硬件受限无法一次性处理长消息的场景。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;34-sm2-数字签名算法&#34;&gt;3.4 SM2 数字签名算法
+&lt;/h3&gt;&lt;p&gt;中国国家密码标准（GM/T 0003-2012），基于椭圆曲线离散对数问题（ECDLP），专为中文场景设计，具备自主可控的安全特性。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心特色&lt;/strong&gt;：引入“用户身份绑定”机制，签名时需将用户身份 $ID$、椭圆曲线参数、公钥等信息拼接后哈希，得到 $Z_A = H(ID | a | b | x_G | y_G | x_A | y_A)$，再计算 $e = H(Z_A | m)$，确保签名与用户身份强绑定，防止身份伪造。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;流程特点&lt;/strong&gt;：签名/验证流程类似 Schnorr 与 ECDSA 的混合体，安全性可证明，且抗已知攻击。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用场景&lt;/strong&gt;：电子政务、金融行业、国内区块链项目（如联盟链）、电子发票。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;4-特殊性质的签名-advanced-signatures&#34;&gt;4. 特殊性质的签名 (Advanced Signatures)
+&lt;/h2&gt;&lt;h3 id=&#34;41-盲签名-blind-signature&#34;&gt;4.1 盲签名 (Blind Signature)
+&lt;/h3&gt;&lt;p&gt;签名者对消息“盲化后签名”，无法获取消息内容；用户去盲后得到有效签名，签名者无法将签名与原始消息关联（盲性+不可链接性）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;性质&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;盲性 (Blindness)&lt;/strong&gt;: 签名者无法看到 $m$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;不可链接性 (Unlinkability)&lt;/strong&gt;: 签名者无法将签名后的结果与之前的签名请求对应起来。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Chaum 盲签名 (RSA based)&lt;/strong&gt;:
+&lt;ol&gt;
+&lt;li&gt;用户选择随机因子 $r$，计算盲化消息 $m&amp;rsquo; = m \cdot r^e \pmod N$ 发送给签名者。&lt;/li&gt;
+&lt;li&gt;签名者计算 $\sigma&amp;rsquo; = (m&amp;rsquo;)^d \pmod N$ 发回。&lt;/li&gt;
+&lt;li&gt;用户去盲：$\sigma = \sigma&amp;rsquo; \cdot r^{-1} \pmod N = m^d \pmod N$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用&lt;/strong&gt;：电子现金 (E-Cash)，电子投票。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;42-群签名-group-signature&#34;&gt;4.2 群签名 (Group Signature)
+&lt;/h3&gt;&lt;p&gt;允许群成员代表整个群体签名，验证者只能验证是群体成员签的，但不知道具体是谁。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;角色&lt;/strong&gt;：群成员，群管理员 (Group Manager)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;性质&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;匿名性&lt;/strong&gt;：对公众匿名。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可追踪性&lt;/strong&gt;：群管理员在争议时可以打开签名，揭示真实签名者身份。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用&lt;/strong&gt;：企业授权（员工代表企业签名）、车联网（V2X 通信匿名认证）、分布式系统节点认证。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;43-环签名-ring-signature&#34;&gt;4.3 环签名 (Ring Signature)
+&lt;/h3&gt;&lt;p&gt;一种简化的群签名，但&lt;strong&gt;没有群管理员&lt;/strong&gt;，完全匿名。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;机制&lt;/strong&gt;：签名者利用自己的私钥和其他 $n-1$ 个成员的公钥生成签名。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;性质&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;无条件匿名&lt;/strong&gt;：无法追踪真实签名者。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自发性&lt;/strong&gt;：无需其他成员配合，只要有公钥即可成环。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用&lt;/strong&gt;：匿名举报、隐私货币（如 Monero 的 RingCT 协议）、匿名通信。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;44-不可否认签名-undeniable-signature&#34;&gt;4.4 不可否认签名 (Undeniable Signature)
+&lt;/h3&gt;&lt;p&gt;验证签名的有效性需要签名者的配合（通过交互式“确认协议”验证有效性）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;目的&lt;/strong&gt;：防止签名被随意验证和传播（保护签名者隐私），但在法律纠纷时签名者无法否认（通过“否认协议”证明伪造签名无效）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;组成&lt;/strong&gt;：签名算法 + 确认协议 (Confirmation Protocol) + 否认协议 (Disavowal Protocol)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用场景&lt;/strong&gt;：版权保护、电子合同（需双方确认）、敏感信息签名。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;45-门限签名-threshold-signature&#34;&gt;4.5 门限签名 (Threshold Signature)
+&lt;/h3&gt;&lt;p&gt;需要 $n$ 个参与者中的至少 $t$ 个合作才能生成有效签名。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;机制&lt;/strong&gt;：私钥被秘密共享 (Secret Sharing) 为 $n$ 份。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用&lt;/strong&gt;：多方计算 (MPC) 钱包，高安全级密钥管理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;46-bls-签名-boneh-lynn-shacham&#34;&gt;4.6 BLS 签名 (Boneh-Lynn-Shacham)
+&lt;/h3&gt;&lt;p&gt;基于双线性配对 (Bilinear Pairing) 的签名方案。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：利用配对函数 $e: G_1 \times G_2 \to G_T$ 的“双线性特性”（$e(g^a, h^b) = e(g, h)^{ab}$），将签名验证转化为配对运算。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;签名&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;密钥：私钥 $x$，公钥 $y = g^x \in G_2$；&lt;/li&gt;
+&lt;li&gt;签名：$\sigma = H(m)^x \in G_1$（仅需群中一个元素，签名极短）；&lt;/li&gt;
+&lt;li&gt;验证：检查 $e(\sigma, g) \stackrel{?}{=} e(H(m), y)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;特性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;短签名&lt;/strong&gt;：签名只是群中的一个点，非常短。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;非交互式聚合 (Non-interactive Aggregation)&lt;/strong&gt;：可以将多个用户对不同消息的签名聚合成一个签名，且验证成本极低。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;应用&lt;/strong&gt;：Ethereum 2.0 (信标链验证者签名聚合), Zcash, Filecoin。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;5-工程实践与常见陷阱-engineering-best-practices&#34;&gt;5. 工程实践与常见陷阱 (Engineering Best Practices)
+&lt;/h2&gt;&lt;p&gt;理论安全不等于实际安全，大多数漏洞都源于实现细节。&lt;/p&gt;
+&lt;h3 id=&#34;51-随机数生成-rng&#34;&gt;5.1 随机数生成 (RNG)
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;陷阱&lt;/strong&gt;: 使用弱随机数生成器（如 C 语言 &lt;code&gt;rand()&lt;/code&gt;、JavaScript &lt;code&gt;Math.random()&lt;/code&gt;）、种子可预测、随机数 $k$ 重复/泄露。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;后果&lt;/strong&gt;: 对于 DSA/ECDSA/Schnorr，只要随机数 $k$ 泄露、预测或重复，私钥就会立即暴露。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;使用密码学安全的随机数生成器 (CSPRNG)，如 &lt;code&gt;/dev/urandom&lt;/code&gt;, &lt;code&gt;CryptGenRandom&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;优先选择&lt;strong&gt;确定性签名方案&lt;/strong&gt; (如 RFC 6979 ECDSA, Ed25519)，完全消除对 RNG 的运行时依赖。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;52-侧信道攻击-side-channel-attacks&#34;&gt;5.2 侧信道攻击 (Side-Channel Attacks)
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;陷阱&lt;/strong&gt;: 算法执行时间或功耗与私钥相关。例如，模幂运算中的分支判断。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;恒定时间实现 (Constant-time)&lt;/strong&gt;: 确保核心运算的时间不依赖于密钥数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;盲化 (Blinding)&lt;/strong&gt;: 在 RSA 运算前对密文进行随机盲化，防止计时攻击。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;53-消息编码与哈希&#34;&gt;5.3 消息编码与哈希
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;陷阱&lt;/strong&gt;: 直接对短消息签名而不哈希，或者哈希函数存在碰撞。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Hash-then-Sign&lt;/strong&gt;: 始终先对消息进行哈希。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;域分离 (Domain Separation)&lt;/strong&gt;: 在哈希输入中加入特定的前缀字符串 (如 &lt;code&gt;Hash(&amp;quot;MyApp-v1&amp;quot; || m)&lt;/code&gt;), 防止不同协议间的签名重放攻击。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;54-密钥管理&#34;&gt;5.4 密钥管理
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;陷阱&lt;/strong&gt;: 私钥硬编码（如写死在代码中）、存储在不安全内存中、未加密存储。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;使用硬件安全模块 (HSM) 或可信执行环境 (TEE/Enclave)。&lt;/li&gt;
+&lt;li&gt;使用密钥派生函数 (KDF) 保护存储的私钥。&lt;/li&gt;
+&lt;li&gt;定期轮换密钥。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;6-总结与对比&#34;&gt;6. 总结与对比
+&lt;/h2&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;特性&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;RSA-PSS&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;ECDSA&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;EdDSA (Ed25519)&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Schnorr&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;SM2&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;BLS&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;数学难题&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;大整数分解&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;椭圆曲线 DLP&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;椭圆曲线 DLP&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;DLP / ECDLP&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;椭圆曲线 DLP&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;双线性配对&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;签名长度&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;长 (如 2048-bit)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;短 (如 512-bit)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;短&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;短&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;短&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;极短&lt;/strong&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;验签速度&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;快 (小公钥指数)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;中等&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;极快&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;快&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;中等&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;慢 (配对)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;随机数依赖&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;依赖 (PSS)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;极高&lt;/strong&gt; (私钥泄露风险)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;无 (确定性生成)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;高 (或确定性)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;高&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;无&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;线性/聚合&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;否&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;否&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;否&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;是&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;否&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;强&lt;/strong&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;标准化&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;PKCS#1&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;NIST FIPS 186&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;RFC 8032&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;BIP-340&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;GM/T 0003&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;IETF Draft&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;7-理解与记忆心法-mnemonics&#34;&gt;7. 理解与记忆心法 (Mnemonics)
+&lt;/h2&gt;&lt;p&gt;建立一个**“家族谱系” + “演化故事”**的思维导图，避免死记硬背。&lt;/p&gt;
+&lt;h3 id=&#34;71-第一层核心逻辑一句话心法&#34;&gt;7.1 第一层：核心逻辑（一句话心法）
+&lt;/h3&gt;&lt;p&gt;所有数字签名都在做同一件事：&lt;strong&gt;用私钥对“消息的指纹（哈希）”盖章，公钥用来验章。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;目的&lt;/strong&gt;：防篡改（完整性）、你是你（认证）、赖不掉（不可否认）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;72-第二层两大门派按数学难题分&#34;&gt;7.2 第二层：两大门派（按数学难题分）
+&lt;/h3&gt;&lt;h4 id=&#34;1-大整数分解派rsa-家族&#34;&gt;1. 大整数分解派（RSA 家族）
+&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;代表&lt;/strong&gt;：RSA。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;记忆钩子&lt;/strong&gt;：&lt;strong&gt;“简单粗暴的幂运算”&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核心逻辑&lt;/strong&gt;：签名就是解密（$s = m^d$），验证就是加密（$m = s^e$）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;演化&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;教科书 RSA&lt;/strong&gt;：太简单，容易被利用数学性质攻击（乘法同态）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RSA-PSS&lt;/strong&gt;：为了安全，加了“盐”（随机填充），把消息打乱再签名。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;2-离散对数派dlp-家族&#34;&gt;2. 离散对数派（DLP 家族）
+&lt;/h4&gt;&lt;p&gt;这是人丁兴旺的一派，包括 ElGamal, DSA, Schnorr, ECDSA, EdDSA, SM2, BLS。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;记忆钩子&lt;/strong&gt;：&lt;strong&gt;“随机数 $k$ 的诅咒”&lt;/strong&gt;。这一派几乎所有算法在签名时都要选一个随机数 $k$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;演化故事线&lt;/strong&gt;：
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;ElGamal&lt;/strong&gt;：老祖宗。开创了用随机数 $k$ 保护私钥 $x$ 的先河。缺点是签名太长（两个大数）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Schnorr&lt;/strong&gt;：&lt;strong&gt;“完美的极简主义者”&lt;/strong&gt;。把 ElGamal 优化了，签名短、速度快、还能把多个签名加在一起（线性特性）。因为专利原因被雪藏了很久，现在比特币（Taproot）把它请回来了。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DSA&lt;/strong&gt;：&lt;strong&gt;“政府版 ElGamal”&lt;/strong&gt;。NIST 当年为了避开 RSA 专利搞的标准。它是 ElGamal 的变体，专门优化了签名长度。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ECDSA&lt;/strong&gt;：&lt;strong&gt;“DSA 的椭圆曲线版”&lt;/strong&gt;。把 DSA 搬到了椭圆曲线上。好处是&lt;strong&gt;钥匙短&lt;/strong&gt;（256位 vs RSA 3072位），手机、区块链最爱用。坏处是&lt;strong&gt;随机数 $k$ 极其脆弱&lt;/strong&gt;（$k$ 重复 = 私钥丢）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EdDSA (Ed25519)&lt;/strong&gt;：&lt;strong&gt;“工程学的胜利”&lt;/strong&gt;。为了解决 ECDSA 容易因为随机数 $k$ 写不好而出事的问题，它直接&lt;strong&gt;取消了随机数&lt;/strong&gt;（用哈希确定性生成 $k$），又快又安全。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SM2&lt;/strong&gt;：&lt;strong&gt;“国货之光”&lt;/strong&gt;。结构类似 ECDSA/Schnorr，但加了个特色：把用户身份 ID 也卷进哈希里签了。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BLS&lt;/strong&gt;：&lt;strong&gt;“来自未来的魔法”&lt;/strong&gt;。利用双线性配对，签名极短且支持无限聚合，是以太坊 2.0 的基石。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;记忆钩子：“DLP 看 $k$，漏了就完蛋；要快要稳用 Ed，聚合签名用 BLS”。&lt;/p&gt;
+&lt;h3 id=&#34;73-第三层特殊技能按场景记忆&#34;&gt;7.3 第三层：特殊技能（按场景记忆）
+&lt;/h3&gt;&lt;p&gt;把高级签名想象成拥有“超能力”的变种，对应现实故事：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;签名类型&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;超能力&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;记忆场景/故事&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;盲签名&lt;/strong&gt; (Blind)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;隐身术&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;电子现金/投票&lt;/strong&gt;。我找银行给钱盖章，但不想让银行知道钱的编号。我把编号装信封里（盲化），银行隔着信封盖章。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;群签名&lt;/strong&gt; (Group)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;公司马甲&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;警车/公司发言人&lt;/strong&gt;。你看到一辆警车违章（验证了是警车），但不知道是哪个警察开的（匿名）。只有局长（管理员）能查出是谁（可追踪）。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;环签名&lt;/strong&gt; (Ring)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;匿名混淆&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;匿名举报信&lt;/strong&gt;。我把我和几个大佬的公钥混在一起签名。别人知道“肯定是我们这圈人里的一个”，但死活查不出具体是谁。没有管理员能追踪。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;门限签名&lt;/strong&gt; (Threshold)&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;集齐龙珠&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;核按钮/多签钱包&lt;/strong&gt;。私钥被打碎成碎片。必须集齐 3 个碎片才能合成一个签名。防止单点故障或内鬼。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;BLS 签名&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;合体技&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;万人大合唱&lt;/strong&gt;。一万个人的签名可以压缩成一个签名，验证一次等于验证了一万次。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;74-总结记忆口诀&#34;&gt;7.4 总结记忆口诀
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;RSA 看填充&lt;/strong&gt;（PSS才安全）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DLP 看随机数&lt;/strong&gt;（$k$ 漏了就完蛋）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;比特币用两代&lt;/strong&gt;（老 ECDSA，新 Schnorr）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;要快要稳用 Ed&lt;/strong&gt;（Ed25519）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;聚合签名用 BLS&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;想匿名用环/群&lt;/strong&gt;，&lt;strong&gt;想隐私用盲签&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;8-练习题-practice-exercises&#34;&gt;8. 练习题 (Practice Exercises)
+&lt;/h2&gt;&lt;p&gt;通过手动计算小数值示例，是记忆算法流程的最好方式。&lt;/p&gt;
+&lt;h3 id=&#34;81-基础计算题&#34;&gt;8.1 基础计算题
+&lt;/h3&gt;&lt;h4 id=&#34;练习-1-rsa-签名&#34;&gt;练习 1: RSA 签名
+&lt;/h4&gt;&lt;p&gt;假设 RSA 参数为 $p=3, q=11$。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;计算 $N$ 和 $\phi(N)$。&lt;/li&gt;
+&lt;li&gt;若公钥 $e=3$，计算私钥 $d$。&lt;/li&gt;
+&lt;li&gt;对消息 $m=5$ 进行签名，计算 $\sigma$。&lt;/li&gt;
+&lt;li&gt;验证签名：计算 $\sigma^e \pmod N$ 是否等于 $m$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;练习-2-elgamal-签名&#34;&gt;练习 2: ElGamal 签名
+&lt;/h4&gt;&lt;p&gt;假设素数 $p=11$，生成元 $g=2$。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;私钥 $x=3$，计算公钥 $y$。&lt;/li&gt;
+&lt;li&gt;对消息 $m=5$ 签名：
+&lt;ul&gt;
+&lt;li&gt;选择随机数 $k=9$ (检查 $\gcd(k, p-1)=1$)。&lt;/li&gt;
+&lt;li&gt;计算 $r = g^k \pmod p$。&lt;/li&gt;
+&lt;li&gt;计算 $s = k^{-1}(m - xr) \pmod{p-1}$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;验证签名：检查 $g^m \equiv y^r r^s \pmod p$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;练习-3-schnorr-签名-严谨版&#34;&gt;练习 3: Schnorr 签名 (严谨版)
+&lt;/h4&gt;&lt;p&gt;为了演示真实的 Schnorr 签名，我们需要在一个素数阶子群上运算。
+参数：$p=23$ (模数), $q=11$ (子群阶), $g=4$ (生成元，阶为 11)。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;密钥生成&lt;/strong&gt;: 私钥 $x=3$。计算公钥 $y = g^x \pmod p$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;: 对消息 $m$ 签名。
+&lt;ul&gt;
+&lt;li&gt;选择随机数 $k=2$。计算承诺 $R = g^k \pmod p$。&lt;/li&gt;
+&lt;li&gt;假设哈希输出挑战 $e = 4$。&lt;/li&gt;
+&lt;li&gt;计算响应 $s = k + xe \pmod q$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;: 计算 $R&amp;rsquo; = g^s y^{-e} \pmod p$，并检查是否等于 $R$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;82-概念辨析题&#34;&gt;8.2 概念辨析题
+&lt;/h3&gt;&lt;h4 id=&#34;练习-4-连线题&#34;&gt;练习 4: 连线题
+&lt;/h4&gt;&lt;p&gt;将下列特性与对应的签名体制连接起来：
+A. 签名长度最短，且支持聚合
+B. 必须使用确定性随机数以防侧信道攻击
+C. 验证时需要检查填充格式 (Padding)
+D. 签名由 $(r, s)$ 组成，且 $s$ 的计算涉及 $k^{-1}$&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;RSA-PSS&lt;/li&gt;
+&lt;li&gt;Schnorr&lt;/li&gt;
+&lt;li&gt;ECDSA&lt;/li&gt;
+&lt;li&gt;EdDSA&lt;/li&gt;
+&lt;li&gt;BLS&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;练习-5-安全分析&#34;&gt;练习 5: 安全分析
+&lt;/h4&gt;&lt;p&gt;在 ECDSA 签名中，Alice 对两个不同的消息 $m_1, m_2$ 签名时，不小心使用了相同的随机数 $k$。
+已知签名分别为 $(r, s_1)$ 和 $(r, s_2)$。
+请问攻击者如何利用这两个签名计算出 Alice 的私钥 $x$？(提示：列出 $s_1, s_2$​ 的方程并相减)&lt;/p&gt;
+&lt;h4 id=&#34;练习-6-核心原理简答题&#34;&gt;练习 6: 核心原理简答题
+&lt;/h4&gt;&lt;ol&gt;
+&lt;li&gt;简述数字签名 EUF-CMA 安全定义的核心思想，为何该定义是实用中最严格的安全标准？&lt;/li&gt;
+&lt;li&gt;对比 RSA-PSS 与 Ed25519 的核心差异，说明在 Web 应用中优先选择 Ed25519 的原因。&lt;/li&gt;
+&lt;li&gt;为什么 ECDSA 对随机数 $k$ 的安全性要求极高，而 Ed25519 可以消除对随机数生成器的依赖？&lt;/li&gt;
+&lt;li&gt;什么是盲签名的“盲性”与“不可链接性”，请结合电子投票场景说明其作用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;83-参考答案&#34;&gt;8.3 参考答案
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;练习 1 (RSA)&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$N=33, \phi(N)=20$。&lt;/li&gt;
+&lt;li&gt;$3d \equiv 1 \pmod{20} \Rightarrow d=7$。&lt;/li&gt;
+&lt;li&gt;$\sigma = 5^7 \pmod{33}$。$5^2=25, 5^4=625\equiv 31\equiv -2, 5^7 = 5 \cdot 25 \cdot (-2) = -250 \equiv 14$。所以 $\sigma=14$。&lt;/li&gt;
+&lt;li&gt;$14^3 = 2744$。$2744 / 33 = 83 \dots 5$。验证通过。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;练习 2 (ElGamal)&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$y = 2^3 \pmod{11} = 8$。&lt;/li&gt;
+&lt;li&gt;$r = 2^9 \pmod{11} = 512 \equiv 6$。
+$k=9$，在模 10 下 $9^{-1}=9$ (因 $9 \times 9 = 81 \equiv 1$)。
+$s = 9(5 - 3 \cdot 6) \pmod{10} = 9(5 - 18) = 9(-13) = 9(7) = 63 \equiv 3$。
+签名为 $(6, 3)$。&lt;/li&gt;
+&lt;li&gt;左边 $2^5 = 32 \equiv 10$。
+右边 $8^6 \cdot 6^3 \pmod{11}$。$8 \equiv -3 \Rightarrow (-3)^6 = 3^6 = 729 \equiv 3$。$6^3 = 216 \equiv 7$。$3 \cdot 7 = 21 \equiv 10$。验证通过。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;练习 3 (Schnorr)&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;公钥&lt;/strong&gt;: $y = 4^3 = 64 = 2 \times 23 + 18 \equiv 18 \pmod{23}$。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;签名&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;$R = 4^2 = 16 \pmod{23}$。&lt;/li&gt;
+&lt;li&gt;$s = 2 + 3 \cdot 4 = 14 \equiv 3 \pmod{11}$。&lt;/li&gt;
+&lt;li&gt;签名为 $(R=16, s=3)$。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;验证&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;我们需要验证 $g^s y^{-e} \stackrel{?}{=} R \pmod p$。&lt;/li&gt;
+&lt;li&gt;$g^s = 4^3 = 64 \equiv 18 \pmod{23}$。&lt;/li&gt;
+&lt;li&gt;$y^e = 18^4 \pmod{23}$。$18 \equiv -5$。$(-5)^4 = 625 = 27 \times 23 + 4 \equiv 4$。&lt;/li&gt;
+&lt;li&gt;$y^{-e} = 4^{-1} \pmod{23}$。因为 $4 \times 6 = 24 \equiv 1$，所以逆元是 6。&lt;/li&gt;
+&lt;li&gt;$g^s y^{-e} = 18 \times 6 = 108$。&lt;/li&gt;
+&lt;li&gt;$108 = 4 \times 23 + 16 \equiv 16 \pmod{23}$。&lt;/li&gt;
+&lt;li&gt;结果等于 $R$ (16)，验证通过。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;练习 4 (连线)&lt;/strong&gt;:
+1-C, 2-A (部分特性), 3-D, 4-B, 5-A (最强聚合)
+&lt;em&gt;(注：Schnorr 支持线性聚合，BLS 支持非交互式聚合且签名更短)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;练习 5 (安全分析)&lt;/strong&gt;:
+$s_1 = k^{-1}(H(m_1) + xr)$
+$s_2 = k^{-1}(H(m_2) + xr)$
+两式相减：$s_1 - s_2 = k^{-1}(H(m_1) - H(m_2))$
+所以 $k = (H(m_1) - H(m_2)) \cdot (s_1 - s_2)^{-1} \pmod q$。
+求出 $k$ 后，代回任意一式即可求出私钥 $x$​。
+&lt;strong&gt;练习 6(原理简答)&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;核心思想：攻击者可自适应请求任意消息的签名，若无法伪造出“未请求过的消息”的有效签名（且伪造概率可忽略），则方案满足EUF-CMA安全。该定义是最严格实用标准的原因：覆盖了现实中攻击者的最强能力（主动获取签名、自适应选择消息），能抵御绝大多数实际攻击场景。&lt;/li&gt;
+&lt;li&gt;核心差异：① 数学基础：RSA-PSS基于大整数分解，Ed25519基于椭圆曲线离散对数；② 效率：Ed25519签名/验证速度远快于RSA-PSS；③ 随机数依赖：RSA-PSS依赖盐值随机，Ed25519为确定性签名；④ 密钥长度：Ed25519公钥32字节，RSA-PSS（2048位）公钥256字节。Web应用优先选Ed25519的原因：效率高、密钥短（传输存储成本低）、无随机数依赖（降低实现漏洞风险）。&lt;/li&gt;
+&lt;li&gt;ECDSA对$k$要求高的原因：$k$重复/可预测时，攻击者可通过联立签名方程求解私钥；Ed25519消除RNG依赖的原因：通过哈希函数$H(sk, m)$确定性生成$k$，$k$与私钥、消息强绑定，无需外部随机数，从根源避免$k$泄露风险。&lt;/li&gt;
+&lt;li&gt;盲性：签名者对盲化后的消息签名，无法知晓原始消息内容；不可链接性：签名者无法将最终有效签名与原始盲化消息关联。电子投票场景中，盲性确保签名者（投票站）无法获取选民投票内容，不可链接性确保签名者无法追溯某张选票的具体投票人，从而保障选民隐私与投票公正性。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;9-参考文献与扩展阅读-references&#34;&gt;9. 参考文献与扩展阅读 (References)
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;RSA-PSS&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/rfc8017&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RFC 8017 - PKCS #1: RSA Cryptography Specifications Version 2.2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ECDSA&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://csrc.nist.gov/pubs/fips/186-5/final&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;FIPS 186-5 - Digital Signature Standard (DSS)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deterministic ECDSA&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/rfc6979&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RFC 6979&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EdDSA&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/rfc8032&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;RFC 8032 - Edwards-Curve Digital Signature Algorithm (EdDSA)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Schnorr&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;BIP-340 - Schnorr Signatures for secp256k1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;BLS&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-bls-signature-05&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;IETF Draft - BLS Signatures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SM2&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;http://openstd.samr.gov.cn/bzgk/gb/std_list?p.p1=0&amp;amp;p.p90=circulation_date&amp;amp;p.p91=desc&amp;amp;p.p2=GB/T%2032918.2-2016&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GB/T 32918.2-2016 - SM2椭圆曲线公钥密码算法 第2部分：数字签名算法&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
