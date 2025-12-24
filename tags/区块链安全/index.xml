@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <copyright>梵殇-fanshanng</copyright>
         <lastBuildDate>Wed, 24 Dec 2025 21:17:41 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Digital_Signature</title>
+        <title>数字签名体制学习笔记</title>
         <link>https://fanshanng.cn/p/digital_signature/</link>
         <pubDate>Wed, 24 Dec 2025 21:17:41 +0800</pubDate>
         
         <guid>https://fanshanng.cn/p/digital_signature/</guid>
-        <description>&lt;img src="https://s.panlai.com/zb_users/upload/2025/12/bizhihui_com_202512231766466605537803.png-arthumbs" alt="Featured image of post Digital_Signature" /&gt;&lt;h1 id=&#34;数字签名体制学习笔记&#34;&gt;数字签名体制学习笔记
+        <description>&lt;img src="https://s.panlai.com/zb_users/upload/2025/12/bizhihui_com_202512231766466605537803.png-arthumbs" alt="Featured image of post 数字签名体制学习笔记" /&gt;&lt;h1 id=&#34;数字签名体制学习笔记&#34;&gt;数字签名体制学习笔记
 &lt;/h1&gt;&lt;h2 id=&#34;1-概述-overview&#34;&gt;1. 概述 (Overview)
 &lt;/h2&gt;&lt;p&gt;数字签名（Digital Signature）是公钥密码学的核心原语，通过“私钥签名、公钥验证”的机制，模拟物理手写签名的法律效力，核心作用是保障消息的&lt;strong&gt;完整性&lt;/strong&gt;（防篡改）、&lt;strong&gt;来源认证&lt;/strong&gt;（防伪造）和&lt;strong&gt;不可否认性&lt;/strong&gt;（防抵赖），是电子政务、电子商务、区块链等领域的安全基石。&lt;/p&gt;
 &lt;h3 id=&#34;11-基本模型&#34;&gt;1.1 基本模型
