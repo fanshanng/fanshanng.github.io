@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://fanshanng.cn/p/hugo-password-protection/'>
 
-<link rel="stylesheet" href="/scss/style.min.5310f22e022652afcfc6ce2572318e7b87d9aa3dacf90eab4d41751b4bcee178.css"><meta property='og:title' content="Hugo 博客添加文章密码保护功能">
+<link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="Hugo 博客添加文章密码保护功能">
 <meta property='og:description' content="本文记录了如何为 Hugo 博客（基于 Stack 主题）添加文章密码保护功能。这是一个基于前端的轻量级保护方案，适用于静态博客。\n实现原理 内容页保护：通过检查文章 Front Matter 中的 password 字段。如果存在，将正文内容进行 Base64 编码并隐藏。用户输入密码后，前端计算 SHA256 哈希值与预设密码比对，验证通过后解码并显示内容。 隐私防泄露： RSS：在 RSS 订阅源中隐藏加密文章的正文，只显示提示信息。 搜索：在站内搜索索引中排除加密文章的正文，防止通过搜索结果预览泄露内容。 修改步骤 1. 修改文章内容页模板 文件路径：layouts/partials/article/components/content.html\n">
 <meta property='og:url' content='https://fanshanng.cn/p/hugo-password-protection/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
