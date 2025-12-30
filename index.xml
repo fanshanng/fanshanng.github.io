@@ -115,10 +115,10 @@
 &lt;p&gt;数学基础：欧拉函数、欧拉定理、费马小定理；&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;欧拉函数性质：素数 p 的&lt;em&gt;φ&lt;/em&gt;(&lt;em&gt;p&lt;/em&gt;)=&lt;em&gt;p&lt;/em&gt;−1；若&lt;em&gt;n&lt;/em&gt;=&lt;em&gt;p&lt;/em&gt;∗&lt;em&gt;q&lt;/em&gt;（p、q 为不同素数），则&lt;em&gt;φ&lt;/em&gt;(&lt;em&gt;n&lt;/em&gt;)=(&lt;em&gt;p&lt;/em&gt;−1)(&lt;em&gt;q&lt;/em&gt;−1)；&lt;/p&gt;
+&lt;p&gt;欧拉函数性质：素数 $p$ 的 $\varphi(p) = p-1$；若 $n = p \times q$（$p, q$ 为不同素数），则 $\varphi(n) = (p-1)(q-1)$；&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;欧拉定理：若 a 与 n 互素，则&lt;em&gt;a**φ&lt;/em&gt;(&lt;em&gt;n&lt;/em&gt;)&lt;em&gt;m&lt;strong&gt;o&lt;/strong&gt;d**n&lt;/em&gt;=1；费马定理是其特例（n 为素数时）。&lt;/p&gt;
+&lt;p&gt;欧拉定理：若 $a$ 与 $n$ 互素，则 $a^{\varphi(n)} \equiv 1 \pmod{n}$；费马定理是其特例（$n$ 为素数时）。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
