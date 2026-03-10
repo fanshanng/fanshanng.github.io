@@ -757,7 +757,7 @@
 &lt;li&gt;传统日志缺陷：依赖可能被篡改的 OS，日志信息不完备；&lt;/li&gt;
 &lt;li&gt;ReVirt 系统：将 Guest OS 置于虚拟机中，VMM 在独立域记录日志，避免日志篡改，完整记录非确定性事件（如中断、用户输入），支持入侵行为重放分析。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;57-安全多方计算-smc&#34;&gt;5.7 安全多方计算 (SMC)
+&lt;h3 id=&#34;57-安全多方计算-mpc&#34;&gt;5.7 安全多方计算 (MPC)
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;定义&lt;/strong&gt;：多个参与方，每一个参与方拥有一个秘密信息，他们希望利用这些秘密信息作为输入，共同计算一个函数。安全多方计算是&lt;strong&gt;无可信第三方的保护隐私计算协议&lt;/strong&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;模型&lt;/strong&gt;：
@@ -1846,8 +1846,10 @@ $$ \text{State} = \text{State} \oplus \text{RoundKey}_i $$&lt;hr&gt;
 &lt;li&gt;&lt;strong&gt;后续字 $W[i]$&lt;/strong&gt;:
 &lt;ul&gt;
 &lt;li&gt;如果 $i$ 是 4 的倍数:
+
 $$ W[i] = W[i-4] \oplus \text{SubWord}(\text{RotWord}(W[i-1])) \oplus \text{Rcon}[i/4] $$&lt;/li&gt;
 &lt;li&gt;否则:
+
 $$ W[i] = W[i-4] \oplus W[i-1] $$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;

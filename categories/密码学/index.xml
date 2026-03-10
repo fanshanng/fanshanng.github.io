@@ -782,8 +782,10 @@ $$ \text{State} = \text{State} \oplus \text{RoundKey}_i $$&lt;hr&gt;
 &lt;li&gt;&lt;strong&gt;后续字 $W[i]$&lt;/strong&gt;:
 &lt;ul&gt;
 &lt;li&gt;如果 $i$ 是 4 的倍数:
+
 $$ W[i] = W[i-4] \oplus \text{SubWord}(\text{RotWord}(W[i-1])) \oplus \text{Rcon}[i/4] $$&lt;/li&gt;
 &lt;li&gt;否则:
+
 $$ W[i] = W[i-4] \oplus W[i-1] $$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
