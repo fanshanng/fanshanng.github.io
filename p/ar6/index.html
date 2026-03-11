@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的执行（如二进制程序运行、动态库加载）和链接（编译过程中的模块组合），是跨平台二进制兼容的基础。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文讲解了 ELF 与 so 文件的基础结构、节与段的关系以及 ARM 指令入门知识，为后续 native 逆向打下基础。">
 <title>安卓逆向入门六：so(ELF)文件分析与ARM基础知识</title>
 
 <link rel='canonical' href='https://fanshanng.cn/p/ar6/'>
 
 <link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="安卓逆向入门六：so(ELF)文件分析与ARM基础知识">
-<meta property='og:description' content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的执行（如二进制程序运行、动态库加载）和链接（编译过程中的模块组合），是跨平台二进制兼容的基础。\n">
+<meta property='og:description' content="本文讲解了 ELF 与 so 文件的基础结构、节与段的关系以及 ARM 指令入门知识，为后续 native 逆向打下基础。">
 <meta property='og:url' content='https://fanshanng.cn/p/ar6/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安卓' /><meta property='article:tag' content='ELF文件' /><meta property='article:tag' content='so文件' /><meta property='article:tag' content='ARM基础知识' /><meta property='article:published_time' content='2025-09-25T22:07:51&#43;08:00'/><meta property='article:modified_time' content='2025-09-25T22:07:51&#43;08:00'/><meta property='og:image' content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png' />
 <meta name="twitter:title" content="安卓逆向入门六：so(ELF)文件分析与ARM基础知识">
-<meta name="twitter:description" content="关键词：ELF文件入门、so文件分析 、ARM基础知识\n0x00 ELF文件入门 ELF（Executable and Linkable Format）是一种可执行和可链接的文件格式，是linux底下二进制文件，可以理解为windows下的PE文件，在Android中可以比作SO，方便函数的移植，在常用于保护Android软件，增加逆向难度。其核心价值在于支持程序的执行（如二进制程序运行、动态库加载）和链接（编译过程中的模块组合），是跨平台二进制兼容的基础。\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="本文讲解了 ELF 与 so 文件的基础结构、节与段的关系以及 ARM 指令入门知识，为后续 native 逆向打下基础。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
 
     </head>
@@ -391,6 +391,10 @@ unicode: "ece7"
             <a href="/p/ar6/">安卓逆向入门六：so(ELF)文件分析与ARM基础知识</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            本文讲解了 ELF 与 so 文件的基础结构、节与段的关系以及 ARM 指令入门知识，为后续 native 逆向打下基础。
+        </h3>
         
     </div>
 

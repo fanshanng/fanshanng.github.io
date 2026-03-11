@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="bbox 主函数目测是一个类似迷宫，点进去看了逻辑，发现是推箱子，简单来说2是人，3是箱子，4是目的地\n这个是d的逻辑，如果不是最右边（19)，就会+1，y_1是新的横坐标索引，x是纵坐标索引，n应该是挑战的个数，5600/400=14个挑战。 ">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文复盘了 qwbS8 题目的核心逻辑分析过程，围绕地图状态、操作约束与结果构造给出解题路径。">
 <title>2024强网杯复盘</title>
 
 <link rel='canonical' href='https://fanshanng.cn/p/qwbs8/'>
 
 <link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="2024强网杯复盘">
-<meta property='og:description' content="bbox 主函数目测是一个类似迷宫，点进去看了逻辑，发现是推箱子，简单来说2是人，3是箱子，4是目的地\n这个是d的逻辑，如果不是最右边（19)，就会+1，y_1是新的横坐标索引，x是纵坐标索引，n应该是挑战的个数，5600/400=14个挑战。 ">
+<meta property='og:description' content="本文复盘了 qwbS8 题目的核心逻辑分析过程，围绕地图状态、操作约束与结果构造给出解题路径。">
 <meta property='og:url' content='https://fanshanng.cn/p/qwbs8/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ctf' /><meta property='article:published_time' content='2025-10-07T23:31:14&#43;08:00'/><meta property='article:modified_time' content='2025-10-07T23:31:14&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs' />
 <meta name="twitter:title" content="2024强网杯复盘">
-<meta name="twitter:description" content="bbox 主函数目测是一个类似迷宫，点进去看了逻辑，发现是推箱子，简单来说2是人，3是箱子，4是目的地\n这个是d的逻辑，如果不是最右边（19)，就会+1，y_1是新的横坐标索引，x是纵坐标索引，n应该是挑战的个数，5600/400=14个挑战。 "><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="本文复盘了 qwbS8 题目的核心逻辑分析过程，围绕地图状态、操作约束与结果构造给出解题路径。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
 
     </head>
@@ -337,6 +337,10 @@ unicode: "ece7"
             <a href="/p/qwbs8/">2024强网杯复盘</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            本文复盘了 qwbS8 题目的核心逻辑分析过程，围绕地图状态、操作约束与结果构造给出解题路径。
+        </h3>
         
     </div>
 
@@ -1513,6 +1517,25 @@ unicode: "ece7"
             
                 
 <article class="has-image">
+    <a href="/p/qwbs8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs" loading="lazy" data-key="QwbS8" data-hash="https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">2024强网杯复盘</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/p/19ciscn/">
         
         
@@ -1582,25 +1605,6 @@ unicode: "ece7"
 
         <div class="article-details">
             <h2 class="article-title">Buuctf刷题记录</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/minil/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs" loading="lazy" data-key="minil" data-hash="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">MiniL</h2>
         </div>
     </a>
 </article>

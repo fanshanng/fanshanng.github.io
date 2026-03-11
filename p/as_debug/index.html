@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server ">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文记录了一次安卓动态调试实战，整理了常用寄存器、调试排错方法与 so 加载相关问题的处理经验。">
 <title>一次IDA动态调试安卓apk记录</title>
 
 <link rel='canonical' href='https://fanshanng.cn/p/as_debug/'>
 
 <link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="一次IDA动态调试安卓apk记录">
-<meta property='og:description' content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server ">
+<meta property='og:description' content="本文记录了一次安卓动态调试实战，整理了常用寄存器、调试排错方法与 so 加载相关问题的处理经验。">
 <meta property='og:url' content='https://fanshanng.cn/p/as_debug/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安卓' /><meta property='article:published_time' content='2025-09-26T23:55:59&#43;08:00'/><meta property='article:modified_time' content='2025-09-26T23:55:59&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs' />
 <meta name="twitter:title" content="一次IDA动态调试安卓apk记录">
-<meta name="twitter:description" content="一次IDA动态调试安卓apk记录 工具清单：IDA Pro9.1 小米手机（MIUI 15.5.2）吾爱破解的教程demo（解压密码：52pj） ADB环境 在IDA目录下的dbgsrv，选择跟手机架构一致的server "><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="本文记录了一次安卓动态调试实战，整理了常用寄存器、调试排错方法与 so 加载相关问题的处理经验。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
 
     </head>
@@ -373,6 +373,10 @@ unicode: "ece7"
             <a href="/p/as_debug/">一次IDA动态调试安卓apk记录</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            本文记录了一次安卓动态调试实战，整理了常用寄存器、调试排错方法与 so 加载相关问题的处理经验。
+        </h3>
         
     </div>
 

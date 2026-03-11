@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="wasm-login 某人本想在2025年12月第三个周末爆肝一个web安全登录demo，结果不仅搞到周一凌晨，他自己还忘了成功登录时的时间戳了，你能帮他找回来吗？\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文记录了 CISCN 与 CCB 逆向题的完整解题过程，重点说明了 Wasm 登录逻辑定位、时间戳爆破思路与最终结果验证。">
 <title>CISCN &amp; CCB 2025 部分逆向方向 WP</title>
 
 <link rel='canonical' href='https://fanshanng.cn/p/19ciscn/'>
 
 <link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="CISCN & CCB 2025 部分逆向方向 WP">
-<meta property='og:description' content="wasm-login 某人本想在2025年12月第三个周末爆肝一个web安全登录demo，结果不仅搞到周一凌晨，他自己还忘了成功登录时的时间戳了，你能帮他找回来吗？\n">
+<meta property='og:description' content="本文记录了 CISCN 与 CCB 逆向题的完整解题过程，重点说明了 Wasm 登录逻辑定位、时间戳爆破思路与最终结果验证。">
 <meta property='og:url' content='https://fanshanng.cn/p/19ciscn/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='wasm' /><meta property='article:tag' content='ASE' /><meta property='article:tag' content='godat逆向' /><meta property='article:published_time' content='2025-12-29T00:14:18&#43;08:00'/><meta property='article:modified_time' content='2025-12-29T00:14:18&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/04/20250427020155174569051569879.jpg-pcthumbs' />
 <meta name="twitter:title" content="CISCN & CCB 2025 部分逆向方向 WP">
-<meta name="twitter:description" content="wasm-login 某人本想在2025年12月第三个周末爆肝一个web安全登录demo，结果不仅搞到周一凌晨，他自己还忘了成功登录时的时间戳了，你能帮他找回来吗？\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="本文记录了 CISCN 与 CCB 逆向题的完整解题过程，重点说明了 Wasm 登录逻辑定位、时间戳爆破思路与最终结果验证。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/04/20250427020155174569051569879.jpg-pcthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
 
     </head>
@@ -337,6 +337,10 @@ unicode: "ece7"
             <a href="/p/19ciscn/">CISCN &amp; CCB 2025 部分逆向方向 WP</a>
         </h2>
     
+        
+        <h3 class="article-subtitle">
+            本文记录了 CISCN 与 CCB 逆向题的完整解题过程，重点说明了 Wasm 登录逻辑定位、时间戳爆破思路与最终结果验证。
+        </h3>
         
     </div>
 
@@ -1018,6 +1022,25 @@ unicode: "ece7"
             
                 
 <article class="has-image">
+    <a href="/p/qwbs8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs" loading="lazy" data-key="QwbS8" data-hash="https://s.panlai.com/zb_users/upload/2025/04/20250428000432174576987299815.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">2024强网杯复盘</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/p/jqctf/">
         
         
@@ -1049,25 +1072,6 @@ unicode: "ece7"
 
         <div class="article-details">
             <h2 class="article-title">Buuctf刷题记录</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/minil/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs" loading="lazy" data-key="minil" data-hash="https://s.panlai.com/zb_users/upload/2025/05/20250517050947174742978738940.jpg-arthumbs"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">MiniL</h2>
         </div>
     </a>
 </article>
