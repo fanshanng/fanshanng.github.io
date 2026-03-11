@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Magisk on 梵殇-fanshanng</title>
+        <link>https://fanshanng.cn/tags/magisk/</link>
+        <description>Recent content in Magisk on 梵殇-fanshanng</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>梵殇-fanshanng</copyright>
+        <lastBuildDate>Wed, 11 Mar 2026 13:26:59 +0800</lastBuildDate><atom:link href="https://fanshanng.cn/tags/magisk/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Hunter Root 检测点分析与绕过</title>
+        <link>https://fanshanng.cn/p/hunteranalyze/</link>
+        <pubDate>Wed, 11 Mar 2026 13:26:59 +0800</pubDate>
+        
+        <guid>https://fanshanng.cn/p/hunteranalyze/</guid>
+        <description>&lt;img src="https://s.panlai.com/zb_users/upload/2026/01/bizhihui_com_202601261769437985238046.png-arthumbs" alt="Featured image of post Hunter Root 检测点分析与绕过" /&gt;&lt;p&gt;这篇文章记录一次对 &lt;a class=&#34;link&#34; href=&#34;https://github.com/w296488320/HunterUpdate&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hunter&lt;/a&gt; Root 环境检测的处理过程。实际碰到的点主要有两个：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;硬件级完整性检测：TEE / Verified Boot。&lt;/li&gt;
+&lt;li&gt;日志侧信道检测：通过系统审计日志反推设备存在 Root 痕迹。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这两个点一个偏“设备状态伪装”，一个偏“痕迹清理与权限隔离”，思路并不一样，分开处理会更清晰。&lt;/p&gt;
+&lt;h2 id=&#34;0x00-结论先看&#34;&gt;0x00 结论先看
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;TEE / Verified Boot 检测可通过 &lt;a class=&#34;link&#34; href=&#34;https://github.com/5ec1cff/TrickyStore?tab=readme-ov-file&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;TrickyStore&lt;/a&gt; 处理。&lt;/li&gt;
+&lt;li&gt;日志嗅探检测的关键不是隐藏文件本身，而是阻止目标 App 读取 &lt;code&gt;logcat&lt;/code&gt; 中的审计日志。&lt;/li&gt;
+&lt;li&gt;处理完成后，Hunter 检测页恢复绿色。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;0x01-硬件级检测tee--verified-boot&#34;&gt;0x01 硬件级检测：TEE &amp;amp; Verified Boot
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20260311133913.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20260311133936.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;处理方法&#34;&gt;处理方法
+&lt;/h3&gt;&lt;p&gt;部署 &lt;a class=&#34;link&#34; href=&#34;https://github.com/5ec1cff/TrickyStore?tab=readme-ov-file&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;TrickyStore&lt;/a&gt; 模块，并在 &lt;code&gt;/data/adb/tricky_store/&lt;/code&gt; 中配置 &lt;code&gt;target.txt&lt;/code&gt;，将 Hunter 的目标包名加入处理列表。&lt;/p&gt;
+&lt;p&gt;如果系统里同时还用了其他隐藏类模块，建议先确认模块职责不要重叠，否则排查时很容易混淆到底是谁生效。&lt;/p&gt;
+&lt;h3 id=&#34;原理分析&#34;&gt;原理分析
+&lt;/h3&gt;&lt;p&gt;这一类检测关注的不是普通文件路径，而是更底层的设备完整性状态，例如 Verified Boot、Key Attestation 或 TEE 相关字段。即使常规的 Root 隐藏已经处理过，应用依旧可以通过这些硬件或系统级信号判断设备是否“可信”。&lt;/p&gt;
+&lt;p&gt;TrickyStore 的思路，本质上是对目标应用可见的完整性信息做定向伪装，让应用在读取这些状态时拿到“看起来正常”的结果。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/ops-coffee-1773208318876.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;0x02-日志嗅探检测find-root-file-in-sniff&#34;&gt;0x02 日志嗅探检测：Find Root File In Sniff
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20260311134007.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;问题定位&#34;&gt;问题定位
+&lt;/h3&gt;&lt;p&gt;我最初根据日志里的路径，怀疑它是在探测 APatch 相关目录；但后面复查设备环境时，发现当前系统里并没有 &lt;code&gt;/data/adb/ap/log&lt;/code&gt;，也没有安装 APatch。&lt;/p&gt;
+&lt;p&gt;因此，更稳妥的结论应该是：Hunter 命中的并不是“当前目录一定存在”这个事实，而是它从系统日志里读到了与 Root 环境相关的审计记录。这个记录可能来自历史残留、之前装过的组件、其他模块留下的兼容路径，或者单纯是一次失败访问触发的 &lt;code&gt;avc: denied&lt;/code&gt; 日志。&lt;/p&gt;
+&lt;p&gt;只要目标 App 能读到这类日志，它就可以不依赖目录是否真实存在，直接利用审计信息完成环境判定。&lt;/p&gt;
+&lt;p&gt;换句话说，它并不是直接“看见了 Root 文件”，而是通过“访问失败后留下的系统日志”完成了侧信道检测。&lt;/p&gt;
+&lt;h3 id=&#34;处理方法-1&#34;&gt;处理方法
+&lt;/h3&gt;&lt;p&gt;先清理旧日志，再剥夺 Hunter 读取日志的能力：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;logcat -c
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;appops &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; com.zhenxi.hunter &lt;span class=&#34;m&#34;&gt;43&lt;/span&gt; ignore
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pm revoke com.zhenxi.hunter android.permission.READ_LOGS
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;logcat -c&lt;/code&gt; 用于清理历史日志，避免旧的 &lt;code&gt;avc&lt;/code&gt; 记录继续干扰检测结果。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;appops set com.zhenxi.hunter 43 ignore&lt;/code&gt; 用于在 AppOps 层面对 &lt;code&gt;READ_LOGS&lt;/code&gt; 做拦截，这里的 &lt;code&gt;43&lt;/code&gt; 对应 &lt;code&gt;READ_LOGS&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pm revoke com.zhenxi.hunter android.permission.READ_LOGS&lt;/code&gt; 用于从权限层进一步收紧日志读取能力。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;原理分析-1&#34;&gt;原理分析
+&lt;/h3&gt;&lt;p&gt;核心思路不是删除某个特定模块的痕迹，而是切断“日志回显”这条检测链。只要目标 App 无法读取 &lt;code&gt;logcat&lt;/code&gt;，它就拿不到 SELinux 拒绝访问后产生的审计记录，自然也就无法利用这条侧信道做环境判定。&lt;/p&gt;
+&lt;h2 id=&#34;0x03-验证结果&#34;&gt;0x03 验证结果
+&lt;/h2&gt;&lt;p&gt;重新打开 Hunter 后，检测页面已经恢复为绿色，说明这检测点都已经被处理掉。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/fanshanng/blog_picture/master/20260311140602.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;0x04-小结&#34;&gt;0x04 小结
+&lt;/h2&gt;&lt;p&gt;这次处理比较有代表性的一点在于：Root 检测未必都是“扫文件”和“扫包名”这么直接。&lt;/p&gt;
+&lt;p&gt;Hunter 这里至少包含两种不同思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过 TEE / Verified Boot 判断设备完整性。&lt;/li&gt;
+&lt;li&gt;通过 &lt;code&gt;logcat&lt;/code&gt; 读取 &lt;code&gt;avc: denied&lt;/code&gt; 审计日志，利用系统日志做侧信道取证，而不必依赖目标路径当前真实存在。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因此，绕过时也不能只盯着“隐藏 su、隐藏 Magisk”这一类老思路。很多时候真正暴露环境的，不是目标文件本身，而是系统在访问、拒绝、审计过程中留下的附带信息。日志里出现的路径，也不应该直接等价为“当前设备上一定存在这个模块或这个目录”。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
