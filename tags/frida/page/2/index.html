@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文总结了 Hunteranalyze2 的分析过程，提炼了关键线索定位、解题思路与最终结论。">
-<title>Hunteranalyze2</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="你好，我是梵殇，欢迎来到我的博客">
+<title>Tag: Frida - Pager 2 - 梵殇-fanshanng</title>
 
-<link rel='canonical' href='https://fanshanng.cn/p/hunteranalyze2/'>
+<link rel='canonical' href='https://fanshanng.cn/tags/frida/'>
 
-<link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="Hunteranalyze2">
-<meta property='og:description' content="本文总结了 Hunteranalyze2 的分析过程，提炼了关键线索定位、解题思路与最终结论。">
-<meta property='og:url' content='https://fanshanng.cn/p/hunteranalyze2/'>
+<link rel="stylesheet" href="/scss/style.min.9ace00b2c83678ae82fe7064e106a6e036817ad8953ddbb472e51ac169356b93.css"><meta property='og:title' content="Tag: Frida - 梵殇-fanshanng">
+<meta property='og:description' content="你好，我是梵殇，欢迎来到我的博客">
+<meta property='og:url' content='https://fanshanng.cn/tags/frida/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-03-11T14:39:20&#43;08:00'/><meta property='article:modified_time' content='2026-03-11T14:39:20&#43;08:00'/>
-<meta name="twitter:title" content="Hunteranalyze2">
-<meta name="twitter:description" content="本文总结了 Hunteranalyze2 的分析过程，提炼了关键线索定位、解题思路与最终结论。"><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-03-11T14:39:20&#43;08:00 '/>
+<meta name="twitter:title" content="Tag: Frida - 梵殇-fanshanng">
+<meta name="twitter:description" content="你好，我是梵殇，欢迎来到我的博客"><link rel="alternate" type="application/rss&#43;xml" href="https://fanshanng.cn/tags/frida/index.xml"><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
 
     </head>
-    <body class="
-    article-page
-    ">
+    <body class="">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -306,181 +304,367 @@ unicode: "ece7"
     </meting-js>
 </aside>
 
-    
-
-            <main class="main full-width">
-    <article class="main-article">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-
-    <div class="article-title-wrapper">
-        <h2 class="article-title">
-            <a href="/p/hunteranalyze2/">Hunteranalyze2</a>
-        </h2>
-    
+    <aside class="sidebar right-sidebar sticky">
         
-        <h3 class="article-subtitle">
-            本文总结了 Hunteranalyze2 的分析过程，提炼了关键线索定位、解题思路与最终结论。
-        </h3>
+            
+                <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+            
+        
+            
+                <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2026">
+                        
+                            <span class="year">2026</span>
+                            <span class="count">3</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2025">
+                        
+                            <span class="year">2025</span>
+                            <span class="count">24</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">分类</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" class="font_size_13">
+                安卓逆向
+            </a>
+        
+            <a href="/categories/ctf/" class="font_size_7">
+                Ctf
+            </a>
+        
+            <a href="/categories/%E7%AC%94%E8%AE%B0/" class="font_size_4">
+                笔记
+            </a>
+        
+            <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="font_size_3">
+                密码学
+            </a>
+        
+            <a href="/categories/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E8%AE%BE/" class="font_size_2">
+                博客建设
+            </a>
+        
+            <a href="/categories/android-reverse/" class="font_size_1">
+                Android Reverse
+            </a>
         
     </div>
-
-    
-    
-    
-    
-    
-    <footer class="article-time">
-        
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">
-                    
-                    发布于2026-03-11</time>
-            </div>
-        
-
-        
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-words">
-                    
-                    
-                    
-                    约0分钟，共0字
-                </time>
-            </div>
-        
-
-        
-        <div>
-            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-            <time class="article-pageview">
-                <span class="waline-pageview-count" data-path="/p/hunteranalyze2/">0</span> 次浏览
-            </time>
-        </div>
-
-        
-        <div>
-            <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1758618189186" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4694" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M853.333333 138.666667H170.666667c-40.533333 0-74.666667 34.133333-74.666667 74.666666v512c0 40.533333 34.133333 74.666667 74.666667 74.666667h151.466666V917.333333c0 12.8 8.533333 25.6 19.2 29.866667 4.266667 2.133333 8.533333 2.133333 12.8 2.133333 8.533333 0 17.066667-4.266667 23.466667-10.666666l136.533333-138.666667H853.333333c40.533333 0 74.666667-34.133333 74.666667-74.666667V213.333333c0-40.533333-34.133333-74.666667-74.666667-74.666666z m10.666667 586.666666c0 6.4-4.266667 10.666667-10.666667 10.666667H501.333333c-8.533333 0-17.066667 4.266667-23.466666 10.666667l-89.6 93.866666V768c0-17.066667-14.933333-32-32-32H170.666667c-6.4 0-10.666667-4.266667-10.666667-10.666667V213.333333c0-6.4 4.266667-10.666667 10.666667-10.666666h682.666666c6.4 0 10.666667 4.266667 10.666667 10.666666v512z" fill="#666666" p-id="4695"></path><path d="M512 490.666667H298.666667c-17.066667 0-32 14.933333-32 32S281.6 554.666667 298.666667 554.666667h213.333333c17.066667 0 32-14.933333 32-32S529.066667 490.666667 512 490.666667zM672 341.333333H298.666667c-17.066667 0-32 14.933333-32 32S281.6 405.333333 298.666667 405.333333h373.333333c17.066667 0 32-14.933333 32-32s-14.933333-32-32-32z" fill="#666666" p-id="4696"></path></svg>
-            <time class="article-comment">
-                <span class="waline-comment-count" data-path="/p/hunteranalyze2/">0</span> 条评论
-            </time>
-        </div>
-
-    </footer>
-    
-
-    
-
-</div>
-</header>
-
-    <section class="article-content">
-    
-    
-    
-    
-        
-    
 </section>
 
-
-    <footer class="article-footer">
-    
-
-    
-    <section class="article-copyright">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
 </svg>
 
 
 
-        <span>Licensed under CC BY-NC-SA 4.0</span>
-    </section>
-    </footer>
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
 
-
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-	const mainArticleElement = document.querySelector(".main-article");
-        renderMathInElement(mainArticleElement, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });})
-</script>
-
-    
-    
-</article>
-
-    
-
-    
-
-     
-    
+    <div class="tagCloud-tags">
         
-    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
-<div id="waline" class="waline-container"></div>
-<style>
-    .waline-container {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-        --waline-font-size: var(--article-font-size);
-    }
-    .waline-container .wl-count {
-        color: var(--card-text-color-main);
-    }
-</style><script type="module">
-    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
-    init({"comment":true,"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"博主","placeholder":"欢迎评论捏"},"requiredMeta":["name","email","url"],"serverURL":"https://comment.fanshanng.cn"});
-</script>
+            <a href="/tags/%E5%AE%89%E5%8D%93/" class="font_size_10">
+                安卓
+            </a>
+        
+            <a href="/tags/frida/" class="font_size_4">
+                Frida
+            </a>
+        
+            <a href="/tags/python/" class="font_size_3">
+                Python
+            </a>
+        
+            <a href="/tags/root/" class="font_size_3">
+                Root
+            </a>
+        
+            <a href="/tags/ctf/" class="font_size_2">
+                Ctf
+            </a>
+        
+            <a href="/tags/hook/" class="font_size_2">
+                Hook
+            </a>
+        
+            <a href="/tags/hugo/" class="font_size_2">
+                Hugo
+            </a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/" class="font_size_2">
+                算法
+            </a>
+        
+            <a href="/tags/%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4/" class="font_size_2">
+                隐私保护
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                Activity
+            </a>
+        
+            <a href="/tags/aes/" class="font_size_1">
+                AES
+            </a>
+        
+            <a href="/tags/android/" class="font_size_1">
+                Android
+            </a>
+        
+            <a href="/tags/apk%E7%AD%BE%E5%90%8D/" class="font_size_1">
+                Apk签名
+            </a>
+        
+            <a href="/tags/arm%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="font_size_1">
+                ARM基础知识
+            </a>
+        
+            <a href="/tags/ase/" class="font_size_1">
+                ASE
+            </a>
+        
+            <a href="/tags/buuctf/" class="font_size_1">
+                Buuctf
+            </a>
+        
+            <a href="/tags/des/" class="font_size_1">
+                DES
+            </a>
+        
+            <a href="/tags/ecc/" class="font_size_1">
+                ECC
+            </a>
+        
+            <a href="/tags/elf%E6%96%87%E4%BB%B6/" class="font_size_1">
+                ELF文件
+            </a>
+        
+            <a href="/tags/flare-on/" class="font_size_1">
+                Flare-On
+            </a>
+        
+            <a href="/tags/godat%E9%80%86%E5%90%91/" class="font_size_1">
+                Godat逆向
+            </a>
+        
+            <a href="/tags/io%E9%87%8D%E5%AE%9A%E5%90%91/" class="font_size_1">
+                Io重定向
+            </a>
+        
+            <a href="/tags/javascript/" class="font_size_1">
+                JavaScript
+            </a>
+        
+            <a href="/tags/jeb/" class="font_size_1">
+                Jeb
+            </a>
+        
+            <a href="/tags/log%E6%8F%92%E6%A1%A9/" class="font_size_1">
+                Log插桩
+            </a>
+        
+            <a href="/tags/magisk/" class="font_size_1">
+                Magisk
+            </a>
+        
+            <a href="/tags/minil/" class="font_size_1">
+                MiniL
+            </a>
+        
+            <a href="/tags/pm%E4%BB%A3%E7%90%86/" class="font_size_1">
+                PM代理
+            </a>
+        
+            <a href="/tags/rsa/" class="font_size_1">
+                RSA
+            </a>
+        
+            <a href="/tags/smali/" class="font_size_1">
+                Smali
+            </a>
+        
+            <a href="/tags/so%E6%96%87%E4%BB%B6/" class="font_size_1">
+                So文件
+            </a>
+        
+            <a href="/tags/wasm/" class="font_size_1">
+                Wasm
+            </a>
+        
+            <a href="/tags/wifiadb/" class="font_size_1">
+                Wifiadb
+            </a>
+        
+            <a href="/tags/xposed/" class="font_size_1">
+                Xposed
+            </a>
+        
+            <a href="/tags/%E4%BA%AC%E9%BA%92ctf/" class="font_size_1">
+                京麒ctf
+            </a>
+        
+            <a href="/tags/%E5%85%89%E9%80%9F%E8%99%9A%E6%8B%9F%E6%9C%BA/" class="font_size_1">
+                光速虚拟机
+            </a>
+        
+            <a href="/tags/%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%AD%A6/" class="font_size_1">
+                公钥密码学
+            </a>
+        
+            <a href="/tags/%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91/" class="font_size_1">
+                功能开发
+            </a>
+        
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/" class="font_size_1">
+                动态调试
+            </a>
+        
+            <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%89%E5%85%A8/" class="font_size_1">
+                区块链安全
+            </a>
+        
+            <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" class="font_size_1">
+                大数据
+            </a>
+        
+            <a href="/tags/%E6%95%99%E7%A8%8B/" class="font_size_1">
+                教程
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" class="font_size_1">
+                数字签名
+            </a>
+        
+            <a href="/tags/%E7%BE%8E%E5%8C%96/" class="font_size_1">
+                美化
+            </a>
+        
+    </div>
+</section>
+            
+        
+    </aside>
 
+
+            <main class="main full-width">
+    <header>
+        <h3 class="section-title">
+            
+                Tags
+            
+        </h3>
+
+        <div class="section-card">
+            <div class="section-details">
+                <h3 class="section-count">4 个页面</h3>
+                <h1 class="section-term">Frida</h1>
+                
+            </div>
+        </div>
+    </header>
     
+    <section class="article-list--compact">
+        
+            <article>
+    <a href="/p/fr1da/">
+        <div class="article-details">
+            <h2 class="article-title">Frida</h2>
+            <footer class="article-time">
+                <time datetime='2025-05-19T00:15:39&#43;08:00'>2025-05-19</time>
+            </footer>
+        </div>
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/3.png" loading="lazy" alt="Featured image of post Frida" />
+                
+            </div>
+        
+    </a>
+</article>
+        
+    </section>
+    <nav class='pagination'>
+        
+        
 
-    <footer class="site-footer">
+        
+            
+                    <a class='page-link' href='/tags/frida/'>1</a>
+                
+            
+            
+                <span class='page-link current'>2</span>
+                
+            
+    </nav>
+
+<footer class="site-footer">
     <section class="copyright">
         &copy; 
         
@@ -513,84 +697,6 @@ unicode: "ece7"
 
 
 </footer>
-
-    
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
 
             </main>
         </div>
