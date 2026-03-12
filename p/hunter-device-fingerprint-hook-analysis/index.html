@@ -10,7 +10,7 @@
 <meta property='og:description' content="本次实战围绕 Hunter 设备指纹与 Hook 检测展开逆向分析，先通过 Java 层 Hook 系统属性读取、系统服务调用、服务绑定等关键 API 定位核心采集入口，规避全局高频基础类 Hook 的噪音与异常问题后，聚焦业务方法发现核心逻辑下沉至 Native 层，再通过 Hook RegisterNatives、dlopen 等方式定位静态 JNI 导出符号，最终批量 Hook NativeEngine 类的 getZhenxiInfo 系列核心方法，精准映射出设备指纹采集字段与环境风险探测逻辑。">
 <meta property='og:url' content='https://fanshanng.cn/p/hunter-device-fingerprint-hook-analysis/'>
 <meta property='og:site_name' content='梵殇-fanshanng'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Android' /><meta property='article:tag' content='Frida' /><meta property='article:published_time' content='2026-03-11T14:39:20&#43;08:00'/><meta property='article:modified_time' content='2026-03-11T14:39:20&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/05/20250525131545174815014579025.jpg-arthumbs' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='安卓' /><meta property='article:tag' content='Frida' /><meta property='article:published_time' content='2026-03-11T14:39:20&#43;08:00'/><meta property='article:modified_time' content='2026-03-11T14:39:20&#43;08:00'/><meta property='og:image' content='https://s.panlai.com/zb_users/upload/2025/05/20250525131545174815014579025.jpg-arthumbs' />
 <meta name="twitter:title" content="Hunter 设备指纹与 Hook 检测逆向学习实录">
 <meta name="twitter:description" content="本次实战围绕 Hunter 设备指纹与 Hook 检测展开逆向分析，先通过 Java 层 Hook 系统属性读取、系统服务调用、服务绑定等关键 API 定位核心采集入口，规避全局高频基础类 Hook 的噪音与异常问题后，聚焦业务方法发现核心逻辑下沉至 Native 层，再通过 Hook RegisterNatives、dlopen 等方式定位静态 JNI 导出符号，最终批量 Hook NativeEngine 类的 getZhenxiInfo 系列核心方法，精准映射出设备指纹采集字段与环境风险探测逻辑。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://s.panlai.com/zb_users/upload/2025/05/20250525131545174815014579025.jpg-arthumbs' /><link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css" crossorigin="anonymous">
@@ -387,8 +387,8 @@ unicode: "ece7"
     
     <header class="article-category">
         
-            <a href="/categories/android-reverse/" >
-                Android Reverse
+            <a href="/categories/%E5%AE%89%E5%8D%93%E9%80%86%E5%90%91/" >
+                安卓逆向
             </a>
         
     </header>
@@ -3149,7 +3149,7 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}</p>
     
     <section class="article-tags">
         
-            <a href="/tags/android/">Android</a>
+            <a href="/tags/%E5%AE%89%E5%8D%93/">安卓</a>
         
             <a href="/tags/frida/">Frida</a>
         
@@ -3204,6 +3204,110 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}</p>
     
 
     
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/bybitfridabypass/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/12/bizhihui_com_202512251766676307400401.jpg-arthumbs" loading="lazy" data-key="BybitFridaBypass" data-hash="https://s.panlai.com/zb_users/upload/2025/12/bizhihui_com_202512251766676307400401.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">绕过某邦企业壳 Root/Frida 检测</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/frida/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/04/bizhihui_com_202504061743931299117236.jpg-arthumbs" loading="lazy" data-key="frida" data-hash="https://s.panlai.com/zb_users/upload/2025/04/bizhihui_com_202504061743931299117236.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门七：Frida入门</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/hunteranalyze/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2026/01/bizhihui_com_202601261769437985238046.png-arthumbs" loading="lazy" data-key="hunteranalyze" data-hash="https://s.panlai.com/zb_users/upload/2026/01/bizhihui_com_202601261769437985238046.png-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hunter Root 检测点分析与绕过</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/as_debug/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs" loading="lazy" data-key="as_debug" data-hash="https://s.panlai.com/zb_users/upload/2025/06/20250625120242175082416230890.jpg-arthumbs"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一次IDA动态调试安卓apk记录</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/ar6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png" loading="lazy" data-key="ar6" data-hash="https://raw.githubusercontent.com/fanshanng/blog_picture/master/20250925233532.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">安卓逆向入门六：so(ELF)文件分析与ARM基础知识</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
 
      
     
