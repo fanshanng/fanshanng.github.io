@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head>
-	<meta name="generator" content="Hugo 0.157.0"><meta charset='utf-8'>
+	<meta name="generator" content="Hugo 0.158.0"><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="你好，我是梵殇，欢迎来到我的博客">
 <title>梵殇-fanshanng</title>
 
@@ -655,7 +655,7 @@ unicode: "ece7"
     
         
         <h3 class="article-subtitle">
-            本文围绕 Hunter 设备指纹与 Hook 检测开展一次完整逆向实战：先在 Java 层通过系统属性、系统服务与服务绑定等关键 API 建立观测链路，再在排除高频全局 Hook 噪音后收敛到业务入口，确认核心逻辑下沉至 Native 层；随后结合 RegisterNatives、dlopen 与静态 JNI 导出符号定位，最终完成 NativeEngine.getZhenxiInfo 系列方法映射，还原设备指纹采集字段与环境风险探测逻辑。
+            本文围绕 Hunter 设备指纹与 Hook 检测开展一次完整逆向实战：先在 Java 层通过系统属性、系统服务与服务绑定等关键 API 建立观测链路，再在排除高频全局 Hook 噪音后收敛到业务入口；随后结合 RegisterNatives、dlopen 与静态 JNI 导出符号定位，最终确认 NativeEngine.getZhenxiInfo 系列为核心 native 计算链路，并完成方法映射，还原设备指纹采集字段与环境风险探测逻辑。
         </h3>
         
     </div>
@@ -699,7 +699,7 @@ unicode: "ece7"
                     
                     
                     
-                    约53分钟，共11918字
+                    约55分钟，共12368字
                 </time>
             </div>
         

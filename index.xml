@@ -925,9 +925,11 @@ Process terminated&lt;/p&gt;
 &lt;/div&gt;&lt;/details&gt;
 &lt;p&gt;关键发现：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;MainActivity.v&lt;/code&gt; 显示为 Native Method，说明 Hunter 关键逻辑下沉到 JNI/Native 层。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MainActivity.v&lt;/code&gt; 的栈帧出现 &lt;code&gt;Native Method&lt;/code&gt;，可作为“调用链经过 native/桥接边界”的强信号。&lt;/li&gt;
+&lt;li&gt;但该信号不单独等价于“&lt;code&gt;MainActivity.v&lt;/code&gt; 方法声明为 native”；最终应以 JADX/smali 与 JNI 符号映射交叉验证。&lt;/li&gt;
+&lt;li&gt;后续静态 JNI 导出命中 &lt;code&gt;NativeEngine.getZhenxiInfo*&lt;/code&gt;，才是核心链路下沉到 native 的硬证据。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;日志说明：下面这组日志把 MainActivity.v 的 Native Method 属性直接打了出来。&lt;/p&gt;
+&lt;p&gt;日志说明：下面这组日志用于证明 &lt;code&gt;MainActivity.v&lt;/code&gt; 是关键调度入口，并出现 native 边界信号。&lt;/p&gt;
 &lt;details&gt;
 &lt;summary&gt;点击展开：日志输出&lt;/summary&gt;
 &lt;blockquote&gt;
@@ -2466,7 +2468,19 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;迭代阶段&lt;/strong&gt;：逐步收敛 Hook 范围，从全局 Hook 转向业务方法（&lt;code&gt;MainActivity.v&lt;/code&gt;），再下钻到 JNI 层。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;突破阶段&lt;/strong&gt;：通过静态 JNI 导出符号扫描定位核心 Native 方法，最终还原指纹生成链路。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;2-关键技术点总结&#34;&gt;2. 关键技术点总结
+&lt;h3 id=&#34;2-结论修正记录学习过程&#34;&gt;2. 结论修正记录（学习过程）
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;早期我曾根据栈帧 &lt;code&gt;MainActivity.v(Native Method)&lt;/code&gt;，把 &lt;code&gt;MainActivity.v&lt;/code&gt; 直接定性为 native 方法。看到&lt;code&gt;frame=at com.zhenxi.hunter.MainActivity.v(Native Method)&lt;/code&gt;。为什么会被显示成 Native Method（即使我在 JADX 看到方法体）：
+&lt;ol&gt;
+&lt;li&gt;栈里经过了 JNI 或桥接层，运行时把该帧标成 Native Method。&lt;/li&gt;
+&lt;li&gt;Frida Hook 后调用路径有 native trampoline，栈展示可能偏向桥接实现。&lt;/li&gt;
+&lt;li&gt;混淆/优化导致行号信息不完整，也会出现 SourceFile:0 或 Native Method 这类显示。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;后续复核 JADX/smali 后修正为：&lt;code&gt;MainActivity.v&lt;/code&gt; 更适合作为 Java 调度入口；&lt;code&gt;Native Method&lt;/code&gt; 栈帧应视为调用链经过 native/桥接边界的强信号，而非单独定性依据。&lt;/li&gt;
+&lt;li&gt;最终定性以多源证据交叉为准：JADX/smali + JNI 符号映射。核心 native 计算链路仍落在 &lt;code&gt;NativeEngine.getZhenxiInfo*&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-关键技术点总结&#34;&gt;3. 关键技术点总结
 &lt;/h3&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -2509,14 +2523,14 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}&lt;/p&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;3-避坑指南&#34;&gt;3. 避坑指南
+&lt;h3 id=&#34;4-避坑指南&#34;&gt;4. 避坑指南
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;避免无差别全局 Hook&lt;/strong&gt;：高频基础类（&lt;code&gt;StringBuilder&lt;/code&gt;/&lt;code&gt;ArrayList&lt;/code&gt;）Hook 会产生海量噪音，甚至导致进程崩溃。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;JNI 层分析优先静态符号&lt;/strong&gt;：动态注册 JNI 的检测成本更高，很多商业应用更偏向静态导出。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;日志输出需做摘要&lt;/strong&gt;：超长返回值（如完整指纹串）应截断，避免日志爆炸。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;坚持分层分析&lt;/strong&gt;：Java 层链路未理清前，不要急于深入 Native，避免方向失控。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;4-frida-逆向基础&#34;&gt;4. Frida 逆向基础
+&lt;h3 id=&#34;5-frida-逆向基础&#34;&gt;5. Frida 逆向基础
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;Java 层 Hook 核心 API：
 &lt;ul&gt;
@@ -2535,7 +2549,7 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;5-android-设备指纹核心维度&#34;&gt;5. Android 设备指纹核心维度
+&lt;h3 id=&#34;6-android-设备指纹核心维度&#34;&gt;6. Android 设备指纹核心维度
 &lt;/h3&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -2572,7 +2586,7 @@ risk=[检测当前程序被Hook,当前手机存在hook框架]}&lt;/p&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;6-native-层逆向关键技巧&#34;&gt;6. Native 层逆向关键技巧
+&lt;h3 id=&#34;7-native-层逆向关键技巧&#34;&gt;7. Native 层逆向关键技巧
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;符号命名规律&lt;/strong&gt;：JNI 静态导出符号遵循&lt;code&gt;Java_包名_类名_方法名&lt;/code&gt;规则；&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;指令特征&lt;/strong&gt;：哈希计算（MD5/SHA）会出现固定的指令序列；&lt;/li&gt;
