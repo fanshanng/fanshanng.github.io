@@ -1388,28 +1388,36 @@ Spawned &lt;code&gt;com.zhenxi.hunter&lt;/code&gt;. Resuming main thread!&lt;/p&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;/details&gt;
-&lt;p&gt;&lt;strong&gt;方法调用频次统计&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;高频方法（按调用次数）：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;code&gt;getZhenxiInfoH&lt;/code&gt; 高达 21 次&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;getZhenxiInfoZ&lt;/code&gt; 高达 13 次&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;getZhenxiInfoK&lt;/code&gt; 6 次&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfoH&lt;/code&gt;（21 次）&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;：设备属性读取与环境风险探测是 Hunter 的核心主干流量。&lt;/p&gt;
-&lt;p&gt;日志说明：下面这组日志说明 v1.6 已成功进入 NativeEngine 全量方法映射阶段。&lt;/p&gt;
-&lt;details&gt;
-&lt;summary&gt;点击展开：日志输出&lt;/summary&gt;
-&lt;blockquote&gt;
-&lt;p&gt;[-] libhunter.so not loaded yet, skip native attach in this phase
-[+] hook dlopen @ 0x78ff6f2014
-[+] hook android_dlopen_ext @ 0x78ff6f20ac
-[*] hookhunter v1.6 nativeengine focus installed
-[+] hook NativeEngine.getZhenxiInfo1 overloads=1
-[+] hook NativeEngine.getZhenxiInfo3 overloads=1
-[+] hook NativeEngine.getZhenxiInfo4 overloads=1
-[+] hook NativeEngine.getZhenxiInfoF overloads=1
-[JAVA_NE] getZhenxiInfo1() =&amp;gt; a_NSw6KjQ+MS,b_NTA5MUM8RT,c_29048414,e_ehwrEnRaXE,f_MzowNTQxMj&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/details&gt;
+&lt;ul&gt;
+&lt;li&gt;典型输入：&lt;code&gt;ro.build.display.id&lt;/code&gt;、&lt;code&gt;ro.boot.verifiedbootstate&lt;/code&gt;、&lt;code&gt;ro.secure&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;说明：系统属性读取主通道（对应 DeviceBaseInfo/环境基础特征）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfoZ&lt;/code&gt;（13 次）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;与 &lt;code&gt;H&lt;/code&gt; 类似，用于补充读取属性值（含空值键探测）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfoK&lt;/code&gt;（6 次）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;典型输入：&lt;code&gt;/proc/mounts&lt;/code&gt;、&lt;code&gt;/proc/self/mountstats&lt;/code&gt;、&lt;code&gt;/proc/self/mountinfo&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;说明：容器/挂载环境探测（docker/lxc 关键词）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;稳定输出方法（2 次，双日志一致）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfo1&lt;/code&gt; =&amp;gt; &lt;code&gt;a_/b_/c_/e_/f_&lt;/code&gt; 聚合串&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfo3&lt;/code&gt; =&amp;gt; &lt;code&gt;Check Find Root File&lt;/code&gt; 风险项&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfo4&lt;/code&gt; =&amp;gt; 进程风险项（另一个样本中出现 &lt;code&gt;sh&lt;/code&gt; 进程）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfoOFLI&lt;/code&gt; =&amp;gt; 文件描述符清单&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getZhenxiInfoLLLI&lt;/code&gt; =&amp;gt; 已加载 so/镜像清单
+&lt;strong&gt;结论&lt;/strong&gt;：设备属性读取与环境风险探测是 Hunter 的核心主干流量。&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h3 id=&#34;0x028-第八阶段核心方法精准追踪&#34;&gt;0x02.8 第八阶段：核心方法精准追踪
 &lt;/h3&gt;&lt;p&gt;聚焦 9 个核心方法：&lt;/p&gt;
 &lt;ol&gt;
