@@ -1926,7 +1926,6 @@ Spawned &lt;code&gt;com.zhenxi.hunter&lt;/code&gt;. Resuming main thread!&lt;/p&
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;275
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;276
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;277
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;278
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/*
@@ -2195,7 +2194,6 @@ Spawned &lt;code&gt;com.zhenxi.hunter&lt;/code&gt;. Resuming main thread!&lt;/p&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;// ========== 五、启动入口 ==========
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;========== Hunter 最终学习脚本启动 ==========&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;目标类: &amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;TARGET_CLASS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;策略: 高价值方法追踪 + 中文结构化输出 + 只观测不篡改&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -2227,9 +2225,8 @@ Spawned &lt;code&gt;com.zhenxi.hunter&lt;/code&gt;. Resuming main thread!&lt;/p&
 . . . .
 . . . .   Connected to MI 8 (id=6ca0abb6)
 Spawned &lt;code&gt;com.zhenxi.hunter&lt;/code&gt;. Resuming main thread!
-[MI 8::com.zhenxi.hunter ]-&amp;gt; ========== Hunter 最终学习脚本启动 ==========
+[MI 8::com.zhenxi.hunter ]-&amp;gt;
 目标类: com.zhenxi.hunter.NativeEngine
-策略: 高价值方法追踪 + 中文结构化输出 + 只观测不篡改
 已安装 Hook -&amp;gt; getZhenxiInfo1，重载数=1，用途=设备指纹聚合（a&lt;/em&gt;/b_/c_/e_/f_）
 已安装 Hook -&amp;gt; getZhenxiInfo3，重载数=1，用途=Root 文件/路径风险检测
 已安装 Hook -&amp;gt; getZhenxiInfo4，重载数=1，用途=可疑进程检测
