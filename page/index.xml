@@ -72,7 +72,7 @@
         <description>&lt;p&gt;欢迎交换友链，请先添加本站链接后留言或邮件告知~ (￣▽￣)~*&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;名称&lt;/strong&gt;: 梵殇-fanshanng&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;简介&lt;/strong&gt;: 安卓逆向 / CTF / 摸鱼&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;简介&lt;/strong&gt;: 神秘安卓逆向壬&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;链接&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://fanshanng.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://fanshanng.cn/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;图标&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://fanshanng.cn/img/avatar_hu_58bcd85c4ac14ce.png&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -87,7 +87,7 @@
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;- &lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;梵殇-fanshanng&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;安卓逆向 / CTF / 摸鱼&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;神秘安卓逆向壬&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;website&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://fanshanng.cn/&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://fanshanng.cn/img/avatar_hu_58bcd85c4ac14ce.png&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
